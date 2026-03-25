@@ -17,10 +17,10 @@ class MinioStorageBackend:
         """Validate and stream-upload a PDF. Returns the object filename."""
         
         # basic validation
-        if file.content_type != "application/pdf" or not (file.filename or "").lower().endswith(".pdf"):
-            raise ValueError("Not a PDF")
         if not file.filename:
             raise ValueError("Filename is required")
+        if file.content_type != "application/pdf" or not file.filename.lower().endswith(".pdf"):
+            raise ValueError("Not a PDF")
 
         # stream to a temp file and upload
         with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
@@ -35,13 +35,6 @@ class MinioStorageBackend:
         finally:
             os.remove(tmp_path)
         return file.filename
-
-    def list_files(self) -> list[dict]:
-        """List all objects in the bucket."""
-        return [
-            {"filename": obj.object_name, "size": obj.size}
-            for obj in self._client.list_objects(self._bucket)
-        ]
 
     def delete(self, filename: str) -> None:
         """Remove an object from the bucket."""

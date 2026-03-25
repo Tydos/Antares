@@ -1,4 +1,4 @@
-#start flask server, elasticsearch backend and minio object store
+# Start FastAPI server, Elasticsearch backend and MinIO object store
 services:
 
   fastapi:
@@ -35,6 +35,8 @@ services:
       - xpack.security.enabled=false
     ports:
       - "9200:9200"
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
     healthcheck:
       test: ["CMD-SHELL", "curl -sf http://localhost:9200/_cluster/health"]
       interval: 10s
@@ -50,8 +52,14 @@ services:
     ports:
       - "9000:9000"
       - "9001:9001"
+    volumes:
+      - minio_data:/data
     healthcheck:
       test: ["CMD-SHELL", "curl -sf http://localhost:9000/minio/health/live"]
       interval: 10s
       retries: 5
       start_period: 10s
+
+volumes:
+  es_data:
+  minio_data:

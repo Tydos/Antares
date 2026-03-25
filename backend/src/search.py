@@ -49,17 +49,15 @@ class ElasticsearchSearchBackend:
         logging.debug(f"Deleted existing pages for: {filename}")
 
     def keyword_search(self, query: str, top_k: int = 5) -> list[dict]:
-        """Full-text match against content; returns hits with relevance score."""
+        """Full-text match with AUTO fuzziness (tolerates typos up to edit distance 2)."""
         resp = self._client.search(
             index=self._index,
-            query={
-                "match": {
-                    "content": {
-                        "query": query,
-                        "operator": "or"
-                    }
-                }
-            },
+            query={"match": {"content": {
+                "query": query,
+                "operator": "or",
+                "fuzziness": "AUTO",
+                "prefix_length": 1,
+            }}},
             highlight={
                 "fields": {"content": {"fragment_size": 200, "number_of_fragments": 2}}
             },
@@ -80,7 +78,7 @@ class ElasticsearchSearchBackend:
             size=0,
             aggs={
                 "by_file": {
-                    "terms": {"field": "filename", "size": 100},
+                    "terms": {"field": "filename", "size": 10000},
                     "aggs": {
                         "pages":       {"max": {"field": "page_number"}},
                         "uploaded_at": {"max": {"field": "uploaded_at"}}

@@ -3,60 +3,114 @@
 body {
   font-family: system-ui, sans-serif;
   font-size: 15px;
-  background: #f5f5f5;
-  color: #111;
+  background: linear-gradient(135deg, #e8f4f8 0%, #fce8f3 50%, #e8f5e9 100%);
+  min-height: 100vh;
+  color: #2d2d2d;
 }
 
-#root {
-  max-width: 760px;
-  margin: 40px auto;
+/* ── Layout ── */
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.site-main {
+  flex: 1;
+  max-width: 780px;
+  width: 100%;
+  margin: 32px auto;
   padding: 0 16px;
 }
 
-h1 { font-size: 1.4rem; margin-bottom: 24px; }
-h2 { font-size: 1rem; font-weight: 600; margin-bottom: 12px; }
+/* ── Header ── */
+.site-header {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  padding: 16px 24px;
+}
+
+.header-inner {
+  max-width: 780px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.logo { font-size: 2rem; line-height: 1; }
+
+h1 { font-size: 1.4rem; font-weight: 700; color: #1a1a2e; }
+
+.tagline { font-size: 12px; color: #888; margin-top: 2px; }
+
+/* ── Footer ── */
+.site-footer {
+  text-align: center;
+  padding: 16px;
+  font-size: 12px;
+  color: #aaa;
+  border-top: 1px solid rgba(0,0,0,0.07);
+  background: rgba(255,255,255,0.5);
+}
+
+/* ── Sections ── */
+h2 { font-size: 1rem; font-weight: 600; margin-bottom: 12px; color: #333; }
 
 section {
-  background: #fff;
-  border: 1px solid #e0e0e0;
-  border-radius: 6px;
-  padding: 20px;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 12px;
+  padding: 22px;
   margin-bottom: 20px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
 }
 
+/* ── Inputs ── */
 input[type='text'],
 input[type='number'] {
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  padding: 6px 10px;
+  border: 1px solid #d0d0d0;
+  border-radius: 8px;
+  padding: 7px 12px;
   font-size: 14px;
   outline: none;
+  background: #fff;
 }
 input[type='text']:focus,
-input[type='number']:focus { border-color: #555; }
+input[type='number']:focus { border-color: #a78bfa; box-shadow: 0 0 0 3px rgba(167,139,250,0.15); }
 
+/* ── Buttons ── */
 button {
   cursor: pointer;
   border: 1px solid #ccc;
-  border-radius: 4px;
-  padding: 6px 14px;
+  border-radius: 8px;
+  padding: 7px 16px;
   font-size: 14px;
   background: #fff;
+  transition: background 0.15s, box-shadow 0.15s;
 }
-button.primary { background: #111; color: #fff; border-color: #111; }
-button.danger  { color: #c00; border-color: #c00; }
-button:disabled { opacity: 0.45; cursor: default; }
+button:hover:not(:disabled) { box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+button.primary { background: #7c3aed; color: #fff; border-color: #7c3aed; }
+button.primary:hover:not(:disabled) { background: #6d28d9; }
+button.danger  { color: #dc2626; border-color: #fca5a5; background: #fff5f5; }
+button.danger:hover:not(:disabled) { background: #fee2e2; }
+button:disabled { opacity: 0.4; cursor: default; }
 
+/* ── Utilities ── */
 .row { display: flex; gap: 8px; align-items: center; }
-.error   { color: #c00; font-size: 13px; margin-top: 8px; }
-.success { color: #2a7c2a; font-size: 13px; margin-top: 8px; }
-.muted   { color: #777; font-size: 13px; }
+.error   { color: #dc2626; font-size: 13px; margin-top: 8px; }
+.success { color: #16a34a; font-size: 13px; margin-top: 8px; }
+.muted   { color: #888; font-size: 13px; }
 
-.result + .result { border-top: 1px solid #eee; }
+/* ── Search results ── */
+.result + .result { border-top: 1px solid #f0e8ff; }
 .result { padding: 12px 0; }
-.result-meta    { font-size: 12px; color: #777; margin-top: 2px; }
-.result-content { font-size: 13px; margin-top: 6px; line-height: 1.6; white-space: pre-wrap; }
+.result-meta    { font-size: 12px; color: #888; margin-top: 2px; }
+.result-content { font-size: 13px; margin-top: 6px; line-height: 1.6; white-space: pre-wrap; color: #444; }
 
-.doc-row { display: flex; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 1px solid #eee; }
+/* ── Documents list ── */
+.doc-row { display: flex; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 1px solid #f3e8ff; }
 .doc-row:last-child { border-bottom: none; }
 .doc-name { flex: 1; font-size: 14px; }
