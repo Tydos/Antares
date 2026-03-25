@@ -1,0 +1,139 @@
+2026-03-24 23:38:24,005 - root - INFO - init_services - Initialising storage backend...
+2026-03-24 23:38:24,005 - urllib3.connectionpool - DEBUG - _new_conn - Starting new HTTP connection (1): minio:9000
+2026-03-24 23:38:24,007 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "GET /pdf-files?location= HTTP/1.1" 200 0
+2026-03-24 23:38:24,007 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "HEAD /pdf-files HTTP/1.1" 200 0
+2026-03-24 23:38:24,007 - root - INFO - init_services - Initialising search backend...
+2026-03-24 23:38:24,008 - urllib3.connectionpool - DEBUG - _new_conn - Starting new HTTP connection (1): elasticsearch:9200
+2026-03-24 23:38:24,011 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "PUT /pdf-index HTTP/1.1" 400 0
+2026-03-24 23:38:24,011 - elastic_transport.transport - INFO - perform_request - PUT http://elasticsearch:9200/pdf-index [status:400 duration:0.003s]
+2026-03-24 23:38:47,274 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "GET / HTTP/1.1" 200 0
+2026-03-24 23:38:47,283 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-03-24 23:38:47,284 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.003s]
+2026-03-24 23:39:09,737 - python_multipart.multipart - DEBUG - callback - Calling on_part_begin with no data
+2026-03-24 23:39:09,737 - python_multipart.multipart - DEBUG - callback - Calling on_header_field with data[42:61]
+2026-03-24 23:39:09,738 - python_multipart.multipart - DEBUG - callback - Calling on_header_value with data[63:130]
+2026-03-24 23:39:09,738 - python_multipart.multipart - DEBUG - callback - Calling on_header_end with no data
+2026-03-24 23:39:09,738 - python_multipart.multipart - DEBUG - callback - Calling on_header_field with data[132:144]
+2026-03-24 23:39:09,738 - python_multipart.multipart - DEBUG - callback - Calling on_header_value with data[146:161]
+2026-03-24 23:39:09,739 - python_multipart.multipart - DEBUG - callback - Calling on_header_end with no data
+2026-03-24 23:39:09,739 - python_multipart.multipart - DEBUG - callback - Calling on_headers_finished with no data
+2026-03-24 23:39:09,739 - python_multipart.multipart - DEBUG - callback - Calling on_part_data with data[165:53412]
+2026-03-24 23:39:09,740 - python_multipart.multipart - DEBUG - callback - Calling on_part_data with data[0:42708]
+2026-03-24 23:39:09,741 - python_multipart.multipart - DEBUG - callback - Calling on_part_data with data[0:26213]
+2026-03-24 23:39:09,741 - python_multipart.multipart - DEBUG - callback - Calling on_part_end with no data
+2026-03-24 23:39:09,741 - python_multipart.multipart - DEBUG - callback - Calling on_end with no data
+2026-03-24 23:39:09,749 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "PUT /pdf-files/Prasad_Jawale_Data_Scientist.pdf HTTP/1.1" 200 0
+2026-03-24 23:39:09,749 - root - DEBUG - upload - Uploaded to MinIO: Prasad_Jawale_Data_Scientist.pdf
+2026-03-24 23:39:09,758 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_delete_by_query?refresh=true HTTP/1.1" 200 0
+2026-03-24 23:39:09,758 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_delete_by_query?refresh=true [status:200 duration:0.008s]
+2026-03-24 23:39:09,759 - root - DEBUG - delete_document_pages - Deleted existing pages for: Prasad_Jawale_Data_Scientist.pdf
+2026-03-24 23:39:09,760 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "HEAD /pdf-files/Prasad_Jawale_Data_Scientist.pdf HTTP/1.1" 200 0
+2026-03-24 23:39:09,762 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "GET /pdf-files/Prasad_Jawale_Data_Scientist.pdf HTTP/1.1" 200 122168
+2026-03-24 23:39:09,784 - root - DEBUG - index_document - Indexing Prasad_Jawale_Data_Scientist.pdf page 1
+2026-03-24 23:39:09,793 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_doc HTTP/1.1" 201 0
+2026-03-24 23:39:09,793 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_doc [status:201 duration:0.009s]
+2026-03-24 23:39:09,793 - root - DEBUG - index_page - Indexed page 1 of Prasad_Jawale_Data_Scientist.pdf: created
+2026-03-24 23:39:09,794 - root - INFO - index_document - Indexing complete: Prasad_Jawale_Data_Scientist.pdf (1 pages)
+2026-03-24 23:39:09,794 - root - INFO - index_document - Indexing complete: Prasad_Jawale_Data_Scientist.pdf
+2026-03-24 23:40:05,463 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-03-24 23:40:05,463 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.014s]
+2026-03-24 23:40:20,686 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-03-24 23:40:20,687 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.015s]
+2026-03-24 23:43:00,168 - root - INFO - init_services - Initialising storage backend...
+2026-03-24 23:43:00,169 - urllib3.connectionpool - DEBUG - _new_conn - Starting new HTTP connection (1): minio:9000
+2026-03-24 23:43:00,170 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "GET /pdf-files?location= HTTP/1.1" 200 0
+2026-03-24 23:43:00,171 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "HEAD /pdf-files HTTP/1.1" 200 0
+2026-03-24 23:43:00,171 - root - INFO - init_services - Initialising search backend...
+2026-03-24 23:43:00,171 - urllib3.connectionpool - DEBUG - _new_conn - Starting new HTTP connection (1): elasticsearch:9200
+2026-03-24 23:43:00,174 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "PUT /pdf-index HTTP/1.1" 400 0
+2026-03-24 23:43:00,174 - elastic_transport.transport - INFO - perform_request - PUT http://elasticsearch:9200/pdf-index [status:400 duration:0.002s]
+2026-03-24 23:43:21,459 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-03-24 23:43:21,459 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.017s]
+2026-03-24 23:43:35,105 - root - INFO - init_services - Initialising storage backend...
+2026-03-24 23:43:35,105 - urllib3.connectionpool - DEBUG - _new_conn - Starting new HTTP connection (1): minio:9000
+2026-03-24 23:43:35,107 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "GET /pdf-files?location= HTTP/1.1" 200 0
+2026-03-24 23:43:35,108 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "HEAD /pdf-files HTTP/1.1" 200 0
+2026-03-24 23:43:35,108 - root - INFO - init_services - Initialising search backend...
+2026-03-24 23:43:35,108 - urllib3.connectionpool - DEBUG - _new_conn - Starting new HTTP connection (1): elasticsearch:9200
+2026-03-24 23:43:35,110 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "PUT /pdf-index HTTP/1.1" 400 0
+2026-03-24 23:43:35,110 - elastic_transport.transport - INFO - perform_request - PUT http://elasticsearch:9200/pdf-index [status:400 duration:0.002s]
+2026-03-24 23:44:01,623 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-03-24 23:44:01,624 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.006s]
+2026-03-24 23:44:09,274 - urllib3.connectionpool - DEBUG - _new_conn - Starting new HTTP connection (1): localhost:9000
+2026-03-24 23:44:09,277 - urllib3.util.retry - DEBUG - increment - Incremented Retry for (url='/pdf-files?location='): Retry(total=4, connect=None, read=None, redirect=None, status=None)
+2026-03-24 23:44:09,277 - urllib3.connectionpool - WARNING - urlopen - Retrying (Retry(total=4, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError("HTTPConnection(host='localhost', port=9000): Failed to establish a new connection: [Errno 111] Connection refused")': /pdf-files?location=
+2026-03-24 23:44:09,278 - urllib3.connectionpool - DEBUG - _new_conn - Starting new HTTP connection (2): localhost:9000
+2026-03-24 23:44:09,278 - urllib3.util.retry - DEBUG - increment - Incremented Retry for (url='/pdf-files?location='): Retry(total=3, connect=None, read=None, redirect=None, status=None)
+2026-03-24 23:44:09,684 - urllib3.connectionpool - WARNING - urlopen - Retrying (Retry(total=3, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError("HTTPConnection(host='localhost', port=9000): Failed to establish a new connection: [Errno 111] Connection refused")': /pdf-files?location=
+2026-03-24 23:44:09,685 - urllib3.connectionpool - DEBUG - _new_conn - Starting new HTTP connection (3): localhost:9000
+2026-03-24 23:44:09,687 - urllib3.util.retry - DEBUG - increment - Incremented Retry for (url='/pdf-files?location='): Retry(total=2, connect=None, read=None, redirect=None, status=None)
+2026-03-24 23:44:10,489 - urllib3.connectionpool - WARNING - urlopen - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError("HTTPConnection(host='localhost', port=9000): Failed to establish a new connection: [Errno 111] Connection refused")': /pdf-files?location=
+2026-03-24 23:44:10,491 - urllib3.connectionpool - DEBUG - _new_conn - Starting new HTTP connection (4): localhost:9000
+2026-03-24 23:44:10,493 - urllib3.util.retry - DEBUG - increment - Incremented Retry for (url='/pdf-files?location='): Retry(total=1, connect=None, read=None, redirect=None, status=None)
+2026-03-24 23:44:12,098 - urllib3.connectionpool - WARNING - urlopen - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError("HTTPConnection(host='localhost', port=9000): Failed to establish a new connection: [Errno 111] Connection refused")': /pdf-files?location=
+2026-03-24 23:44:12,100 - urllib3.connectionpool - DEBUG - _new_conn - Starting new HTTP connection (5): localhost:9000
+2026-03-24 23:44:12,102 - urllib3.util.retry - DEBUG - increment - Incremented Retry for (url='/pdf-files?location='): Retry(total=0, connect=None, read=None, redirect=None, status=None)
+2026-03-24 23:44:15,309 - urllib3.connectionpool - WARNING - urlopen - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError("HTTPConnection(host='localhost', port=9000): Failed to establish a new connection: [Errno 111] Connection refused")': /pdf-files?location=
+2026-03-24 23:44:15,311 - urllib3.connectionpool - DEBUG - _new_conn - Starting new HTTP connection (6): localhost:9000
+2026-03-25 19:47:03,751 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-03-25 19:47:03,753 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.019s]
+2026-03-25 19:47:03,775 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-03-25 19:47:03,776 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.017s]
+2026-03-25 19:47:10,420 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-03-25 19:47:10,421 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.013s]
+2026-03-25 19:47:10,422 - urllib3.connectionpool - DEBUG - _new_conn - Starting new HTTP connection (7): localhost:9000
+2026-03-25 19:47:10,424 - urllib3.util.retry - DEBUG - increment - Incremented Retry for (url='/pdf-files?location='): Retry(total=4, connect=None, read=None, redirect=None, status=None)
+2026-03-25 19:47:10,424 - urllib3.connectionpool - WARNING - urlopen - Retrying (Retry(total=4, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError("HTTPConnection(host='localhost', port=9000): Failed to establish a new connection: [Errno 111] Connection refused")': /pdf-files?location=
+2026-03-25 19:47:10,424 - urllib3.connectionpool - DEBUG - _new_conn - Starting new HTTP connection (8): localhost:9000
+2026-03-25 19:47:10,425 - urllib3.util.retry - DEBUG - increment - Incremented Retry for (url='/pdf-files?location='): Retry(total=3, connect=None, read=None, redirect=None, status=None)
+2026-03-25 19:47:10,830 - urllib3.connectionpool - WARNING - urlopen - Retrying (Retry(total=3, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError("HTTPConnection(host='localhost', port=9000): Failed to establish a new connection: [Errno 111] Connection refused")': /pdf-files?location=
+2026-03-25 19:47:10,831 - urllib3.connectionpool - DEBUG - _new_conn - Starting new HTTP connection (9): localhost:9000
+2026-03-25 19:47:10,832 - urllib3.util.retry - DEBUG - increment - Incremented Retry for (url='/pdf-files?location='): Retry(total=2, connect=None, read=None, redirect=None, status=None)
+2026-03-25 19:47:11,633 - urllib3.connectionpool - WARNING - urlopen - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError("HTTPConnection(host='localhost', port=9000): Failed to establish a new connection: [Errno 111] Connection refused")': /pdf-files?location=
+2026-03-25 19:47:11,634 - urllib3.connectionpool - DEBUG - _new_conn - Starting new HTTP connection (10): localhost:9000
+2026-03-25 19:47:11,636 - urllib3.util.retry - DEBUG - increment - Incremented Retry for (url='/pdf-files?location='): Retry(total=1, connect=None, read=None, redirect=None, status=None)
+2026-03-25 19:47:13,240 - urllib3.connectionpool - WARNING - urlopen - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError("HTTPConnection(host='localhost', port=9000): Failed to establish a new connection: [Errno 111] Connection refused")': /pdf-files?location=
+2026-03-25 19:47:13,241 - urllib3.connectionpool - DEBUG - _new_conn - Starting new HTTP connection (11): localhost:9000
+2026-03-25 19:47:13,242 - urllib3.util.retry - DEBUG - increment - Incremented Retry for (url='/pdf-files?location='): Retry(total=0, connect=None, read=None, redirect=None, status=None)
+2026-03-25 19:47:16,447 - urllib3.connectionpool - WARNING - urlopen - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError("HTTPConnection(host='localhost', port=9000): Failed to establish a new connection: [Errno 111] Connection refused")': /pdf-files?location=
+2026-03-25 19:47:16,447 - urllib3.connectionpool - DEBUG - _new_conn - Starting new HTTP connection (12): localhost:9000
+2026-03-25 19:47:21,326 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-03-25 19:47:21,327 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.011s]
+2026-03-25 19:47:25,575 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-03-25 19:47:25,575 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.012s]
+2026-03-25 19:47:25,576 - urllib3.connectionpool - DEBUG - _new_conn - Starting new HTTP connection (13): localhost:9000
+2026-03-25 19:47:25,577 - urllib3.util.retry - DEBUG - increment - Incremented Retry for (url='/pdf-files?location='): Retry(total=4, connect=None, read=None, redirect=None, status=None)
+2026-03-25 19:47:25,577 - urllib3.connectionpool - WARNING - urlopen - Retrying (Retry(total=4, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError("HTTPConnection(host='localhost', port=9000): Failed to establish a new connection: [Errno 111] Connection refused")': /pdf-files?location=
+2026-03-25 19:47:25,578 - urllib3.connectionpool - DEBUG - _new_conn - Starting new HTTP connection (14): localhost:9000
+2026-03-25 19:47:25,578 - urllib3.util.retry - DEBUG - increment - Incremented Retry for (url='/pdf-files?location='): Retry(total=3, connect=None, read=None, redirect=None, status=None)
+2026-03-25 19:47:25,980 - urllib3.connectionpool - WARNING - urlopen - Retrying (Retry(total=3, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError("HTTPConnection(host='localhost', port=9000): Failed to establish a new connection: [Errno 111] Connection refused")': /pdf-files?location=
+2026-03-25 19:47:25,982 - urllib3.connectionpool - DEBUG - _new_conn - Starting new HTTP connection (15): localhost:9000
+2026-03-25 19:47:25,984 - urllib3.util.retry - DEBUG - increment - Incremented Retry for (url='/pdf-files?location='): Retry(total=2, connect=None, read=None, redirect=None, status=None)
+2026-03-25 19:47:26,787 - urllib3.connectionpool - WARNING - urlopen - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError("HTTPConnection(host='localhost', port=9000): Failed to establish a new connection: [Errno 111] Connection refused")': /pdf-files?location=
+2026-03-25 19:47:26,788 - urllib3.connectionpool - DEBUG - _new_conn - Starting new HTTP connection (16): localhost:9000
+2026-03-25 19:47:26,790 - urllib3.util.retry - DEBUG - increment - Incremented Retry for (url='/pdf-files?location='): Retry(total=1, connect=None, read=None, redirect=None, status=None)
+2026-03-25 19:47:28,395 - urllib3.connectionpool - WARNING - urlopen - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError("HTTPConnection(host='localhost', port=9000): Failed to establish a new connection: [Errno 111] Connection refused")': /pdf-files?location=
+2026-03-25 19:47:28,396 - urllib3.connectionpool - DEBUG - _new_conn - Starting new HTTP connection (17): localhost:9000
+2026-03-25 19:47:28,398 - urllib3.util.retry - DEBUG - increment - Incremented Retry for (url='/pdf-files?location='): Retry(total=0, connect=None, read=None, redirect=None, status=None)
+2026-03-25 19:47:31,602 - urllib3.connectionpool - WARNING - urlopen - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError("HTTPConnection(host='localhost', port=9000): Failed to establish a new connection: [Errno 111] Connection refused")': /pdf-files?location=
+2026-03-25 19:47:31,604 - urllib3.connectionpool - DEBUG - _new_conn - Starting new HTTP connection (18): localhost:9000
+2026-03-25 19:48:29,495 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-03-25 19:48:29,496 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.008s]
+2026-03-25 19:48:29,511 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-03-25 19:48:29,511 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.006s]
+2026-03-25 19:48:37,622 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-03-25 19:48:37,622 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.008s]
+2026-03-25 19:48:37,635 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-03-25 19:48:37,635 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.006s]
+2026-03-25 19:48:38,359 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-03-25 19:48:38,360 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.008s]
+2026-03-25 19:48:38,373 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-03-25 19:48:38,374 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.006s]
+2026-03-25 19:48:50,198 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-03-25 19:48:50,199 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.009s]
+2026-03-25 19:49:44,607 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-03-25 19:49:44,608 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.006s]
+2026-03-25 19:49:44,619 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-03-25 19:49:44,620 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.006s]
+2026-03-25 19:50:30,769 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-03-25 19:50:30,770 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.006s]

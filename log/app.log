@@ -1,0 +1,71 @@
+2026-03-25 20:00:30,748 - root - INFO - init_services - Initialising storage backend...
+2026-03-25 20:00:30,749 - urllib3.connectionpool - DEBUG - _new_conn - Starting new HTTP connection (1): minio:9000
+2026-03-25 20:00:30,751 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "GET /pdf-files?location= HTTP/1.1" 404 0
+2026-03-25 20:00:30,754 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "PUT /pdf-files HTTP/1.1" 200 0
+2026-03-25 20:00:30,754 - root - DEBUG - __init__ - Created bucket: pdf-files
+2026-03-25 20:00:30,754 - root - INFO - init_services - Initialising search backend...
+2026-03-25 20:00:30,755 - urllib3.connectionpool - DEBUG - _new_conn - Starting new HTTP connection (1): elasticsearch:9200
+2026-03-25 20:00:30,873 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "PUT /pdf-index HTTP/1.1" 200 0
+2026-03-25 20:00:30,873 - elastic_transport.transport - INFO - perform_request - PUT http://elasticsearch:9200/pdf-index [status:200 duration:0.119s]
+2026-03-25 20:00:30,874 - root - DEBUG - __init__ - Created index: pdf-index
+2026-03-25 20:00:38,878 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-03-25 20:00:38,879 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.199s]
+2026-03-25 20:00:38,910 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-03-25 20:00:38,910 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.022s]
+2026-03-25 20:02:40,800 - root - INFO - init_services - Initialising storage backend...
+2026-03-25 20:02:40,800 - urllib3.connectionpool - DEBUG - _new_conn - Starting new HTTP connection (1): minio:9000
+2026-03-25 20:02:40,803 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "GET /pdf-files?location= HTTP/1.1" 404 0
+2026-03-25 20:02:40,805 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "PUT /pdf-files HTTP/1.1" 200 0
+2026-03-25 20:02:40,805 - root - DEBUG - __init__ - Created bucket: pdf-files
+2026-03-25 20:02:40,805 - root - INFO - init_services - Initialising search backend...
+2026-03-25 20:02:40,806 - urllib3.connectionpool - DEBUG - _new_conn - Starting new HTTP connection (1): elasticsearch:9200
+2026-03-25 20:02:40,905 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "PUT /pdf-index HTTP/1.1" 200 0
+2026-03-25 20:02:40,906 - elastic_transport.transport - INFO - perform_request - PUT http://elasticsearch:9200/pdf-index [status:200 duration:0.100s]
+2026-03-25 20:02:40,906 - root - DEBUG - __init__ - Created index: pdf-index
+2026-03-25 20:03:22,373 - urllib3.connectionpool - DEBUG - _new_conn - Starting new HTTP connection (2): elasticsearch:9200
+2026-03-25 20:03:22,438 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-03-25 20:03:22,438 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-03-25 20:03:22,438 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.066s]
+2026-03-25 20:03:22,438 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.065s]
+2026-03-25 20:03:25,267 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-03-25 20:03:25,267 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.014s]
+2026-03-25 20:03:25,978 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-03-25 20:03:25,979 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.011s]
+2026-03-25 20:03:26,176 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-03-25 20:03:26,176 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.010s]
+2026-03-25 20:03:31,223 - python_multipart.multipart - DEBUG - callback - Calling on_part_begin with no data
+2026-03-25 20:03:31,223 - python_multipart.multipart - DEBUG - callback - Calling on_header_field with data[42:61]
+2026-03-25 20:03:31,224 - python_multipart.multipart - DEBUG - callback - Calling on_header_value with data[63:123]
+2026-03-25 20:03:31,225 - python_multipart.multipart - DEBUG - callback - Calling on_header_end with no data
+2026-03-25 20:03:31,225 - python_multipart.multipart - DEBUG - callback - Calling on_header_field with data[125:137]
+2026-03-25 20:03:31,226 - python_multipart.multipart - DEBUG - callback - Calling on_header_value with data[139:154]
+2026-03-25 20:03:31,227 - python_multipart.multipart - DEBUG - callback - Calling on_header_end with no data
+2026-03-25 20:03:31,229 - python_multipart.multipart - DEBUG - callback - Calling on_headers_finished with no data
+2026-03-25 20:03:31,230 - python_multipart.multipart - DEBUG - callback - Calling on_part_data with data[158:91096]
+2026-03-25 20:03:31,230 - python_multipart.multipart - DEBUG - callback - Calling on_part_data with data[0:181]
+2026-03-25 20:03:31,231 - python_multipart.multipart - DEBUG - callback - Calling on_part_end with no data
+2026-03-25 20:03:31,231 - python_multipart.multipart - DEBUG - callback - Calling on_end with no data
+2026-03-25 20:03:31,235 - urllib3.connectionpool - DEBUG - _get_conn - Resetting dropped connection: minio
+2026-03-25 20:03:31,241 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "PUT /pdf-files/Appointment%20Scheduled.pdf HTTP/1.1" 200 0
+2026-03-25 20:03:31,242 - root - DEBUG - upload - Uploaded: Appointment Scheduled.pdf
+2026-03-25 20:03:31,275 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_delete_by_query?refresh=true HTTP/1.1" 200 0
+2026-03-25 20:03:31,275 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_delete_by_query?refresh=true [status:200 duration:0.031s]
+2026-03-25 20:03:31,275 - root - DEBUG - delete_document_pages - Deleted existing pages for: Appointment Scheduled.pdf
+2026-03-25 20:03:31,277 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "HEAD /pdf-files/Appointment%20Scheduled.pdf HTTP/1.1" 200 0
+2026-03-25 20:03:31,281 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "GET /pdf-files/Appointment%20Scheduled.pdf HTTP/1.1" 200 91119
+2026-03-25 20:03:31,347 - root - DEBUG - index_document - Indexing Appointment Scheduled.pdf page 1
+2026-03-25 20:03:31,373 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_doc HTTP/1.1" 201 0
+2026-03-25 20:03:31,373 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_doc [status:201 duration:0.026s]
+2026-03-25 20:03:31,374 - root - DEBUG - index_page - Indexed page 1 of Appointment Scheduled.pdf: created
+2026-03-25 20:03:31,387 - root - DEBUG - index_document - Indexing Appointment Scheduled.pdf page 2
+2026-03-25 20:03:31,392 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_doc HTTP/1.1" 201 0
+2026-03-25 20:03:31,392 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_doc [status:201 duration:0.004s]
+2026-03-25 20:03:31,392 - root - DEBUG - index_page - Indexed page 2 of Appointment Scheduled.pdf: created
+2026-03-25 20:03:31,392 - root - INFO - index_document - Indexing complete: Appointment Scheduled.pdf (2 pages)
+2026-03-25 20:03:31,392 - root - INFO - index_document - Indexing complete: Appointment Scheduled.pdf
+2026-03-25 20:03:34,404 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-03-25 20:03:34,404 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.035s]
+2026-03-25 20:03:39,313 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-03-25 20:03:39,313 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.021s]
+2026-03-25 20:03:43,321 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-03-25 20:03:43,321 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.049s]

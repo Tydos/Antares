@@ -1,10 +1,10 @@
 import logging
+import os
 import sys
 from pathlib import Path
 
-# Ensure log/ directory exists
-LOG_DIR = Path(__file__).resolve().parent.parent / "log"
-LOG_DIR.mkdir(exist_ok=True)
+LOG_DIR = Path(os.getenv("LOG_DIR", Path(__file__).resolve().parent.parent / "log"))
+LOG_DIR.mkdir(parents=True, exist_ok=True)
 
 LOG_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(funcName)s - %(message)s"
 
@@ -22,4 +22,3 @@ _file_handler.setFormatter(logging.Formatter(LOG_FORMAT))
 logging.root.setLevel(logging.DEBUG)
 logging.root.addHandler(_stream_handler)
 logging.root.addHandler(_file_handler)
-

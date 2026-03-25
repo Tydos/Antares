@@ -4,5 +4,5 @@ uvicorn
 minio
 python-multipart
 PyPDF2
-elasticsearch
+elasticsearch>=8.0.0,<9.0.0
 pydantic-settings

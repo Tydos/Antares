@@ -7,7 +7,6 @@ import logging
 _INDEX_MAPPINGS = {
     "properties": {
         "filename":    {"type": "keyword"},
-        "url":         {"type": "keyword"},
         "page_number": {"type": "integer"},
         "content":     {"type": "text"},
         "uploaded_at": {"type": "date"}
@@ -30,16 +29,24 @@ class ElasticsearchSearchBackend:
         """Return True if the Elasticsearch cluster is reachable."""
         return self._client.ping()
 
-    def index_page(self, filename: str, url: str, page_number: int, content: str) -> None:
+    def index_page(self, filename: str, page_number: int, content: str) -> None:
         doc = {
             "filename":    filename,
-            "url":         url,
             "page_number": page_number,
             "content":     content,
             "uploaded_at": datetime.now(timezone.utc).isoformat()
         }
         res = self._client.index(index=self._index, document=doc)
         logging.debug(f"Indexed page {page_number} of {filename}: {res['result']}")
+
+    def delete_document_pages(self, filename: str) -> None:
+        """Delete all indexed pages for a filename before re-indexing."""
+        self._client.delete_by_query(
+            index=self._index,
+            query={"term": {"filename": filename}},
+            refresh=True
+        )
+        logging.debug(f"Deleted existing pages for: {filename}")
 
     def keyword_search(self, query: str, top_k: int = 5) -> list[dict]:
         """Full-text match against content; returns hits with relevance score."""
