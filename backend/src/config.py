@@ -14,10 +14,17 @@ class Settings(BaseSettings):
     minio_secret_key: str = "admin123"
     minio_secure: bool = False
     bucket_name: str = "pdf-files"
+    upload_chunk_size: int = 10 * 1024 * 1024  # 10 MB
 
     # Elasticsearch
     es_host: str = "http://elasticsearch:9200"
     index_name: str = "pdf-index"
+
+    # Embeddings
+    embedding_model: str = "all-MiniLM-L6-v2"
+    embedding_dims: int = 384
+    batch_size: int = 16
+    
 
     # Gemini (reserved for LLM step)
     gemini_api_key: str = ""

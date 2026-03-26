@@ -17865,3 +17865,124 @@
 2026-03-25 20:39:04,091 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.079s]
 2026-03-25 20:39:08,490 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
 2026-03-25 20:39:08,490 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.073s]
+2026-03-25 20:45:33,391 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-03-25 20:45:33,392 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.010s]
+2026-03-25 22:56:05,611 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-03-25 22:56:05,611 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-03-25 22:56:05,612 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.011s]
+2026-03-25 22:56:05,612 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.013s]
+2026-03-25 22:57:08,205 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-03-25 22:57:08,206 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.009s]
+2026-03-25 22:57:08,207 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-03-25 22:57:08,207 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.009s]
+2026-03-25 22:57:21,187 - python_multipart.multipart - DEBUG - callback - Calling on_part_begin with no data
+2026-03-25 22:57:21,188 - python_multipart.multipart - DEBUG - callback - Calling on_header_field with data[42:61]
+2026-03-25 22:57:21,188 - python_multipart.multipart - DEBUG - callback - Calling on_header_value with data[63:130]
+2026-03-25 22:57:21,188 - python_multipart.multipart - DEBUG - callback - Calling on_header_end with no data
+2026-03-25 22:57:21,189 - python_multipart.multipart - DEBUG - callback - Calling on_header_field with data[132:144]
+2026-03-25 22:57:21,189 - python_multipart.multipart - DEBUG - callback - Calling on_header_value with data[146:161]
+2026-03-25 22:57:21,189 - python_multipart.multipart - DEBUG - callback - Calling on_header_end with no data
+2026-03-25 22:57:21,189 - python_multipart.multipart - DEBUG - callback - Calling on_headers_finished with no data
+2026-03-25 22:57:21,190 - python_multipart.multipart - DEBUG - callback - Calling on_part_data with data[165:92516]
+2026-03-25 22:57:21,191 - python_multipart.multipart - DEBUG - callback - Calling on_part_data with data[0:29817]
+2026-03-25 22:57:21,191 - python_multipart.multipart - DEBUG - callback - Calling on_part_end with no data
+2026-03-25 22:57:21,191 - python_multipart.multipart - DEBUG - callback - Calling on_end with no data
+2026-03-25 22:57:21,200 - urllib3.connectionpool - DEBUG - _get_conn - Resetting dropped connection: minio
+2026-03-25 22:57:21,208 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "PUT /pdf-files/Prasad_Jawale_Data_Scientist.pdf HTTP/1.1" 200 0
+2026-03-25 22:57:21,208 - root - DEBUG - upload - Uploaded: Prasad_Jawale_Data_Scientist.pdf
+2026-03-25 22:57:21,226 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_delete_by_query?refresh=true HTTP/1.1" 200 0
+2026-03-25 22:57:21,226 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_delete_by_query?refresh=true [status:200 duration:0.017s]
+2026-03-25 22:57:21,227 - root - DEBUG - delete_document_pages - Deleted existing pages for: Prasad_Jawale_Data_Scientist.pdf
+2026-03-25 22:57:21,228 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "HEAD /pdf-files/Prasad_Jawale_Data_Scientist.pdf HTTP/1.1" 200 0
+2026-03-25 22:57:21,230 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "GET /pdf-files/Prasad_Jawale_Data_Scientist.pdf HTTP/1.1" 200 122168
+2026-03-25 22:57:21,250 - root - DEBUG - index_document - Indexing Prasad_Jawale_Data_Scientist.pdf page 1
+2026-03-25 22:57:21,259 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_doc HTTP/1.1" 201 0
+2026-03-25 22:57:21,259 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_doc [status:201 duration:0.008s]
+2026-03-25 22:57:21,259 - root - DEBUG - index_page - Indexed page 1 of Prasad_Jawale_Data_Scientist.pdf: created
+2026-03-25 22:57:21,259 - root - INFO - index_document - Indexing complete: Prasad_Jawale_Data_Scientist.pdf (1 pages)
+2026-03-25 22:57:37,363 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-03-25 22:57:37,363 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.024s]
+2026-03-25 22:57:43,238 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "DELETE /pdf-files/Probabilistic%20Machine%20Learning%20Advanced%20Topics...%20%28Z-Library%29.pdf HTTP/1.1" 204 0
+2026-03-25 22:57:43,239 - root - DEBUG - delete - Deleted: Probabilistic Machine Learning Advanced Topics... (Z-Library).pdf
+2026-03-25 22:57:43,374 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_delete_by_query?refresh=true HTTP/1.1" 200 0
+2026-03-25 22:57:43,374 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_delete_by_query?refresh=true [status:200 duration:0.135s]
+2026-03-25 22:57:43,374 - root - DEBUG - delete_document_pages - Deleted existing pages for: Probabilistic Machine Learning Advanced Topics... (Z-Library).pdf
+2026-03-25 22:57:44,960 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-03-25 22:57:44,960 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.012s]
+2026-03-25 22:57:47,559 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-03-25 22:57:47,560 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.010s]
+2026-03-25 22:57:48,360 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-03-25 22:57:48,361 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.009s]
+2026-03-25 22:57:49,092 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-03-25 22:57:49,092 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.009s]
+2026-03-25 22:57:49,260 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-03-25 22:57:49,261 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.004s]
+2026-03-25 23:02:26,289 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-03-25 23:02:26,290 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.009s]
+2026-03-25 23:02:31,757 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-03-25 23:02:31,758 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.011s]
+2026-03-25 23:02:44,170 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-03-25 23:02:44,171 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.008s]
+2026-03-26 00:08:37,480 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-03-26 00:08:37,481 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-03-26 00:08:37,481 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.020s]
+2026-03-26 00:08:37,481 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.018s]
+2026-03-26 00:08:46,761 - python_multipart.multipart - DEBUG - callback - Calling on_part_begin with no data
+2026-03-26 00:08:46,762 - python_multipart.multipart - DEBUG - callback - Calling on_header_field with data[42:61]
+2026-03-26 00:08:46,762 - python_multipart.multipart - DEBUG - callback - Calling on_header_value with data[63:130]
+2026-03-26 00:08:46,762 - python_multipart.multipart - DEBUG - callback - Calling on_header_end with no data
+2026-03-26 00:08:46,763 - python_multipart.multipart - DEBUG - callback - Calling on_header_field with data[132:144]
+2026-03-26 00:08:46,763 - python_multipart.multipart - DEBUG - callback - Calling on_header_value with data[146:161]
+2026-03-26 00:08:46,763 - python_multipart.multipart - DEBUG - callback - Calling on_header_end with no data
+2026-03-26 00:08:46,763 - python_multipart.multipart - DEBUG - callback - Calling on_headers_finished with no data
+2026-03-26 00:08:46,763 - python_multipart.multipart - DEBUG - callback - Calling on_part_data with data[165:92968]
+2026-03-26 00:08:46,764 - python_multipart.multipart - DEBUG - callback - Calling on_part_data with data[0:22376]
+2026-03-26 00:08:46,764 - python_multipart.multipart - DEBUG - callback - Calling on_part_data with data[0:6989]
+2026-03-26 00:08:46,764 - python_multipart.multipart - DEBUG - callback - Calling on_part_end with no data
+2026-03-26 00:08:46,764 - python_multipart.multipart - DEBUG - callback - Calling on_end with no data
+2026-03-26 00:08:46,768 - urllib3.connectionpool - DEBUG - _get_conn - Resetting dropped connection: minio
+2026-03-26 00:08:46,941 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "PUT /pdf-files/Prasad_Jawale_Data_Scientist.pdf HTTP/1.1" 200 0
+2026-03-26 00:08:46,941 - root - DEBUG - upload - Uploaded: Prasad_Jawale_Data_Scientist.pdf
+2026-03-26 00:08:46,975 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_delete_by_query?refresh=true HTTP/1.1" 200 0
+2026-03-26 00:08:46,976 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_delete_by_query?refresh=true [status:200 duration:0.034s]
+2026-03-26 00:08:46,976 - root - DEBUG - delete_document_pages - Deleted existing pages for: Prasad_Jawale_Data_Scientist.pdf
+2026-03-26 00:08:46,977 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "HEAD /pdf-files/Prasad_Jawale_Data_Scientist.pdf HTTP/1.1" 200 0
+2026-03-26 00:08:46,978 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "GET /pdf-files/Prasad_Jawale_Data_Scientist.pdf HTTP/1.1" 200 122168
+2026-03-26 00:08:46,997 - root - DEBUG - index_document - Indexing Prasad_Jawale_Data_Scientist.pdf page 1
+2026-03-26 00:08:47,003 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_doc HTTP/1.1" 201 0
+2026-03-26 00:08:47,003 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_doc [status:201 duration:0.005s]
+2026-03-26 00:08:47,003 - root - DEBUG - index_page - Indexed page 1 of Prasad_Jawale_Data_Scientist.pdf: created
+2026-03-26 00:08:47,003 - root - INFO - index_document - Indexing complete: Prasad_Jawale_Data_Scientist.pdf (1 pages)
+2026-03-26 00:08:58,380 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-03-26 00:08:58,381 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.014s]
+2026-03-26 00:08:59,141 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-03-26 00:08:59,142 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.011s]
+2026-03-26 00:08:59,342 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-03-26 00:08:59,342 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.004s]
+2026-03-26 00:09:06,001 - python_multipart.multipart - DEBUG - callback - Calling on_part_begin with no data
+2026-03-26 00:09:06,001 - python_multipart.multipart - DEBUG - callback - Calling on_header_field with data[42:61]
+2026-03-26 00:09:06,001 - python_multipart.multipart - DEBUG - callback - Calling on_header_value with data[63:114]
+2026-03-26 00:09:06,002 - python_multipart.multipart - DEBUG - callback - Calling on_header_end with no data
+2026-03-26 00:09:06,002 - python_multipart.multipart - DEBUG - callback - Calling on_header_field with data[116:128]
+2026-03-26 00:09:06,002 - python_multipart.multipart - DEBUG - callback - Calling on_header_value with data[130:145]
+2026-03-26 00:09:06,002 - python_multipart.multipart - DEBUG - callback - Calling on_header_end with no data
+2026-03-26 00:09:06,002 - python_multipart.multipart - DEBUG - callback - Calling on_headers_finished with no data
+2026-03-26 00:09:06,003 - python_multipart.multipart - DEBUG - callback - Calling on_part_data with data[149:19974]
+2026-03-26 00:09:06,003 - python_multipart.multipart - DEBUG - callback - Calling on_part_end with no data
+2026-03-26 00:09:06,003 - python_multipart.multipart - DEBUG - callback - Calling on_end with no data
+2026-03-26 00:09:06,010 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "PUT /pdf-files/Cover%20Letter.pdf HTTP/1.1" 200 0
+2026-03-26 00:09:06,010 - root - DEBUG - upload - Uploaded: Cover Letter.pdf
+2026-03-26 00:09:06,016 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_delete_by_query?refresh=true HTTP/1.1" 200 0
+2026-03-26 00:09:06,016 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_delete_by_query?refresh=true [status:200 duration:0.005s]
+2026-03-26 00:09:06,017 - root - DEBUG - delete_document_pages - Deleted existing pages for: Cover Letter.pdf
+2026-03-26 00:09:06,019 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "HEAD /pdf-files/Cover%20Letter.pdf HTTP/1.1" 200 0
+2026-03-26 00:09:06,020 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "GET /pdf-files/Cover%20Letter.pdf HTTP/1.1" 200 19825
+2026-03-26 00:09:06,045 - root - DEBUG - index_document - Indexing Cover Letter.pdf page 1
+2026-03-26 00:09:06,050 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_doc HTTP/1.1" 201 0
+2026-03-26 00:09:06,050 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_doc [status:201 duration:0.004s]
+2026-03-26 00:09:06,050 - root - DEBUG - index_page - Indexed page 1 of Cover Letter.pdf: created
+2026-03-26 00:09:06,050 - root - INFO - index_document - Indexing complete: Cover Letter.pdf (1 pages)
+2026-03-26 00:09:07,847 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-03-26 00:09:07,848 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.015s]
+2026-03-26 00:09:12,847 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-03-26 00:09:12,847 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.021s]

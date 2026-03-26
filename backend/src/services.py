@@ -2,9 +2,10 @@ from minio import Minio
 from elasticsearch import Elasticsearch
 from fastapi import Request
 from src.config import settings
-from src.storage import MinioStorageBackend
-from src.search import ElasticsearchSearchBackend
-from src.indexing import IndexingService
+from src.backends.storage import MinioStorageBackend
+from src.backends.search import ElasticsearchSearchBackend
+from src.pipeline.ingestion import IngestionPipeline
+from src.backends.embeddings import TextEncoder
 import logging
 
 
@@ -27,10 +28,14 @@ def init_services() -> dict:
         settings.index_name
     )
 
+    logging.info("Initialising embedding service...")
+    embeddings = TextEncoder()
+
     return {
         "storage": storage,
         "search": search,
-        "indexing": IndexingService(storage, search)
+        "embeddings": embeddings,
+        "indexing": IngestionPipeline(storage, search, embeddings)
     }
 
 
@@ -43,5 +48,9 @@ def get_search(request: Request) -> ElasticsearchSearchBackend:
     return request.app.state.search
 
 
-def get_indexing(request: Request) -> IndexingService:
+def get_indexing(request: Request) -> IngestionPipeline:
     return request.app.state.indexing
+
+
+def get_embeddings(request: Request) -> TextEncoder:
+    return request.app.state.embeddings

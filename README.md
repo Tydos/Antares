@@ -1,181 +1,194 @@
-# RAG PDF — Hybrid Semantic Search & LLM Question Answering
+# RAG PDF — Hybrid Semantic Search & LLM Q&A
+
+## 1. Overview
+
+Finding information in large PDFs can be slow. This project lets you upload PDFs, automatically extract text from each page, and search across all documents instantly using **hybrid search** — combining keyword search (BM25) and semantic similarity (kNN) with **Reciprocal Rank Fusion (RRF)**.
+
+### Key Features
+
+* PDF upload and automated text extraction.
+* Embedding of page content for semantic search.
+* Hybrid search using BM25 and kNN with Reciprocal Rank Fusion (RRF).
+* API endpoints for upload, search, document listing, and health checks.
+* Optional LLM integration for context-aware Q&A.
 
 ---
 
-## 1. Project Description
+## 2. Technology Stack
 
-### Problem Solved
-Finding relevant information inside large PDF collections is slow and error-prone when done manually. This project solves that by letting you upload any PDF through a REST API, automatically extracting and indexing every page, and then searching across all documents instantly using full-text keyword queries — with relevance scoring and highlighted snippets.
-
-### Tech Stack
-| Layer | Technology | Role |
-|---|---|---|
-| API | **FastAPI** | REST endpoints — upload, search, documents |
-| Object Storage | **MinIO** | Stores the original PDF files; generates presigned download URLs |
-| Search Engine | **Elasticsearch** | Indexes every PDF page; powers full-text keyword search with scoring |
-| PDF Parsing | **PyPDF2** | Extracts plain text from each page of a PDF |
-| Configuration | **Pydantic Settings** | Loads all config from `.env` with type validation |
-| Containerisation | **Docker / Docker Compose** | Runs all three services in an isolated network |
-| LLM Q&A *(planned)* | **Gemini** | Will answer natural-language questions using retrieved page context |
-| Semantic Search *(planned)* | **FAISS** | Will add embedding-based retrieval alongside keyword search |
+| Layer             | Technology                                   | Purpose                                                                    |
+| ----------------- | -------------------------------------------- | -------------------------------------------------------------------------- |
+| Backend API       | FastAPI                                      | Provides REST endpoints for document upload, search, and health checks     |
+| Frontend          | React                                        | UI for PDF upload, search, and document management                         |
+| Object Storage    | MinIO                                        | Persistent storage of uploaded PDF files                                   |
+| Search Engine     | Elasticsearch 8.17                           | Page-level indexing and hybrid search (BM25 + kNN)                         |
+| Embeddings        | `sentence-transformers` (`all-MiniLM-L6-v2`) | Converts text into 384-dimensional vector embeddings                       |
+| PDF Parsing       | pypdf                                        | Extracts plaintext from PDF pages                                          |
+| Configuration     | Pydantic                                     | Loads and validates environment variables from `.env`                      |
+| Containerization  | Docker / Docker Compose                      | Deploys backend, frontend, Elasticsearch, and MinIO in an isolated network |
+| LLM Q&A (planned) | Gemini                                       | Provides natural language answers using retrieved document context         |
 
 ---
 
-## 2. Project Architecture
+## 3. Architecture
 
-### Upload Flow
-```
-Client  →  POST /upload  →  MinIO (stores PDF)
-                         →  Background Task
-                               └── MinIO (download PDF to temp file)
-                               └── PyPDF2 (extract text per page)
-                               └── Elasticsearch (index each page as a document)
-```
-1. The client posts a PDF file to `POST /upload`.
-2. The file is streamed to **MinIO** and a 1-hour presigned URL is returned immediately.
-3. A **background task** kicks off without blocking the response: the PDF is re-downloaded from MinIO to a temp file, every page is extracted with PyPDF2, and each page is indexed as a separate document in Elasticsearch (fields: `filename`, `url`, `page_number`, `content`, `uploaded_at`).
+### 3.1 Upload Workflow
 
-### Indexing Flow
+1. Client uploads PDF via `POST /upload`.
+2. PDF is stored in MinIO.
+3. Background pipeline:
+
+   * Downloads PDF from MinIO to temporary storage.
+   * Extracts text per page using `pypdf`.
+   * Converts page text to embeddings in batches.
+   * Indexes pages in Elasticsearch with text content and embeddings.
+
+**Flow Diagram:**
+
 ```
-IndexingService.index_document(filename, url)
-  └── MinioStorageBackend.download_to_tempfile()   →  /tmp/xxxx.pdf
-  └── pdf.extract_text_pages()                     →  [(1, "text…"), (2, "text…"), …]
-  └── ElasticsearchSearchBackend.index_page()  ×N  →  POST /pdf-index/_doc
+Client  →  POST /upload  →  MinIO (store PDF)
+                         →  Background Task:
+                               └─ Download PDF
+                               └─ Extract page text
+                               └─ Encode pages → embeddings
+                               └─ Index in Elasticsearch
 ```
 
-### Search Flow
+### 3.2 Search Workflow
+
+1. Client queries via `GET /search?q=<query>&top_k=N`.
+2. Query is converted into a vector embedding.
+3. Elasticsearch performs:
+
+   * BM25 keyword search.
+   * kNN vector search over embeddings.
+4. Results are merged using Reciprocal Rank Fusion (RRF) and re-ranked.
+5. Top N results are returned with scores, highlights, and metadata.
+
+**Flow Diagram:**
+
 ```
-Client  →  GET /search?q=<query>&top_k=5
-                └── Elasticsearch match query on `content`
-                └── Returns: score, filename, page_number, url, highlights
+Client  →  GET /search?q=<query>
+       └─ Encode query → vector
+       └─ Elasticsearch BM25 search → keyword hits
+       └─ Elasticsearch kNN search → semantic hits
+       └─ Merge & re-rank with RRF
+       └─ Return top_k results with score, highlights, metadata
 ```
-- `GET /search?q=<query>` — returns ranked pages with relevance scores and highlighted snippets.
-- `GET /documents` — lists all indexed documents with page count and upload time.
 
 ---
 
-## 3. How to Run
+## 4. Source Structure
 
-### Prerequisites
-- [Docker](https://docs.docker.com/get-docker/) and Docker Compose
+```
+backend/
+├─ Dockerfile
+├─ requirements.txt
+└─ src/
+   ├─ main.py          # FastAPI routes
+   ├─ config.py        # Pydantic settings loader
+   ├─ services.py      # Dependency injection for backends
+   ├─ backends/
+   │   ├─ search.py    # ElasticsearchSearchBackend
+   │   ├─ storage.py   # MinioStorageBackend
+   │   └─ embeddings.py # TextEncoder wrapper
+   ├─ pipeline/
+   │   └─ ingestion.py  # PDF ingestion pipeline
+   └─ utils/
+       ├─ pdf_reader.py # Page-level text extraction
+       └─ logger.py     # Logging configuration
 
-### Step 1 — Configure environment
+frontend/
+├─ Dockerfile
+└─ src/
+   ├─ App.js
+   ├─ api/api.js        # HTTP request wrappers
+   └─ components/
+       ├─ UploadSection.js
+       ├─ SearchSection.js
+       └─ DocumentsSection.js
+```
+
+---
+
+## 5. Deployment Instructions
+
+### 5.1 Prerequisites
+
+* Docker and Docker Compose installed.
+
+### 5.2 Configuration
+
+Copy example environment file:
 
 ```bash
 cp .env.example .env
 ```
 
-Open `.env` and set your values:
-```
+Edit `.env` if needed:
+
+```dotenv
 MINIO_HOST=minio:9000
-MINIO_ACCESS_KEY=your_access_key
-MINIO_SECRET_KEY=your_secret_key   # min 8 characters
+MINIO_ACCESS_KEY=admin
+MINIO_SECRET_KEY=admin123
 MINIO_SECURE=false
 BUCKET_NAME=pdf-files
 
 ES_HOST=http://elasticsearch:9200
 INDEX_NAME=pdf-index
 
-GEMINI_API_KEY=                    # leave blank for now
+EMBEDDING_MODEL=all-MiniLM-L6-v2
+EMBEDDING_DIMS=384
+BATCH_SIZE=16
+
+GEMINI_API_KEY=        # reserved for LLM
 ```
 
-> `MINIO_HOST` and `ES_HOST` use Docker service names. For local runs outside Docker use `localhost:9000` and `http://localhost:9200`.
-
-### Step 2 — Start all services
+### 5.3 Start Services
 
 ```bash
-docker compose up --build -d
+docker compose up --build
 ```
 
-| Container | Port | Role |
-|---|---|---|
-| `fastapi` | `8000` | REST API |
-| `elasticsearch` | `9200` | Search index |
-| `minio` | `9000` / `9001` | Object store / Web console |
+| Service       | Port        | Notes                 |
+| ------------- | ----------- | --------------------- |
+| fastapi       | 8000        | API docs: `/docs`     |
+| frontend      | 3000        | Web UI                |
+| elasticsearch | 9200        | Backend search engine |
+| minio         | 9000 / 9001 | Web UI: 9001          |
 
-### Step 3 — Upload a PDF
+### 5.4 Stop Services
 
 ```bash
-curl -X POST http://localhost:8000/upload \
-  -F "file=@/path/to/document.pdf"
+docker compose down        # Stop containers, keep data
+docker compose down -v     # Stop containers + remove volumes
 ```
-
-```json
-{
-  "url": "http://localhost:9000/pdf-files/document.pdf?...",
-  "status": "upload successful, indexing in progress"
-}
-```
-
-### Step 4 — Search
-
-```bash
-curl "http://localhost:8000/search?q=your+query&top_k=5"
-```
-
-```json
-{
-  "query": "your query",
-  "total": 3,
-  "results": [
-    {
-      "score": 4.12,
-      "filename": "document.pdf",
-      "page_number": 2,
-      "url": "...",
-      "content": "...",
-      "highlights": ["...matched <em>snippet</em>..."]
-    }
-  ]
-}
-```
-
-### Step 5 — List indexed documents
-
-```bash
-curl "http://localhost:8000/documents"
-```
-
-### Step 6 — Check health
-
-```bash
-curl http://localhost:8000/health
-```
-
-### Step 7 — Stop services
-
-```bash
-docker compose down          # stop containers
-docker compose down -v       # stop + delete all stored data
-```
-
-### Running locally without Docker
-
-```bash
-python -m venv venv && source venv/bin/activate
-pip install -r requirements.txt
-uvicorn src.main:app --reload --port 8000
-```
-
-> MinIO and Elasticsearch must still be running (e.g. via Docker) for the API to work.
 
 ---
 
-## 4. Project Structure
+## 6. API Endpoints
 
-```
-.
-├── config.py             # Loads and validates all settings from .env using Pydantic
-├── docker-compose.yml    # Defines the fastapi, elasticsearch, and minio services
-├── Dockerfile            # Builds the FastAPI container image
-├── requirements.txt      # Python package dependencies
-│
-└── src/
-    ├── main.py           # FastAPI app — registers all routes (/upload, /search, /documents, /health)
-    ├── setup.py          # Builds backend instances at startup; provides FastAPI Depends() factories
-    ├── storage.py        # MinioStorageBackend — handles PDF upload, download, and presigned URLs
-    ├── search.py         # ElasticsearchSearchBackend — creates index, indexes pages, runs search queries
-    ├── indexing.py       # IndexingService — orchestrates download → text extraction → indexing pipeline
-    ├── pdf.py            # extract_text_pages() — reads a local PDF and yields (page_number, text) tuples
-    └── logger.py         # Configures root logger to write to stdout and log/app.log
-```
+| Endpoint            | Method | Description                                      |
+| ------------------- | ------ | ------------------------------------------------ |
+| `/upload`           | POST   | Upload a PDF; triggers background indexing       |
+| `/search`           | GET    | Query PDFs; returns top_k page results           |
+| `/documents`        | GET    | List all indexed documents with embedding status |
+| `/health`           | GET    | Check service health                             |
+| `/files/{filename}` | GET    | Download stored PDF                              |
+
+---
+
+## 7. Hybrid Search Details
+
+* **Candidate Pool:** For each query, retrieve up to `max(100, top_k × 10)` candidates.
+* **BM25 Search:** Keyword-based, handles OCR errors via fuzziness, returns highlighted matches.
+* **kNN Search:** Cosine similarity over 384-dimensional embeddings, captures semantic similarity.
+* **Reciprocal Rank Fusion (RRF):** Combines ranks from BM25 and kNN to generate final score:
+
+$$
+\text{score}(d) = \sum_{\text{lists}} \frac{1}{k + \text{rank}(d)}, \quad k = 60
+$$
+
+* Higher scores indicate stronger relevance.
+
+This approach ensures retrieval accounts for both exact word matches and semantic meaning.

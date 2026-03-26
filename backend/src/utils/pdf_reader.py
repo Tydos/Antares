@@ -1,5 +1,5 @@
 from collections.abc import Generator
-from PyPDF2 import PdfReader
+from pypdf import PdfReader
 
 def extract_text_pages(file_path: str) -> Generator[tuple[int, str], None, None]:
     """Yield (page_number, text) for every page in a local PDF file."""

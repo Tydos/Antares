@@ -1,8 +1,10 @@
-boto3
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch
 fastapi
 uvicorn
 minio
 python-multipart
-PyPDF2
-elasticsearch>=8.0.0,<9.0.0
+pypdf
+elasticsearch>=8.14.0,<9.0.0
 pydantic-settings
+sentence-transformers
