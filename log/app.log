@@ -17986,3 +17986,867 @@
 2026-03-26 00:09:07,848 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.015s]
 2026-03-26 00:09:12,847 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
 2026-03-26 00:09:12,847 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.021s]
+2026-04-03 15:47:13,774 - root - INFO - init_services - Initialising storage backend...
+2026-04-03 15:47:13,775 - urllib3.connectionpool - DEBUG - _new_conn - Starting new HTTP connection (1): minio:9000
+2026-04-03 15:47:13,779 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "GET /pdf-files?location= HTTP/1.1" 200 0
+2026-04-03 15:47:13,779 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "HEAD /pdf-files HTTP/1.1" 200 0
+2026-04-03 15:47:13,779 - root - INFO - init_services - Initialising search backend...
+2026-04-03 15:47:13,780 - urllib3.connectionpool - DEBUG - _new_conn - Starting new HTTP connection (1): elasticsearch:9200
+2026-04-03 15:47:13,787 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "PUT /pdf-index HTTP/1.1" 400 0
+2026-04-03 15:47:13,787 - elastic_transport.transport - INFO - perform_request - PUT http://elasticsearch:9200/pdf-index [status:400 duration:0.007s]
+2026-04-03 15:47:13,796 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "PUT /pdf-index/_mapping HTTP/1.1" 200 0
+2026-04-03 15:47:13,796 - elastic_transport.transport - INFO - perform_request - PUT http://elasticsearch:9200/pdf-index/_mapping [status:200 duration:0.009s]
+2026-04-03 15:47:13,797 - root - INFO - init_services - Initialising embedding service...
+2026-04-03 15:47:13,797 - sentence_transformers.SentenceTransformer - INFO - __init__ - Use pytorch device_name: cpu
+2026-04-03 15:47:13,797 - sentence_transformers.SentenceTransformer - INFO - __init__ - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2026-04-03 15:47:13,804 - httpcore.connection - DEBUG - trace - connect_tcp.started host='huggingface.co' port=443 local_address=None timeout=10 socket_options=None
+2026-04-03 15:47:13,888 - httpcore.connection - DEBUG - trace - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0xffff45f9e800>
+2026-04-03 15:47:13,888 - httpcore.connection - DEBUG - trace - start_tls.started ssl_context=<ssl.SSLContext object at 0xffff461a8340> server_hostname='huggingface.co' timeout=10
+2026-04-03 15:47:13,931 - httpcore.connection - DEBUG - trace - start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0xffff45f9e7d0>
+2026-04-03 15:47:13,931 - httpcore.http11 - DEBUG - trace - send_request_headers.started request=<Request [b'HEAD']>
+2026-04-03 15:47:13,932 - httpcore.http11 - DEBUG - trace - send_request_headers.complete
+2026-04-03 15:47:13,932 - httpcore.http11 - DEBUG - trace - send_request_body.started request=<Request [b'HEAD']>
+2026-04-03 15:47:13,932 - httpcore.http11 - DEBUG - trace - send_request_body.complete
+2026-04-03 15:47:13,932 - httpcore.http11 - DEBUG - trace - receive_response_headers.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,010 - httpcore.http11 - DEBUG - trace - receive_response_headers.complete return_value=(b'HTTP/1.1', 307, b'Temporary Redirect', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'282'), (b'Connection', b'keep-alive'), (b'Date', b'Fri, 03 Apr 2026 15:47:13 GMT'), (b'Location', b'/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/modules.json?%2Fsentence-transformers%2Fall-MiniLM-L6-v2%2Fresolve%2Fmain%2Fmodules.json=&etag=%22952a9b81c0bfd99800fabf352f69c7ccd46c5e43%22'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69cfe101-5ae65a51012270e214c3bd1c;4747bd48-947e-48f9-8216-25ffa14a68cc'), (b'RateLimit', b'"resolvers";r=2999;t=3'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=3000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin, Accept'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'c9745ed1d9f207416be6d2e6f8de32d1f16199bf'), (b'Accept-Ranges', b'bytes'), (b'X-HF-Warning', b'unauthenticated; Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.'), (b'X-Hub-Cache', b'HIT'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'modules.json; filename="modules.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'X-Linked-ETag', b'"952a9b81c0bfd99800fabf352f69c7ccd46c5e43"'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 e2f1bed2f82641d6d5439eac20a790ba.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'MSP50-P1'), (b'X-Amz-Cf-Id', b'IJMpo8Y2mXTDz7h1-KGKasefWzJpPdEJX879nXLrDmIDYHAoW-6hFA==')])
+2026-04-03 15:47:14,011 - httpx - INFO - _send_single_request - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/modules.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-03 15:47:14,011 - httpcore.http11 - DEBUG - trace - receive_response_body.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,012 - httpcore.http11 - DEBUG - trace - receive_response_body.complete
+2026-04-03 15:47:14,012 - httpcore.http11 - DEBUG - trace - response_closed.started
+2026-04-03 15:47:14,012 - httpcore.http11 - DEBUG - trace - response_closed.complete
+2026-04-03 15:47:14,012 - huggingface_hub.utils._http - WARNING - _warn_on_warning_headers - Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-04-03 15:47:14,013 - httpcore.http11 - DEBUG - trace - send_request_headers.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,013 - httpcore.http11 - DEBUG - trace - send_request_headers.complete
+2026-04-03 15:47:14,013 - httpcore.http11 - DEBUG - trace - send_request_body.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,013 - httpcore.http11 - DEBUG - trace - send_request_body.complete
+2026-04-03 15:47:14,014 - httpcore.http11 - DEBUG - trace - receive_response_headers.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,040 - httpcore.http11 - DEBUG - trace - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'349'), (b'Connection', b'keep-alive'), (b'Date', b'Sat, 07 Feb 2026 21:48:46 GMT'), (b'ETag', b'"952a9b81c0bfd99800fabf352f69c7ccd46c5e43"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-6987b33e-10a564954ba0f505378ead9a;a6d98f01-2c7a-438f-9e29-b63e228b5291'), (b'RateLimit', b'"resolvers";r=2999;t=130'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=3000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'c9745ed1d9f207416be6d2e6f8de32d1f16199bf'), (b'Accept-Ranges', b'bytes'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'modules.json; filename="modules.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'Vary', b'Origin'), (b'X-Cache', b'Hit from cloudfront'), (b'Via', b'1.1 e2f1bed2f82641d6d5439eac20a790ba.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'MSP50-P1'), (b'X-Amz-Cf-Id', b'ki9RNUMoqVMI3B9SIcwZP2ThabVfZvGMI-isFQj8FV1s0vza8dTAGw=='), (b'Age', b'4730308')])
+2026-04-03 15:47:14,041 - httpx - INFO - _send_single_request - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/modules.json "HTTP/1.1 200 OK"
+2026-04-03 15:47:14,041 - httpcore.http11 - DEBUG - trace - receive_response_body.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,041 - httpcore.http11 - DEBUG - trace - receive_response_body.complete
+2026-04-03 15:47:14,041 - httpcore.http11 - DEBUG - trace - response_closed.started
+2026-04-03 15:47:14,041 - httpcore.http11 - DEBUG - trace - response_closed.complete
+2026-04-03 15:47:14,043 - httpcore.http11 - DEBUG - trace - send_request_headers.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,044 - httpcore.http11 - DEBUG - trace - send_request_headers.complete
+2026-04-03 15:47:14,044 - httpcore.http11 - DEBUG - trace - send_request_body.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,044 - httpcore.http11 - DEBUG - trace - send_request_body.complete
+2026-04-03 15:47:14,044 - httpcore.http11 - DEBUG - trace - receive_response_headers.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,120 - httpcore.http11 - DEBUG - trace - receive_response_headers.complete return_value=(b'HTTP/1.1', 307, b'Temporary Redirect', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'324'), (b'Connection', b'keep-alive'), (b'Date', b'Fri, 03 Apr 2026 15:47:14 GMT'), (b'Location', b'/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/config_sentence_transformers.json?%2Fsentence-transformers%2Fall-MiniLM-L6-v2%2Fresolve%2Fmain%2Fconfig_sentence_transformers.json=&etag=%22fd1b291129c607e5d49799f87cb219b27f98acdf%22'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69cfe102-0653e9cf10f895ee0911fc5e;b3934609-9ae0-44ed-a60e-668089aeeacb'), (b'RateLimit', b'"resolvers";r=2998;t=2'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=3000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin, Accept'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'c9745ed1d9f207416be6d2e6f8de32d1f16199bf'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'HIT'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'config_sentence_transformers.json; filename="config_sentence_transformers.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'X-Linked-ETag', b'"fd1b291129c607e5d49799f87cb219b27f98acdf"'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 e2f1bed2f82641d6d5439eac20a790ba.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'MSP50-P1'), (b'X-Amz-Cf-Id', b'H-mJwd7Kradj8IC2eZHp8aSW6VXnGgWZW4a8eyV9X5dC465U6XrToQ==')])
+2026-04-03 15:47:14,120 - httpx - INFO - _send_single_request - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/config_sentence_transformers.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-03 15:47:14,121 - httpcore.http11 - DEBUG - trace - receive_response_body.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,121 - httpcore.http11 - DEBUG - trace - receive_response_body.complete
+2026-04-03 15:47:14,121 - httpcore.http11 - DEBUG - trace - response_closed.started
+2026-04-03 15:47:14,121 - httpcore.http11 - DEBUG - trace - response_closed.complete
+2026-04-03 15:47:14,122 - httpcore.http11 - DEBUG - trace - send_request_headers.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,122 - httpcore.http11 - DEBUG - trace - send_request_headers.complete
+2026-04-03 15:47:14,122 - httpcore.http11 - DEBUG - trace - send_request_body.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,122 - httpcore.http11 - DEBUG - trace - send_request_body.complete
+2026-04-03 15:47:14,122 - httpcore.http11 - DEBUG - trace - receive_response_headers.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,151 - httpcore.http11 - DEBUG - trace - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'116'), (b'Connection', b'keep-alive'), (b'Date', b'Mon, 05 Jan 2026 22:06:25 GMT'), (b'ETag', b'"fd1b291129c607e5d49799f87cb219b27f98acdf"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-695c35e1-671cd3521e8b6108400255d5;015cd065-f532-4229-86ed-80453c552d18'), (b'RateLimit', b'"resolvers";r=929;t=163'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=3000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'c9745ed1d9f207416be6d2e6f8de32d1f16199bf'), (b'Accept-Ranges', b'bytes'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'config_sentence_transformers.json; filename="config_sentence_transformers.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'Vary', b'Origin'), (b'X-Cache', b'Hit from cloudfront'), (b'Via', b'1.1 e2f1bed2f82641d6d5439eac20a790ba.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'MSP50-P1'), (b'X-Amz-Cf-Id', b'ORMr3YruSDen_mZdvlEixjqXq5I7XK3dLFmk6DN0qB3VjmiH1HCj8A=='), (b'Age', b'7580449')])
+2026-04-03 15:47:14,152 - httpx - INFO - _send_single_request - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/config_sentence_transformers.json "HTTP/1.1 200 OK"
+2026-04-03 15:47:14,152 - httpcore.http11 - DEBUG - trace - receive_response_body.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,152 - httpcore.http11 - DEBUG - trace - receive_response_body.complete
+2026-04-03 15:47:14,152 - httpcore.http11 - DEBUG - trace - response_closed.started
+2026-04-03 15:47:14,152 - httpcore.http11 - DEBUG - trace - response_closed.complete
+2026-04-03 15:47:14,153 - httpcore.http11 - DEBUG - trace - send_request_headers.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,154 - httpcore.http11 - DEBUG - trace - send_request_headers.complete
+2026-04-03 15:47:14,154 - httpcore.http11 - DEBUG - trace - send_request_body.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,154 - httpcore.http11 - DEBUG - trace - send_request_body.complete
+2026-04-03 15:47:14,154 - httpcore.http11 - DEBUG - trace - receive_response_headers.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,225 - httpcore.http11 - DEBUG - trace - receive_response_headers.complete return_value=(b'HTTP/1.1', 307, b'Temporary Redirect', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'324'), (b'Connection', b'keep-alive'), (b'Date', b'Fri, 03 Apr 2026 15:47:14 GMT'), (b'Location', b'/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/config_sentence_transformers.json?%2Fsentence-transformers%2Fall-MiniLM-L6-v2%2Fresolve%2Fmain%2Fconfig_sentence_transformers.json=&etag=%22fd1b291129c607e5d49799f87cb219b27f98acdf%22'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69cfe102-154feef31bece5fa404eaccd;e07c06c1-5629-4540-b61d-f0e134ad2ee9'), (b'RateLimit', b'"resolvers";r=2997;t=2'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=3000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin, Accept'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'c9745ed1d9f207416be6d2e6f8de32d1f16199bf'), (b'Accept-Ranges', b'bytes'), (b'X-HF-Warning', b'unauthenticated; Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.'), (b'X-Hub-Cache', b'HIT'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'config_sentence_transformers.json; filename="config_sentence_transformers.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'X-Linked-ETag', b'"fd1b291129c607e5d49799f87cb219b27f98acdf"'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 e2f1bed2f82641d6d5439eac20a790ba.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'MSP50-P1'), (b'X-Amz-Cf-Id', b'ZZj05VL5ZK74gS8Q4XpRTdG2cbCqFkKtYwYVbLU71emQSs1uuRc7wg==')])
+2026-04-03 15:47:14,226 - httpx - INFO - _send_single_request - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/config_sentence_transformers.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-03 15:47:14,227 - httpcore.http11 - DEBUG - trace - receive_response_body.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,227 - httpcore.http11 - DEBUG - trace - receive_response_body.complete
+2026-04-03 15:47:14,227 - httpcore.http11 - DEBUG - trace - response_closed.started
+2026-04-03 15:47:14,228 - httpcore.http11 - DEBUG - trace - response_closed.complete
+2026-04-03 15:47:14,229 - httpcore.http11 - DEBUG - trace - send_request_headers.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,229 - httpcore.http11 - DEBUG - trace - send_request_headers.complete
+2026-04-03 15:47:14,230 - httpcore.http11 - DEBUG - trace - send_request_body.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,230 - httpcore.http11 - DEBUG - trace - send_request_body.complete
+2026-04-03 15:47:14,231 - httpcore.http11 - DEBUG - trace - receive_response_headers.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,258 - httpcore.http11 - DEBUG - trace - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'116'), (b'Connection', b'keep-alive'), (b'Date', b'Wed, 25 Jun 2025 12:44:05 GMT'), (b'ETag', b'"fd1b291129c607e5d49799f87cb219b27f98acdf"'), (b'X-Powered-By', b'huggingface-moon'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'X-Request-Id', b'Root=1-685bef15-7864690f3da382eb0b96b456;93c0be06-a75d-4ee0-b04b-c6fa6de473e1'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'c9745ed1d9f207416be6d2e6f8de32d1f16199bf'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'HIT'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'config_sentence_transformers.json; filename="config_sentence_transformers.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'Vary', b'Origin'), (b'X-Cache', b'Hit from cloudfront'), (b'Via', b'1.1 e2f1bed2f82641d6d5439eac20a790ba.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'MSP50-P1'), (b'X-Amz-Cf-Id', b'JfR0UpBeHJVRFpbF9JI5QJQ2PdV-tk1tStGybCK77wNALcuLlaLSFA=='), (b'Age', b'24375789')])
+2026-04-03 15:47:14,259 - httpx - INFO - _send_single_request - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/config_sentence_transformers.json "HTTP/1.1 200 OK"
+2026-04-03 15:47:14,260 - httpcore.http11 - DEBUG - trace - receive_response_body.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,260 - httpcore.http11 - DEBUG - trace - receive_response_body.complete
+2026-04-03 15:47:14,261 - httpcore.http11 - DEBUG - trace - response_closed.started
+2026-04-03 15:47:14,261 - httpcore.http11 - DEBUG - trace - response_closed.complete
+2026-04-03 15:47:14,264 - httpcore.http11 - DEBUG - trace - send_request_headers.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,265 - httpcore.http11 - DEBUG - trace - send_request_headers.complete
+2026-04-03 15:47:14,266 - httpcore.http11 - DEBUG - trace - send_request_body.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,266 - httpcore.http11 - DEBUG - trace - send_request_body.complete
+2026-04-03 15:47:14,267 - httpcore.http11 - DEBUG - trace - receive_response_headers.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,337 - httpcore.http11 - DEBUG - trace - receive_response_headers.complete return_value=(b'HTTP/1.1', 307, b'Temporary Redirect', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'276'), (b'Connection', b'keep-alive'), (b'Date', b'Fri, 03 Apr 2026 15:47:14 GMT'), (b'Location', b'/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/README.md?%2Fsentence-transformers%2Fall-MiniLM-L6-v2%2Fresolve%2Fmain%2FREADME.md=&etag=%2258d4a9a45664eb9e12de9549c548c09b6134c17f%22'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69cfe102-033b2a0e7932a31f0665a16d;2e0c7638-ae3a-48c2-919b-7f533853f12a'), (b'RateLimit', b'"resolvers";r=2996;t=2'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=3000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin, Accept'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'c9745ed1d9f207416be6d2e6f8de32d1f16199bf'), (b'Accept-Ranges', b'bytes'), (b'X-HF-Warning', b'unauthenticated; Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.'), (b'X-Hub-Cache', b'HIT'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'README.md; filename="README.md";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'X-Linked-ETag', b'"58d4a9a45664eb9e12de9549c548c09b6134c17f"'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 e2f1bed2f82641d6d5439eac20a790ba.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'MSP50-P1'), (b'X-Amz-Cf-Id', b'iCA9_WGwDDyTvnwdiDyFjJxN7XC-VTLafWVuOw6DLpobWJDQQg9QxQ==')])
+2026-04-03 15:47:14,338 - httpx - INFO - _send_single_request - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/README.md "HTTP/1.1 307 Temporary Redirect"
+2026-04-03 15:47:14,339 - httpcore.http11 - DEBUG - trace - receive_response_body.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,340 - httpcore.http11 - DEBUG - trace - receive_response_body.complete
+2026-04-03 15:47:14,340 - httpcore.http11 - DEBUG - trace - response_closed.started
+2026-04-03 15:47:14,340 - httpcore.http11 - DEBUG - trace - response_closed.complete
+2026-04-03 15:47:14,341 - httpcore.http11 - DEBUG - trace - send_request_headers.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,342 - httpcore.http11 - DEBUG - trace - send_request_headers.complete
+2026-04-03 15:47:14,342 - httpcore.http11 - DEBUG - trace - send_request_body.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,343 - httpcore.http11 - DEBUG - trace - send_request_body.complete
+2026-04-03 15:47:14,343 - httpcore.http11 - DEBUG - trace - receive_response_headers.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,377 - httpcore.http11 - DEBUG - trace - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'10454'), (b'Connection', b'keep-alive'), (b'Date', b'Sat, 03 Jan 2026 17:53:56 GMT'), (b'ETag', b'"58d4a9a45664eb9e12de9549c548c09b6134c17f"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-695957b4-189a75c32b8ae4de4de1560f;310aa9ba-81b4-49e9-92e7-b601360d38b0'), (b'RateLimit', b'"resolvers";r=2930;t=216'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=3000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'c9745ed1d9f207416be6d2e6f8de32d1f16199bf'), (b'Accept-Ranges', b'bytes'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'README.md; filename="README.md";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'Vary', b'Origin'), (b'X-Cache', b'Hit from cloudfront'), (b'Via', b'1.1 e2f1bed2f82641d6d5439eac20a790ba.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'MSP50-P1'), (b'X-Amz-Cf-Id', b'vYygffp0_xpj2CTdO0ahNBZ4UlxA4HAHkL2G9npjabOzWtD1OpzOYg=='), (b'Age', b'7768398')])
+2026-04-03 15:47:14,378 - httpx - INFO - _send_single_request - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/README.md "HTTP/1.1 200 OK"
+2026-04-03 15:47:14,378 - httpcore.http11 - DEBUG - trace - receive_response_body.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,379 - httpcore.http11 - DEBUG - trace - receive_response_body.complete
+2026-04-03 15:47:14,379 - httpcore.http11 - DEBUG - trace - response_closed.started
+2026-04-03 15:47:14,379 - httpcore.http11 - DEBUG - trace - response_closed.complete
+2026-04-03 15:47:14,382 - httpcore.http11 - DEBUG - trace - send_request_headers.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,383 - httpcore.http11 - DEBUG - trace - send_request_headers.complete
+2026-04-03 15:47:14,383 - httpcore.http11 - DEBUG - trace - send_request_body.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,384 - httpcore.http11 - DEBUG - trace - send_request_body.complete
+2026-04-03 15:47:14,384 - httpcore.http11 - DEBUG - trace - receive_response_headers.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,466 - httpcore.http11 - DEBUG - trace - receive_response_headers.complete return_value=(b'HTTP/1.1', 307, b'Temporary Redirect', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'282'), (b'Connection', b'keep-alive'), (b'Date', b'Fri, 03 Apr 2026 15:47:14 GMT'), (b'Location', b'/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/modules.json?%2Fsentence-transformers%2Fall-MiniLM-L6-v2%2Fresolve%2Fmain%2Fmodules.json=&etag=%22952a9b81c0bfd99800fabf352f69c7ccd46c5e43%22'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69cfe102-3846df0243fc49fe2d3a5857;89a6fa27-e626-447b-85b8-4dba538ccb3f'), (b'RateLimit', b'"resolvers";r=2995;t=2'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=3000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin, Accept'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'c9745ed1d9f207416be6d2e6f8de32d1f16199bf'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'HIT'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'modules.json; filename="modules.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'X-Linked-ETag', b'"952a9b81c0bfd99800fabf352f69c7ccd46c5e43"'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 e2f1bed2f82641d6d5439eac20a790ba.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'MSP50-P1'), (b'X-Amz-Cf-Id', b'Htf-NYEiWd0atJQ8eMXPQN1OFOVYTeeuZEJaWT503SjFWqHRWH1urA==')])
+2026-04-03 15:47:14,468 - httpx - INFO - _send_single_request - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/modules.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-03 15:47:14,469 - httpcore.http11 - DEBUG - trace - receive_response_body.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,469 - httpcore.http11 - DEBUG - trace - receive_response_body.complete
+2026-04-03 15:47:14,470 - httpcore.http11 - DEBUG - trace - response_closed.started
+2026-04-03 15:47:14,471 - httpcore.http11 - DEBUG - trace - response_closed.complete
+2026-04-03 15:47:14,472 - httpcore.http11 - DEBUG - trace - send_request_headers.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,473 - httpcore.http11 - DEBUG - trace - send_request_headers.complete
+2026-04-03 15:47:14,474 - httpcore.http11 - DEBUG - trace - send_request_body.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,475 - httpcore.http11 - DEBUG - trace - send_request_body.complete
+2026-04-03 15:47:14,476 - httpcore.http11 - DEBUG - trace - receive_response_headers.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,504 - httpcore.http11 - DEBUG - trace - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'349'), (b'Connection', b'keep-alive'), (b'Date', b'Wed, 25 Jun 2025 12:44:05 GMT'), (b'ETag', b'"952a9b81c0bfd99800fabf352f69c7ccd46c5e43"'), (b'X-Powered-By', b'huggingface-moon'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'X-Request-Id', b'Root=1-685bef15-3a41c56b361ead6a272da73f;7aacc6df-fba0-4384-a475-015feea7167e'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'c9745ed1d9f207416be6d2e6f8de32d1f16199bf'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'HIT'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'modules.json; filename="modules.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'Vary', b'Origin'), (b'X-Cache', b'Hit from cloudfront'), (b'Via', b'1.1 e2f1bed2f82641d6d5439eac20a790ba.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'MSP50-P1'), (b'X-Amz-Cf-Id', b'cx5nWF2eMN6d34cZYqRfIH3fk55Q0NVMZB-QOghySgVcXIkfxYuRxw=='), (b'Age', b'24375789')])
+2026-04-03 15:47:14,506 - httpx - INFO - _send_single_request - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/modules.json "HTTP/1.1 200 OK"
+2026-04-03 15:47:14,507 - httpcore.http11 - DEBUG - trace - receive_response_body.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,507 - httpcore.http11 - DEBUG - trace - receive_response_body.complete
+2026-04-03 15:47:14,508 - httpcore.http11 - DEBUG - trace - response_closed.started
+2026-04-03 15:47:14,508 - httpcore.http11 - DEBUG - trace - response_closed.complete
+2026-04-03 15:47:14,512 - httpcore.http11 - DEBUG - trace - send_request_headers.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,513 - httpcore.http11 - DEBUG - trace - send_request_headers.complete
+2026-04-03 15:47:14,514 - httpcore.http11 - DEBUG - trace - send_request_body.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,515 - httpcore.http11 - DEBUG - trace - send_request_body.complete
+2026-04-03 15:47:14,515 - httpcore.http11 - DEBUG - trace - receive_response_headers.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,589 - httpcore.http11 - DEBUG - trace - receive_response_headers.complete return_value=(b'HTTP/1.1', 307, b'Temporary Redirect', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'308'), (b'Connection', b'keep-alive'), (b'Date', b'Fri, 03 Apr 2026 15:47:14 GMT'), (b'Location', b'/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/sentence_bert_config.json?%2Fsentence-transformers%2Fall-MiniLM-L6-v2%2Fresolve%2Fmain%2Fsentence_bert_config.json=&etag=%2259d594003bf59880a884c574bf88ef7555bb0202%22'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69cfe102-19e5406e711824cc3bb36ff2;48b3d08c-0e16-4d59-ab5f-34c40999929a'), (b'RateLimit', b'"resolvers";r=2994;t=2'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=3000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin, Accept'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'c9745ed1d9f207416be6d2e6f8de32d1f16199bf'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'HIT'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'sentence_bert_config.json; filename="sentence_bert_config.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'X-Linked-ETag', b'"59d594003bf59880a884c574bf88ef7555bb0202"'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 e2f1bed2f82641d6d5439eac20a790ba.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'MSP50-P1'), (b'X-Amz-Cf-Id', b'fAmgr5X3eXVowOLb9eXLSPbXL9s4zK-OyxfeSHPZtRMbtwLQl1ttUQ==')])
+2026-04-03 15:47:14,590 - httpx - INFO - _send_single_request - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/sentence_bert_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-03 15:47:14,591 - httpcore.http11 - DEBUG - trace - receive_response_body.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,591 - httpcore.http11 - DEBUG - trace - receive_response_body.complete
+2026-04-03 15:47:14,592 - httpcore.http11 - DEBUG - trace - response_closed.started
+2026-04-03 15:47:14,592 - httpcore.http11 - DEBUG - trace - response_closed.complete
+2026-04-03 15:47:14,592 - httpcore.http11 - DEBUG - trace - send_request_headers.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,593 - httpcore.http11 - DEBUG - trace - send_request_headers.complete
+2026-04-03 15:47:14,593 - httpcore.http11 - DEBUG - trace - send_request_body.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,593 - httpcore.http11 - DEBUG - trace - send_request_body.complete
+2026-04-03 15:47:14,593 - httpcore.http11 - DEBUG - trace - receive_response_headers.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,623 - httpcore.http11 - DEBUG - trace - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'53'), (b'Connection', b'keep-alive'), (b'Date', b'Wed, 31 Dec 2025 12:11:14 GMT'), (b'ETag', b'"59d594003bf59880a884c574bf88ef7555bb0202"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-695512e2-5a4537a35ce30b6d60e9d9a5;7f398d0c-1fcc-4b36-8877-99d1385c6a17'), (b'RateLimit', b'"resolvers";r=2990;t=114'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=3000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'c9745ed1d9f207416be6d2e6f8de32d1f16199bf'), (b'Accept-Ranges', b'bytes'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'sentence_bert_config.json; filename="sentence_bert_config.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'Vary', b'Origin'), (b'X-Cache', b'Hit from cloudfront'), (b'Via', b'1.1 e2f1bed2f82641d6d5439eac20a790ba.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'MSP50-P1'), (b'X-Amz-Cf-Id', b'-6rcuKuigcQFDKZzrQk9RB-qMstQpR7R4FLoEaNfJJOjt-AGtvV32w=='), (b'Age', b'8048160')])
+2026-04-03 15:47:14,624 - httpx - INFO - _send_single_request - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/sentence_bert_config.json "HTTP/1.1 200 OK"
+2026-04-03 15:47:14,625 - httpcore.http11 - DEBUG - trace - receive_response_body.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,626 - httpcore.http11 - DEBUG - trace - receive_response_body.complete
+2026-04-03 15:47:14,627 - httpcore.http11 - DEBUG - trace - response_closed.started
+2026-04-03 15:47:14,627 - httpcore.http11 - DEBUG - trace - response_closed.complete
+2026-04-03 15:47:14,629 - httpcore.http11 - DEBUG - trace - send_request_headers.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,629 - httpcore.http11 - DEBUG - trace - send_request_headers.complete
+2026-04-03 15:47:14,629 - httpcore.http11 - DEBUG - trace - send_request_body.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,630 - httpcore.http11 - DEBUG - trace - send_request_body.complete
+2026-04-03 15:47:14,630 - httpcore.http11 - DEBUG - trace - receive_response_headers.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,701 - httpcore.http11 - DEBUG - trace - receive_response_headers.complete return_value=(b'HTTP/1.1', 404, b'Not Found', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'15'), (b'Connection', b'keep-alive'), (b'Date', b'Fri, 03 Apr 2026 15:47:14 GMT'), (b'ETag', b'W/"f-mY2VvLxuxB7KhsoOdQTlMTccuAQ"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69cfe102-4f41f3aa790118981a7eddee;b4692de1-f7a0-4f16-80db-d3f2d0f39fdd'), (b'RateLimit', b'"resolvers";r=2993;t=2'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=3000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'c9745ed1d9f207416be6d2e6f8de32d1f16199bf'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'MISS'), (b'X-Error-Code', b'EntryNotFound'), (b'X-Error-Message', b'Entry not found'), (b'X-Cache', b'Error from cloudfront'), (b'Via', b'1.1 e2f1bed2f82641d6d5439eac20a790ba.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'MSP50-P1'), (b'X-Amz-Cf-Id', b'nfiwAer5F2WMuMkwbfV3pJNq4e_K4wbicTkS7vq-K5zAj-4PeIImrA==')])
+2026-04-03 15:47:14,701 - httpx - INFO - _send_single_request - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/adapter_config.json "HTTP/1.1 404 Not Found"
+2026-04-03 15:47:14,701 - httpcore.http11 - DEBUG - trace - receive_response_body.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,701 - httpcore.http11 - DEBUG - trace - receive_response_body.complete
+2026-04-03 15:47:14,701 - httpcore.http11 - DEBUG - trace - response_closed.started
+2026-04-03 15:47:14,702 - httpcore.http11 - DEBUG - trace - response_closed.complete
+2026-04-03 15:47:14,714 - httpcore.http11 - DEBUG - trace - send_request_headers.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,714 - httpcore.http11 - DEBUG - trace - send_request_headers.complete
+2026-04-03 15:47:14,714 - httpcore.http11 - DEBUG - trace - send_request_body.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,714 - httpcore.http11 - DEBUG - trace - send_request_body.complete
+2026-04-03 15:47:14,715 - httpcore.http11 - DEBUG - trace - receive_response_headers.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,786 - httpcore.http11 - DEBUG - trace - receive_response_headers.complete return_value=(b'HTTP/1.1', 307, b'Temporary Redirect', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'280'), (b'Connection', b'keep-alive'), (b'Date', b'Fri, 03 Apr 2026 15:47:14 GMT'), (b'Location', b'/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/config.json?%2Fsentence-transformers%2Fall-MiniLM-L6-v2%2Fresolve%2Fmain%2Fconfig.json=&etag=%2272b987fd805cfa2b58c4c8c952b274a11bfd5a00%22'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69cfe102-53384282469a33136676babd;50b8299e-b6f6-43fb-8bac-00d73cb0aed3'), (b'RateLimit', b'"resolvers";r=2992;t=2'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=3000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin, Accept'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'c9745ed1d9f207416be6d2e6f8de32d1f16199bf'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'HIT'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'config.json; filename="config.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'X-Linked-ETag', b'"72b987fd805cfa2b58c4c8c952b274a11bfd5a00"'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 e2f1bed2f82641d6d5439eac20a790ba.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'MSP50-P1'), (b'X-Amz-Cf-Id', b'a6XIsnUuT4Ez71UtMnbvTTzJ8sZIdbN7lGwgZ3OgdC9atm0ilca7_w==')])
+2026-04-03 15:47:14,786 - httpx - INFO - _send_single_request - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-03 15:47:14,787 - httpcore.http11 - DEBUG - trace - receive_response_body.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,787 - httpcore.http11 - DEBUG - trace - receive_response_body.complete
+2026-04-03 15:47:14,787 - httpcore.http11 - DEBUG - trace - response_closed.started
+2026-04-03 15:47:14,787 - httpcore.http11 - DEBUG - trace - response_closed.complete
+2026-04-03 15:47:14,787 - httpcore.http11 - DEBUG - trace - send_request_headers.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,787 - httpcore.http11 - DEBUG - trace - send_request_headers.complete
+2026-04-03 15:47:14,788 - httpcore.http11 - DEBUG - trace - send_request_body.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,788 - httpcore.http11 - DEBUG - trace - send_request_body.complete
+2026-04-03 15:47:14,788 - httpcore.http11 - DEBUG - trace - receive_response_headers.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,822 - httpcore.http11 - DEBUG - trace - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'612'), (b'Connection', b'keep-alive'), (b'Date', b'Tue, 27 Jan 2026 02:21:37 GMT'), (b'ETag', b'"72b987fd805cfa2b58c4c8c952b274a11bfd5a00"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69782131-5cc77a9a64e2b4c855c18901;b1fc961f-3e68-48ae-a8e6-fdab76c5fd52'), (b'RateLimit', b'"resolvers";r=2991;t=275'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=3000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'c9745ed1d9f207416be6d2e6f8de32d1f16199bf'), (b'Accept-Ranges', b'bytes'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'config.json; filename="config.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'Vary', b'Origin'), (b'X-Cache', b'Hit from cloudfront'), (b'Via', b'1.1 e2f1bed2f82641d6d5439eac20a790ba.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'MSP50-P1'), (b'X-Amz-Cf-Id', b'cu9efqkOS3_18vYnhNjg-ibnCKyDPxM1VWXqoahXTG8rymk7Tg2VIA=='), (b'Age', b'5750737')])
+2026-04-03 15:47:14,822 - httpx - INFO - _send_single_request - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/config.json "HTTP/1.1 200 OK"
+2026-04-03 15:47:14,822 - httpcore.http11 - DEBUG - trace - receive_response_body.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,822 - httpcore.http11 - DEBUG - trace - receive_response_body.complete
+2026-04-03 15:47:14,822 - httpcore.http11 - DEBUG - trace - response_closed.started
+2026-04-03 15:47:14,823 - httpcore.http11 - DEBUG - trace - response_closed.complete
+2026-04-03 15:47:14,991 - httpcore.http11 - DEBUG - trace - send_request_headers.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,991 - httpcore.http11 - DEBUG - trace - send_request_headers.complete
+2026-04-03 15:47:14,991 - httpcore.http11 - DEBUG - trace - send_request_body.started request=<Request [b'HEAD']>
+2026-04-03 15:47:14,991 - httpcore.http11 - DEBUG - trace - send_request_body.complete
+2026-04-03 15:47:14,991 - httpcore.http11 - DEBUG - trace - receive_response_headers.started request=<Request [b'HEAD']>
+2026-04-03 15:47:15,071 - httpcore.http11 - DEBUG - trace - receive_response_headers.complete return_value=(b'HTTP/1.1', 307, b'Temporary Redirect', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'280'), (b'Connection', b'keep-alive'), (b'Date', b'Fri, 03 Apr 2026 15:47:15 GMT'), (b'Location', b'/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/config.json?%2Fsentence-transformers%2Fall-MiniLM-L6-v2%2Fresolve%2Fmain%2Fconfig.json=&etag=%2272b987fd805cfa2b58c4c8c952b274a11bfd5a00%22'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69cfe103-1209bc92029046af3a22cf38;c033b185-d804-4996-b58b-0b51409d41bb'), (b'RateLimit', b'"resolvers";r=2991;t=1'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=3000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin, Accept'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'c9745ed1d9f207416be6d2e6f8de32d1f16199bf'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'HIT'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'config.json; filename="config.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'X-Linked-ETag', b'"72b987fd805cfa2b58c4c8c952b274a11bfd5a00"'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 e2f1bed2f82641d6d5439eac20a790ba.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'MSP50-P1'), (b'X-Amz-Cf-Id', b'N79sjlXPw42J_YBOhp6POJ5hBV7WEKVda3SjsnsZQmBnPlcGxYc46A==')])
+2026-04-03 15:47:15,071 - httpx - INFO - _send_single_request - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-03 15:47:15,071 - httpcore.http11 - DEBUG - trace - receive_response_body.started request=<Request [b'HEAD']>
+2026-04-03 15:47:15,071 - httpcore.http11 - DEBUG - trace - receive_response_body.complete
+2026-04-03 15:47:15,072 - httpcore.http11 - DEBUG - trace - response_closed.started
+2026-04-03 15:47:15,072 - httpcore.http11 - DEBUG - trace - response_closed.complete
+2026-04-03 15:47:15,072 - httpcore.http11 - DEBUG - trace - send_request_headers.started request=<Request [b'HEAD']>
+2026-04-03 15:47:15,072 - httpcore.http11 - DEBUG - trace - send_request_headers.complete
+2026-04-03 15:47:15,072 - httpcore.http11 - DEBUG - trace - send_request_body.started request=<Request [b'HEAD']>
+2026-04-03 15:47:15,072 - httpcore.http11 - DEBUG - trace - send_request_body.complete
+2026-04-03 15:47:15,072 - httpcore.http11 - DEBUG - trace - receive_response_headers.started request=<Request [b'HEAD']>
+2026-04-03 15:47:15,103 - httpcore.http11 - DEBUG - trace - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'612'), (b'Connection', b'keep-alive'), (b'Date', b'Wed, 25 Jun 2025 12:44:05 GMT'), (b'ETag', b'"72b987fd805cfa2b58c4c8c952b274a11bfd5a00"'), (b'X-Powered-By', b'huggingface-moon'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'X-Request-Id', b'Root=1-685bef15-44382a433931bf8172aeeb73;c01c1905-bd11-4637-bdee-ea355b36590c'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'c9745ed1d9f207416be6d2e6f8de32d1f16199bf'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'HIT'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'config.json; filename="config.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'Vary', b'Origin'), (b'X-Cache', b'Hit from cloudfront'), (b'Via', b'1.1 e2f1bed2f82641d6d5439eac20a790ba.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'MSP50-P1'), (b'X-Amz-Cf-Id', b'EEKGeQyIj9n2GBIGz6es1gj9MF26at0aSbp_UrQTMG9jK1qNKCTWIQ=='), (b'Age', b'24375790')])
+2026-04-03 15:47:15,103 - httpx - INFO - _send_single_request - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/config.json "HTTP/1.1 200 OK"
+2026-04-03 15:47:15,103 - httpcore.http11 - DEBUG - trace - receive_response_body.started request=<Request [b'HEAD']>
+2026-04-03 15:47:15,103 - httpcore.http11 - DEBUG - trace - receive_response_body.complete
+2026-04-03 15:47:15,103 - httpcore.http11 - DEBUG - trace - response_closed.started
+2026-04-03 15:47:15,104 - httpcore.http11 - DEBUG - trace - response_closed.complete
+2026-04-03 15:47:15,105 - httpcore.http11 - DEBUG - trace - send_request_headers.started request=<Request [b'HEAD']>
+2026-04-03 15:47:15,105 - httpcore.http11 - DEBUG - trace - send_request_headers.complete
+2026-04-03 15:47:15,105 - httpcore.http11 - DEBUG - trace - send_request_body.started request=<Request [b'HEAD']>
+2026-04-03 15:47:15,105 - httpcore.http11 - DEBUG - trace - send_request_body.complete
+2026-04-03 15:47:15,105 - httpcore.http11 - DEBUG - trace - receive_response_headers.started request=<Request [b'HEAD']>
+2026-04-03 15:47:15,205 - httpcore.http11 - DEBUG - trace - receive_response_headers.complete return_value=(b'HTTP/1.1', 307, b'Temporary Redirect', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'300'), (b'Connection', b'keep-alive'), (b'Date', b'Fri, 03 Apr 2026 15:47:15 GMT'), (b'Location', b'/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/tokenizer_config.json?%2Fsentence-transformers%2Fall-MiniLM-L6-v2%2Fresolve%2Fmain%2Ftokenizer_config.json=&etag=%22c79f2b6a0cea6f4b564fed1938984bace9d30ff0%22'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69cfe103-78d9627b08205a2952df873a;8a866dbe-e6f4-47ba-a409-a538f77ac68f'), (b'RateLimit', b'"resolvers";r=2990;t=1'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=3000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin, Accept'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'c9745ed1d9f207416be6d2e6f8de32d1f16199bf'), (b'Accept-Ranges', b'bytes'), (b'X-HF-Warning', b'unauthenticated; Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.'), (b'X-Hub-Cache', b'HIT'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'tokenizer_config.json; filename="tokenizer_config.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'X-Linked-ETag', b'"c79f2b6a0cea6f4b564fed1938984bace9d30ff0"'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 e2f1bed2f82641d6d5439eac20a790ba.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'MSP50-P1'), (b'X-Amz-Cf-Id', b'IeWYikfis-yoS8q5xsaVtR54vjxlBAqDXKAxjz_Un1p_dkWgFr8AkQ==')])
+2026-04-03 15:47:15,206 - httpx - INFO - _send_single_request - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-03 15:47:15,206 - httpcore.http11 - DEBUG - trace - receive_response_body.started request=<Request [b'HEAD']>
+2026-04-03 15:47:15,206 - httpcore.http11 - DEBUG - trace - receive_response_body.complete
+2026-04-03 15:47:15,207 - httpcore.http11 - DEBUG - trace - response_closed.started
+2026-04-03 15:47:15,207 - httpcore.http11 - DEBUG - trace - response_closed.complete
+2026-04-03 15:47:15,207 - httpcore.http11 - DEBUG - trace - send_request_headers.started request=<Request [b'HEAD']>
+2026-04-03 15:47:15,208 - httpcore.http11 - DEBUG - trace - send_request_headers.complete
+2026-04-03 15:47:15,208 - httpcore.http11 - DEBUG - trace - send_request_body.started request=<Request [b'HEAD']>
+2026-04-03 15:47:15,208 - httpcore.http11 - DEBUG - trace - send_request_body.complete
+2026-04-03 15:47:15,208 - httpcore.http11 - DEBUG - trace - receive_response_headers.started request=<Request [b'HEAD']>
+2026-04-03 15:47:15,239 - httpcore.http11 - DEBUG - trace - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'350'), (b'Connection', b'keep-alive'), (b'Date', b'Wed, 17 Sep 2025 10:44:59 GMT'), (b'ETag', b'"c79f2b6a0cea6f4b564fed1938984bace9d30ff0"'), (b'X-Powered-By', b'huggingface-moon'), (b'RateLimit-Limit', b'5000'), (b'RateLimit-Remaining', b'4723'), (b'RateLimit-Reset', b'1'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'X-Request-Id', b'Root=1-68ca912b-288f60a2046783223e26f441;f8b79eff-b253-42fe-8724-1f206c22ac43'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'c9745ed1d9f207416be6d2e6f8de32d1f16199bf'), (b'Accept-Ranges', b'bytes'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'tokenizer_config.json; filename="tokenizer_config.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'Vary', b'Origin'), (b'X-Cache', b'Hit from cloudfront'), (b'Via', b'1.1 e2f1bed2f82641d6d5439eac20a790ba.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'MSP50-P1'), (b'X-Amz-Cf-Id', b'6yMQc21klg4Rihi3DzUN0FMTU8LmoHedtPUqaPeLwOM_YOHwnrb30Q=='), (b'Age', b'17125336')])
+2026-04-03 15:47:15,239 - httpx - INFO - _send_single_request - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-04-03 15:47:15,239 - httpcore.http11 - DEBUG - trace - receive_response_body.started request=<Request [b'HEAD']>
+2026-04-03 15:47:15,240 - httpcore.http11 - DEBUG - trace - receive_response_body.complete
+2026-04-03 15:47:15,240 - httpcore.http11 - DEBUG - trace - response_closed.started
+2026-04-03 15:47:15,240 - httpcore.http11 - DEBUG - trace - response_closed.complete
+2026-04-03 15:47:15,245 - httpcore.http11 - DEBUG - trace - send_request_headers.started request=<Request [b'GET']>
+2026-04-03 15:47:15,245 - httpcore.http11 - DEBUG - trace - send_request_headers.complete
+2026-04-03 15:47:15,245 - httpcore.http11 - DEBUG - trace - send_request_body.started request=<Request [b'GET']>
+2026-04-03 15:47:15,245 - httpcore.http11 - DEBUG - trace - send_request_body.complete
+2026-04-03 15:47:15,245 - httpcore.http11 - DEBUG - trace - receive_response_headers.started request=<Request [b'GET']>
+2026-04-03 15:47:15,321 - httpcore.http11 - DEBUG - trace - receive_response_headers.complete return_value=(b'HTTP/1.1', 404, b'Not Found', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'64'), (b'Connection', b'keep-alive'), (b'Date', b'Fri, 03 Apr 2026 15:47:15 GMT'), (b'ETag', b'W/"40-09f9IAqP13xarAhQxFS2W8rvRkM"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69cfe103-5e2e6abc7885f5926f3f8cda;6ed9107d-9086-4ed2-83e9-6f47ca7af661'), (b'RateLimit', b'"api";r=499;t=1'), (b'RateLimit-Policy', b'"fixed window";"api";q=500;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Error-Code', b'EntryNotFound'), (b'X-Error-Message', b'additional_chat_templates does not exist on "main"'), (b'X-Cache', b'Error from cloudfront'), (b'Via', b'1.1 e2f1bed2f82641d6d5439eac20a790ba.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'MSP50-P1'), (b'X-Amz-Cf-Id', b'9q0CXw4wWq1YXu1RFOKz1cT1oIZsahDz8UJ2xZTSCiutpUPTEW5M1A==')])
+2026-04-03 15:47:15,322 - httpx - INFO - _send_single_request - HTTP Request: GET https://huggingface.co/api/models/sentence-transformers/all-MiniLM-L6-v2/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-04-03 15:47:15,323 - httpcore.http11 - DEBUG - trace - receive_response_body.started request=<Request [b'GET']>
+2026-04-03 15:47:15,323 - httpcore.http11 - DEBUG - trace - receive_response_body.complete
+2026-04-03 15:47:15,323 - httpcore.http11 - DEBUG - trace - response_closed.started
+2026-04-03 15:47:15,324 - httpcore.http11 - DEBUG - trace - response_closed.complete
+2026-04-03 15:47:15,326 - httpcore.http11 - DEBUG - trace - send_request_headers.started request=<Request [b'GET']>
+2026-04-03 15:47:15,327 - httpcore.http11 - DEBUG - trace - send_request_headers.complete
+2026-04-03 15:47:15,328 - httpcore.http11 - DEBUG - trace - send_request_body.started request=<Request [b'GET']>
+2026-04-03 15:47:15,328 - httpcore.http11 - DEBUG - trace - send_request_body.complete
+2026-04-03 15:47:15,328 - httpcore.http11 - DEBUG - trace - receive_response_headers.started request=<Request [b'GET']>
+2026-04-03 15:47:15,410 - httpcore.http11 - DEBUG - trace - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Date', b'Fri, 03 Apr 2026 15:47:15 GMT'), (b'content-encoding', b'gzip'), (b'ETag', b'W/"1941-m0CqwCT0eLaAYulV6LKBoBypnns"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69cfe103-371f8fce1efaa87540ef108e;74a106e1-5eb9-4df0-827f-4d7bb19564d6'), (b'RateLimit', b'"api";r=498;t=1'), (b'RateLimit-Policy', b'"fixed window";"api";q=500;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'vary', b'Accept-Encoding'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 e2f1bed2f82641d6d5439eac20a790ba.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'MSP50-P1'), (b'X-Amz-Cf-Id', b'cAMfhHbjTYcTSP7LxmvojRZGo7e2MrDn1RH4kraDf-aioZPzY3kJ7g==')])
+2026-04-03 15:47:15,411 - httpx - INFO - _send_single_request - HTTP Request: GET https://huggingface.co/api/models/sentence-transformers/all-MiniLM-L6-v2/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-04-03 15:47:15,412 - httpcore.http11 - DEBUG - trace - receive_response_body.started request=<Request [b'GET']>
+2026-04-03 15:47:15,413 - httpcore.http11 - DEBUG - trace - receive_response_body.complete
+2026-04-03 15:47:15,413 - httpcore.http11 - DEBUG - trace - response_closed.started
+2026-04-03 15:47:15,414 - httpcore.http11 - DEBUG - trace - response_closed.complete
+2026-04-03 15:47:15,472 - httpcore.http11 - DEBUG - trace - send_request_headers.started request=<Request [b'HEAD']>
+2026-04-03 15:47:15,472 - httpcore.http11 - DEBUG - trace - send_request_headers.complete
+2026-04-03 15:47:15,472 - httpcore.http11 - DEBUG - trace - send_request_body.started request=<Request [b'HEAD']>
+2026-04-03 15:47:15,473 - httpcore.http11 - DEBUG - trace - send_request_body.complete
+2026-04-03 15:47:15,473 - httpcore.http11 - DEBUG - trace - receive_response_headers.started request=<Request [b'HEAD']>
+2026-04-03 15:47:15,540 - httpcore.http11 - DEBUG - trace - receive_response_headers.complete return_value=(b'HTTP/1.1', 307, b'Temporary Redirect', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'304'), (b'Connection', b'keep-alive'), (b'Date', b'Fri, 03 Apr 2026 15:47:15 GMT'), (b'Location', b'/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/1_Pooling%2Fconfig.json?%2Fsentence-transformers%2Fall-MiniLM-L6-v2%2Fresolve%2Fmain%2F1_Pooling%2Fconfig.json=&etag=%22d1514c3162bbe87b343f565fadc62e6c06f04f03%22'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69cfe103-581ff23c41de64c22f003533;ff35d09e-1fe2-48d9-8846-dfb33fec1cba'), (b'RateLimit', b'"resolvers";r=2989;t=1'), (b'RateLimit-Policy', b'"fixed window";"resolvers";q=3000;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin, Accept'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Repo-Commit', b'c9745ed1d9f207416be6d2e6f8de32d1f16199bf'), (b'Accept-Ranges', b'bytes'), (b'X-Hub-Cache', b'HIT'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'config.json; filename="config.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'X-Linked-ETag', b'"d1514c3162bbe87b343f565fadc62e6c06f04f03"'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 e2f1bed2f82641d6d5439eac20a790ba.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'MSP50-P1'), (b'X-Amz-Cf-Id', b'sYofCCmz2_7PgOx1YiQ9ep7bu3wBEnM_gd-ITbyU7yhE8CFiYso4NA==')])
+2026-04-03 15:47:15,541 - httpx - INFO - _send_single_request - HTTP Request: HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/1_Pooling/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-04-03 15:47:15,541 - httpcore.http11 - DEBUG - trace - receive_response_body.started request=<Request [b'HEAD']>
+2026-04-03 15:47:15,541 - httpcore.http11 - DEBUG - trace - receive_response_body.complete
+2026-04-03 15:47:15,541 - httpcore.http11 - DEBUG - trace - response_closed.started
+2026-04-03 15:47:15,542 - httpcore.http11 - DEBUG - trace - response_closed.complete
+2026-04-03 15:47:15,542 - httpcore.http11 - DEBUG - trace - send_request_headers.started request=<Request [b'HEAD']>
+2026-04-03 15:47:15,542 - httpcore.http11 - DEBUG - trace - send_request_headers.complete
+2026-04-03 15:47:15,542 - httpcore.http11 - DEBUG - trace - send_request_body.started request=<Request [b'HEAD']>
+2026-04-03 15:47:15,543 - httpcore.http11 - DEBUG - trace - send_request_body.complete
+2026-04-03 15:47:15,543 - httpcore.http11 - DEBUG - trace - receive_response_headers.started request=<Request [b'HEAD']>
+2026-04-03 15:47:15,572 - httpcore.http11 - DEBUG - trace - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'text/plain; charset=utf-8'), (b'Content-Length', b'190'), (b'Connection', b'keep-alive'), (b'Date', b'Mon, 18 Aug 2025 04:37:11 GMT'), (b'ETag', b'"d1514c3162bbe87b343f565fadc62e6c06f04f03"'), (b'X-Powered-By', b'huggingface-moon'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'X-Request-Id', b'Root=1-68a2adf7-4d7e79097342d93a4134b829;2f881d9e-e68d-4662-b2f6-33a4aabad755'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'Set-Cookie', b'token=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT; Secure; SameSite=None'), (b'Set-Cookie', b'token=; Domain=huggingface.co; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT; Secure; SameSite=Lax'), (b'X-Repo-Commit', b'c9745ed1d9f207416be6d2e6f8de32d1f16199bf'), (b'Accept-Ranges', b'bytes'), (b'Content-Disposition', b'inline; filename*=UTF-8\'\'config.json; filename="config.json";'), (b'Content-Security-Policy', b"default-src 'none'; sandbox"), (b'Vary', b'Origin'), (b'X-Cache', b'Hit from cloudfront'), (b'Via', b'1.1 e2f1bed2f82641d6d5439eac20a790ba.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'MSP50-P1'), (b'X-Amz-Cf-Id', b'FkebA79JvdpX4bsxyYsL5jxJGNNQNYizBNKoU-tpRYOxNRD9khsIrg=='), (b'Age', b'19739404')])
+2026-04-03 15:47:15,572 - httpx - INFO - _send_single_request - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/1_Pooling%2Fconfig.json "HTTP/1.1 200 OK"
+2026-04-03 15:47:15,573 - httpcore.http11 - DEBUG - trace - receive_response_body.started request=<Request [b'HEAD']>
+2026-04-03 15:47:15,573 - httpcore.http11 - DEBUG - trace - receive_response_body.complete
+2026-04-03 15:47:15,573 - httpcore.http11 - DEBUG - trace - response_closed.started
+2026-04-03 15:47:15,573 - httpcore.http11 - DEBUG - trace - response_closed.complete
+2026-04-03 15:47:15,574 - httpcore.http11 - DEBUG - trace - send_request_headers.started request=<Request [b'GET']>
+2026-04-03 15:47:15,575 - httpcore.http11 - DEBUG - trace - send_request_headers.complete
+2026-04-03 15:47:15,575 - httpcore.http11 - DEBUG - trace - send_request_body.started request=<Request [b'GET']>
+2026-04-03 15:47:15,575 - httpcore.http11 - DEBUG - trace - send_request_body.complete
+2026-04-03 15:47:15,575 - httpcore.http11 - DEBUG - trace - receive_response_headers.started request=<Request [b'GET']>
+2026-04-03 15:47:15,650 - httpcore.http11 - DEBUG - trace - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Date', b'Fri, 03 Apr 2026 15:47:15 GMT'), (b'content-encoding', b'gzip'), (b'ETag', b'W/"1ae2-aN0WP0ZM1T0YtHOVVct+1e6MVCA"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69cfe103-78fbc3a12b629bb84d4031f7;480cd513-cd7a-4c7d-bb5e-5b598f8d960e'), (b'RateLimit', b'"api";r=497;t=1'), (b'RateLimit-Policy', b'"fixed window";"api";q=500;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'vary', b'Accept-Encoding'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 e2f1bed2f82641d6d5439eac20a790ba.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'MSP50-P1'), (b'X-Amz-Cf-Id', b'fYJY4IZ1wBxb8ahRj1Q3EP9kWnRFGjPREli511TB-oJ2ZWk5CooS7Q==')])
+2026-04-03 15:47:15,651 - httpx - INFO - _send_single_request - HTTP Request: GET https://huggingface.co/api/models/sentence-transformers/all-MiniLM-L6-v2 "HTTP/1.1 200 OK"
+2026-04-03 15:47:15,651 - httpcore.http11 - DEBUG - trace - receive_response_body.started request=<Request [b'GET']>
+2026-04-03 15:47:15,652 - httpcore.http11 - DEBUG - trace - receive_response_body.complete
+2026-04-03 15:47:15,652 - httpcore.http11 - DEBUG - trace - response_closed.started
+2026-04-03 15:47:15,652 - httpcore.http11 - DEBUG - trace - response_closed.complete
+2026-04-03 15:48:08,662 - python_multipart.multipart - DEBUG - callback - Calling on_part_begin with no data
+2026-04-03 15:48:08,662 - python_multipart.multipart - DEBUG - callback - Calling on_header_field with data[36:55]
+2026-04-03 15:48:08,663 - python_multipart.multipart - DEBUG - callback - Calling on_header_value with data[57:104]
+2026-04-03 15:48:08,663 - python_multipart.multipart - DEBUG - callback - Calling on_header_end with no data
+2026-04-03 15:48:08,663 - python_multipart.multipart - DEBUG - callback - Calling on_header_field with data[106:118]
+2026-04-03 15:48:08,663 - python_multipart.multipart - DEBUG - callback - Calling on_header_value with data[120:135]
+2026-04-03 15:48:08,664 - python_multipart.multipart - DEBUG - callback - Calling on_header_end with no data
+2026-04-03 15:48:08,664 - python_multipart.multipart - DEBUG - callback - Calling on_headers_finished with no data
+2026-04-03 15:48:08,664 - python_multipart.multipart - DEBUG - callback - Calling on_part_data with data[139:2693]
+2026-04-03 15:48:08,664 - python_multipart.multipart - DEBUG - callback - Calling on_part_end with no data
+2026-04-03 15:48:08,664 - python_multipart.multipart - DEBUG - callback - Calling on_end with no data
+2026-04-03 15:48:08,672 - urllib3.connectionpool - DEBUG - _get_conn - Resetting dropped connection: minio
+2026-04-03 15:48:08,676 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "PUT /pdf-files/resume_1.pdf HTTP/1.1" 200 0
+2026-04-03 15:48:08,677 - root - DEBUG - upload - Uploaded: resume_1.pdf
+2026-04-03 15:48:08,679 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "HEAD /pdf-files/resume_1.pdf HTTP/1.1" 200 0
+2026-04-03 15:48:08,680 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "GET /pdf-files/resume_1.pdf HTTP/1.1" 200 2554
+2026-04-03 15:48:08,682 - python_multipart.multipart - DEBUG - callback - Calling on_part_begin with no data
+2026-04-03 15:48:08,686 - python_multipart.multipart - DEBUG - callback - Calling on_header_field with data[36:55]
+2026-04-03 15:48:08,687 - python_multipart.multipart - DEBUG - callback - Calling on_header_value with data[57:104]
+2026-04-03 15:48:08,687 - python_multipart.multipart - DEBUG - callback - Calling on_header_end with no data
+2026-04-03 15:48:08,687 - python_multipart.multipart - DEBUG - callback - Calling on_header_field with data[106:118]
+2026-04-03 15:48:08,687 - python_multipart.multipart - DEBUG - callback - Calling on_header_value with data[120:135]
+2026-04-03 15:48:08,687 - python_multipart.multipart - DEBUG - callback - Calling on_header_end with no data
+2026-04-03 15:48:08,687 - python_multipart.multipart - DEBUG - callback - Calling on_headers_finished with no data
+2026-04-03 15:48:08,687 - python_multipart.multipart - DEBUG - callback - Calling on_part_data with data[139:2643]
+2026-04-03 15:48:08,688 - python_multipart.multipart - DEBUG - callback - Calling on_part_end with no data
+2026-04-03 15:48:08,688 - python_multipart.multipart - DEBUG - callback - Calling on_end with no data
+2026-04-03 15:48:08,691 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "PUT /pdf-files/resume_2.pdf HTTP/1.1" 200 0
+2026-04-03 15:48:08,691 - root - DEBUG - upload - Uploaded: resume_2.pdf
+2026-04-03 15:48:08,693 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "HEAD /pdf-files/resume_2.pdf HTTP/1.1" 200 0
+2026-04-03 15:48:08,694 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "GET /pdf-files/resume_2.pdf HTTP/1.1" 200 2504
+2026-04-03 15:48:08,695 - python_multipart.multipart - DEBUG - callback - Calling on_part_begin with no data
+2026-04-03 15:48:08,698 - python_multipart.multipart - DEBUG - callback - Calling on_header_field with data[36:55]
+2026-04-03 15:48:08,698 - python_multipart.multipart - DEBUG - callback - Calling on_header_value with data[57:104]
+2026-04-03 15:48:08,698 - python_multipart.multipart - DEBUG - callback - Calling on_header_end with no data
+2026-04-03 15:48:08,699 - python_multipart.multipart - DEBUG - callback - Calling on_header_field with data[106:118]
+2026-04-03 15:48:08,699 - python_multipart.multipart - DEBUG - callback - Calling on_header_value with data[120:135]
+2026-04-03 15:48:08,699 - python_multipart.multipart - DEBUG - callback - Calling on_header_end with no data
+2026-04-03 15:48:08,699 - python_multipart.multipart - DEBUG - callback - Calling on_headers_finished with no data
+2026-04-03 15:48:08,699 - python_multipart.multipart - DEBUG - callback - Calling on_part_data with data[139:2306]
+2026-04-03 15:48:08,699 - python_multipart.multipart - DEBUG - callback - Calling on_part_end with no data
+2026-04-03 15:48:08,700 - python_multipart.multipart - DEBUG - callback - Calling on_end with no data
+2026-04-03 15:48:08,704 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "PUT /pdf-files/resume_3.pdf HTTP/1.1" 200 0
+2026-04-03 15:48:08,704 - root - DEBUG - upload - Uploaded: resume_3.pdf
+2026-04-03 15:48:08,706 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "HEAD /pdf-files/resume_3.pdf HTTP/1.1" 200 0
+2026-04-03 15:48:08,707 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "GET /pdf-files/resume_3.pdf HTTP/1.1" 200 2167
+2026-04-03 15:48:08,783 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 15:48:08,784 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.075s]
+2026-04-03 15:48:08,846 - urllib3.connectionpool - DEBUG - _new_conn - Starting new HTTP connection (2): elasticsearch:9200
+2026-04-03 15:48:08,846 - urllib3.connectionpool - DEBUG - _new_conn - Starting new HTTP connection (3): elasticsearch:9200
+2026-04-03 15:48:08,863 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_delete_by_query?refresh=true HTTP/1.1" 200 0
+2026-04-03 15:48:08,863 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_delete_by_query?refresh=true HTTP/1.1" 200 0
+2026-04-03 15:48:08,864 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_delete_by_query?refresh=true HTTP/1.1" 200 0
+2026-04-03 15:48:08,864 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_delete_by_query?refresh=true [status:200 duration:0.018s]
+2026-04-03 15:48:08,864 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_delete_by_query?refresh=true [status:200 duration:0.019s]
+2026-04-03 15:48:08,864 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_delete_by_query?refresh=true [status:200 duration:0.019s]
+2026-04-03 15:48:08,864 - root - DEBUG - delete_page - Deleted existing pages for: resume_1.pdf
+2026-04-03 15:48:08,864 - root - DEBUG - delete_page - Deleted existing pages for: resume_2.pdf
+2026-04-03 15:48:08,864 - root - DEBUG - delete_page - Deleted existing pages for: resume_3.pdf
+2026-04-03 15:48:08,911 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_doc HTTP/1.1" 201 0
+2026-04-03 15:48:08,911 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_doc HTTP/1.1" 201 0
+2026-04-03 15:48:08,911 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_doc [status:201 duration:0.045s]
+2026-04-03 15:48:08,911 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_doc HTTP/1.1" 201 0
+2026-04-03 15:48:08,911 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_doc [status:201 duration:0.046s]
+2026-04-03 15:48:08,912 - root - DEBUG - index_page - Indexed page 1 of resume_3.pdf: created
+2026-04-03 15:48:08,912 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_doc [status:201 duration:0.047s]
+2026-04-03 15:48:08,912 - root - DEBUG - index_page - Indexed page 1 of resume_1.pdf: created
+2026-04-03 15:48:08,912 - root - INFO - index_document - Indexed resume_3.pdf (1 pages)
+2026-04-03 15:48:08,912 - root - DEBUG - index_page - Indexed page 1 of resume_2.pdf: created
+2026-04-03 15:48:08,912 - root - INFO - index_document - Indexed resume_1.pdf (1 pages)
+2026-04-03 15:48:08,912 - root - INFO - index_document - Indexed resume_2.pdf (1 pages)
+2026-04-03 15:48:26,859 - python_multipart.multipart - DEBUG - callback - Calling on_part_begin with no data
+2026-04-03 15:48:26,859 - python_multipart.multipart - DEBUG - callback - Calling on_header_field with data[36:55]
+2026-04-03 15:48:26,860 - python_multipart.multipart - DEBUG - callback - Calling on_header_value with data[57:104]
+2026-04-03 15:48:26,860 - python_multipart.multipart - DEBUG - callback - Calling on_header_end with no data
+2026-04-03 15:48:26,860 - python_multipart.multipart - DEBUG - callback - Calling on_header_field with data[106:118]
+2026-04-03 15:48:26,860 - python_multipart.multipart - DEBUG - callback - Calling on_header_value with data[120:135]
+2026-04-03 15:48:26,860 - python_multipart.multipart - DEBUG - callback - Calling on_header_end with no data
+2026-04-03 15:48:26,861 - python_multipart.multipart - DEBUG - callback - Calling on_headers_finished with no data
+2026-04-03 15:48:26,861 - python_multipart.multipart - DEBUG - callback - Calling on_part_data with data[139:2693]
+2026-04-03 15:48:26,861 - python_multipart.multipart - DEBUG - callback - Calling on_part_end with no data
+2026-04-03 15:48:26,861 - python_multipart.multipart - DEBUG - callback - Calling on_end with no data
+2026-04-03 15:48:26,868 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "PUT /pdf-files/resume_1.pdf HTTP/1.1" 200 0
+2026-04-03 15:48:26,868 - root - DEBUG - upload - Uploaded: resume_1.pdf
+2026-04-03 15:48:26,870 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "HEAD /pdf-files/resume_1.pdf HTTP/1.1" 200 0
+2026-04-03 15:48:26,872 - python_multipart.multipart - DEBUG - callback - Calling on_part_begin with no data
+2026-04-03 15:48:26,872 - python_multipart.multipart - DEBUG - callback - Calling on_header_field with data[36:55]
+2026-04-03 15:48:26,872 - python_multipart.multipart - DEBUG - callback - Calling on_header_value with data[57:104]
+2026-04-03 15:48:26,872 - python_multipart.multipart - DEBUG - callback - Calling on_header_end with no data
+2026-04-03 15:48:26,873 - python_multipart.multipart - DEBUG - callback - Calling on_header_field with data[106:118]
+2026-04-03 15:48:26,873 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "GET /pdf-files/resume_1.pdf HTTP/1.1" 200 2554
+2026-04-03 15:48:26,873 - python_multipart.multipart - DEBUG - callback - Calling on_header_value with data[120:135]
+2026-04-03 15:48:26,880 - python_multipart.multipart - DEBUG - callback - Calling on_header_end with no data
+2026-04-03 15:48:26,880 - python_multipart.multipart - DEBUG - callback - Calling on_headers_finished with no data
+2026-04-03 15:48:26,880 - python_multipart.multipart - DEBUG - callback - Calling on_part_data with data[139:2643]
+2026-04-03 15:48:26,882 - python_multipart.multipart - DEBUG - callback - Calling on_part_end with no data
+2026-04-03 15:48:26,882 - python_multipart.multipart - DEBUG - callback - Calling on_end with no data
+2026-04-03 15:48:26,889 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "PUT /pdf-files/resume_2.pdf HTTP/1.1" 200 0
+2026-04-03 15:48:26,889 - root - DEBUG - upload - Uploaded: resume_2.pdf
+2026-04-03 15:48:26,892 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "HEAD /pdf-files/resume_2.pdf HTTP/1.1" 200 0
+2026-04-03 15:48:26,893 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "GET /pdf-files/resume_2.pdf HTTP/1.1" 200 2504
+2026-04-03 15:48:26,898 - python_multipart.multipart - DEBUG - callback - Calling on_part_begin with no data
+2026-04-03 15:48:26,899 - python_multipart.multipart - DEBUG - callback - Calling on_header_field with data[36:55]
+2026-04-03 15:48:26,899 - python_multipart.multipart - DEBUG - callback - Calling on_header_value with data[57:104]
+2026-04-03 15:48:26,900 - python_multipart.multipart - DEBUG - callback - Calling on_header_end with no data
+2026-04-03 15:48:26,901 - python_multipart.multipart - DEBUG - callback - Calling on_header_field with data[106:118]
+2026-04-03 15:48:26,901 - python_multipart.multipart - DEBUG - callback - Calling on_header_value with data[120:135]
+2026-04-03 15:48:26,901 - python_multipart.multipart - DEBUG - callback - Calling on_header_end with no data
+2026-04-03 15:48:26,901 - python_multipart.multipart - DEBUG - callback - Calling on_headers_finished with no data
+2026-04-03 15:48:26,901 - python_multipart.multipart - DEBUG - callback - Calling on_part_data with data[139:2306]
+2026-04-03 15:48:26,901 - python_multipart.multipart - DEBUG - callback - Calling on_part_end with no data
+2026-04-03 15:48:26,902 - python_multipart.multipart - DEBUG - callback - Calling on_end with no data
+2026-04-03 15:48:26,907 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "PUT /pdf-files/resume_3.pdf HTTP/1.1" 200 0
+2026-04-03 15:48:26,907 - root - DEBUG - upload - Uploaded: resume_3.pdf
+2026-04-03 15:48:26,910 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "HEAD /pdf-files/resume_3.pdf HTTP/1.1" 200 0
+2026-04-03 15:48:26,912 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "GET /pdf-files/resume_3.pdf HTTP/1.1" 200 2167
+2026-04-03 15:48:26,927 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 15:48:26,928 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.014s]
+2026-04-03 15:48:27,018 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_delete_by_query?refresh=true HTTP/1.1" 200 0
+2026-04-03 15:48:27,018 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_delete_by_query?refresh=true [status:200 duration:0.047s]
+2026-04-03 15:48:27,018 - root - DEBUG - delete_page - Deleted existing pages for: resume_1.pdf
+2026-04-03 15:48:27,023 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_delete_by_query?refresh=true HTTP/1.1" 200 0
+2026-04-03 15:48:27,024 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_delete_by_query?refresh=true HTTP/1.1" 200 0
+2026-04-03 15:48:27,024 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_delete_by_query?refresh=true [status:200 duration:0.030s]
+2026-04-03 15:48:27,024 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_delete_by_query?refresh=true [status:200 duration:0.040s]
+2026-04-03 15:48:27,025 - root - DEBUG - delete_page - Deleted existing pages for: resume_3.pdf
+2026-04-03 15:48:27,025 - root - DEBUG - delete_page - Deleted existing pages for: resume_2.pdf
+2026-04-03 15:48:27,028 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_doc HTTP/1.1" 201 0
+2026-04-03 15:48:27,030 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_doc [status:201 duration:0.011s]
+2026-04-03 15:48:27,030 - root - DEBUG - index_page - Indexed page 1 of resume_1.pdf: created
+2026-04-03 15:48:27,030 - root - INFO - index_document - Indexed resume_1.pdf (1 pages)
+2026-04-03 15:48:27,034 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_doc HTTP/1.1" 201 0
+2026-04-03 15:48:27,034 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_doc [status:201 duration:0.009s]
+2026-04-03 15:48:27,035 - root - DEBUG - index_page - Indexed page 1 of resume_3.pdf: created
+2026-04-03 15:48:27,035 - root - INFO - index_document - Indexed resume_3.pdf (1 pages)
+2026-04-03 15:48:27,039 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_doc HTTP/1.1" 201 0
+2026-04-03 15:48:27,040 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_doc [status:201 duration:0.013s]
+2026-04-03 15:48:27,040 - root - DEBUG - index_page - Indexed page 1 of resume_2.pdf: created
+2026-04-03 15:48:27,040 - root - INFO - index_document - Indexed resume_2.pdf (1 pages)
+2026-04-03 15:55:27,987 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 15:55:27,988 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.010s]
+2026-04-03 15:55:28,004 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 15:55:28,005 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.012s]
+2026-04-03 15:55:36,222 - python_multipart.multipart - DEBUG - callback - Calling on_part_begin with no data
+2026-04-03 15:55:36,222 - python_multipart.multipart - DEBUG - callback - Calling on_header_field with data[42:61]
+2026-04-03 15:55:36,223 - python_multipart.multipart - DEBUG - callback - Calling on_header_value with data[63:125]
+2026-04-03 15:55:36,223 - python_multipart.multipart - DEBUG - callback - Calling on_header_end with no data
+2026-04-03 15:55:36,223 - python_multipart.multipart - DEBUG - callback - Calling on_header_field with data[127:139]
+2026-04-03 15:55:36,223 - python_multipart.multipart - DEBUG - callback - Calling on_header_value with data[141:156]
+2026-04-03 15:55:36,224 - python_multipart.multipart - DEBUG - callback - Calling on_header_end with no data
+2026-04-03 15:55:36,224 - python_multipart.multipart - DEBUG - callback - Calling on_headers_finished with no data
+2026-04-03 15:55:36,224 - python_multipart.multipart - DEBUG - callback - Calling on_part_data with data[160:2477]
+2026-04-03 15:55:36,224 - python_multipart.multipart - DEBUG - callback - Calling on_part_end with no data
+2026-04-03 15:55:36,224 - python_multipart.multipart - DEBUG - callback - Calling on_end with no data
+2026-04-03 15:55:36,227 - urllib3.connectionpool - DEBUG - _get_conn - Resetting dropped connection: minio
+2026-04-03 15:55:36,232 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "PUT /pdf-files/cpp_leetcode_cheatsheet.pdf HTTP/1.1" 200 0
+2026-04-03 15:55:36,233 - root - DEBUG - upload - Uploaded: cpp_leetcode_cheatsheet.pdf
+2026-04-03 15:55:36,236 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "HEAD /pdf-files/cpp_leetcode_cheatsheet.pdf HTTP/1.1" 200 0
+2026-04-03 15:55:36,238 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "GET /pdf-files/cpp_leetcode_cheatsheet.pdf HTTP/1.1" 200 2317
+2026-04-03 15:55:36,291 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_delete_by_query?refresh=true HTTP/1.1" 200 0
+2026-04-03 15:55:36,292 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_delete_by_query?refresh=true [status:200 duration:0.004s]
+2026-04-03 15:55:36,292 - root - DEBUG - delete_page - Deleted existing pages for: cpp_leetcode_cheatsheet.pdf
+2026-04-03 15:55:36,298 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_doc HTTP/1.1" 201 0
+2026-04-03 15:55:36,299 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_doc [status:201 duration:0.007s]
+2026-04-03 15:55:36,299 - root - DEBUG - index_page - Indexed page 1 of cpp_leetcode_cheatsheet.pdf: created
+2026-04-03 15:55:36,299 - root - INFO - index_document - Indexed cpp_leetcode_cheatsheet.pdf (1 pages)
+2026-04-03 15:55:39,747 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 15:55:39,748 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.018s]
+2026-04-03 15:55:48,367 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 15:55:48,368 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.156s]
+2026-04-03 15:55:48,414 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 15:55:48,414 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.045s]
+2026-04-03 15:57:27,613 - urllib3.connectionpool - DEBUG - _get_conn - Resetting dropped connection: minio
+2026-04-03 15:57:27,615 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "GET / HTTP/1.1" 200 0
+2026-04-03 15:57:27,618 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-03 15:57:27,618 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.002s]
+2026-04-03 15:57:27,623 - python_multipart.multipart - DEBUG - callback - Calling on_part_begin with no data
+2026-04-03 15:57:27,623 - python_multipart.multipart - DEBUG - callback - Calling on_header_field with data[36:55]
+2026-04-03 15:57:27,623 - python_multipart.multipart - DEBUG - callback - Calling on_header_value with data[57:107]
+2026-04-03 15:57:27,623 - python_multipart.multipart - DEBUG - callback - Calling on_header_end with no data
+2026-04-03 15:57:27,624 - python_multipart.multipart - DEBUG - callback - Calling on_header_field with data[109:121]
+2026-04-03 15:57:27,624 - python_multipart.multipart - DEBUG - callback - Calling on_header_value with data[123:138]
+2026-04-03 15:57:27,624 - python_multipart.multipart - DEBUG - callback - Calling on_header_end with no data
+2026-04-03 15:57:27,624 - python_multipart.multipart - DEBUG - callback - Calling on_headers_finished with no data
+2026-04-03 15:57:27,624 - python_multipart.multipart - DEBUG - callback - Calling on_part_data with data[142:3338]
+2026-04-03 15:57:27,624 - python_multipart.multipart - DEBUG - callback - Calling on_part_end with no data
+2026-04-03 15:57:27,624 - python_multipart.multipart - DEBUG - callback - Calling on_end with no data
+2026-04-03 15:57:27,629 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "PUT /pdf-files/test_resume.pdf HTTP/1.1" 200 0
+2026-04-03 15:57:27,629 - root - DEBUG - upload - Uploaded: test_resume.pdf
+2026-04-03 15:57:27,631 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "HEAD /pdf-files/test_resume.pdf HTTP/1.1" 200 0
+2026-04-03 15:57:27,633 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "GET /pdf-files/test_resume.pdf HTTP/1.1" 200 3196
+2026-04-03 15:57:27,688 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_delete_by_query?refresh=true HTTP/1.1" 200 0
+2026-04-03 15:57:27,688 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_delete_by_query?refresh=true [status:200 duration:0.003s]
+2026-04-03 15:57:27,688 - root - DEBUG - delete_page - Deleted existing pages for: test_resume.pdf
+2026-04-03 15:57:27,694 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_doc HTTP/1.1" 201 0
+2026-04-03 15:57:27,694 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_doc [status:201 duration:0.006s]
+2026-04-03 15:57:27,694 - root - DEBUG - index_page - Indexed page 1 of test_resume.pdf: created
+2026-04-03 15:57:27,699 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_doc HTTP/1.1" 201 0
+2026-04-03 15:57:27,699 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_doc [status:201 duration:0.004s]
+2026-04-03 15:57:27,699 - root - DEBUG - index_page - Indexed page 2 of test_resume.pdf: created
+2026-04-03 15:57:27,699 - root - INFO - index_document - Indexed test_resume.pdf (2 pages)
+2026-04-03 15:57:32,666 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 15:57:32,667 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.021s]
+2026-04-03 15:57:33,062 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 15:57:33,062 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.367s]
+2026-04-03 15:57:33,082 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 15:57:33,082 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.019s]
+2026-04-03 15:57:33,365 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 15:57:33,366 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.236s]
+2026-04-03 15:57:33,378 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 15:57:33,378 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.011s]
+2026-04-03 15:57:33,518 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 15:57:33,518 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.130s]
+2026-04-03 15:57:33,537 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 15:57:33,538 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.019s]
+2026-04-03 15:57:33,631 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 15:57:33,631 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.059s]
+2026-04-03 15:57:33,641 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 15:57:33,641 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.009s]
+2026-04-03 15:57:33,878 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 15:57:33,878 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.207s]
+2026-04-03 15:57:33,888 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 15:57:33,888 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.009s]
+2026-04-03 15:57:59,120 - urllib3.connectionpool - DEBUG - _get_conn - Resetting dropped connection: minio
+2026-04-03 15:57:59,122 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "GET / HTTP/1.1" 200 0
+2026-04-03 15:57:59,124 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-03 15:57:59,125 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.002s]
+2026-04-03 15:57:59,129 - python_multipart.multipart - DEBUG - callback - Calling on_part_begin with no data
+2026-04-03 15:57:59,130 - python_multipart.multipart - DEBUG - callback - Calling on_header_field with data[36:55]
+2026-04-03 15:57:59,130 - python_multipart.multipart - DEBUG - callback - Calling on_header_value with data[57:107]
+2026-04-03 15:57:59,130 - python_multipart.multipart - DEBUG - callback - Calling on_header_end with no data
+2026-04-03 15:57:59,130 - python_multipart.multipart - DEBUG - callback - Calling on_header_field with data[109:121]
+2026-04-03 15:57:59,130 - python_multipart.multipart - DEBUG - callback - Calling on_header_value with data[123:138]
+2026-04-03 15:57:59,131 - python_multipart.multipart - DEBUG - callback - Calling on_header_end with no data
+2026-04-03 15:57:59,131 - python_multipart.multipart - DEBUG - callback - Calling on_headers_finished with no data
+2026-04-03 15:57:59,131 - python_multipart.multipart - DEBUG - callback - Calling on_part_data with data[142:3338]
+2026-04-03 15:57:59,131 - python_multipart.multipart - DEBUG - callback - Calling on_part_end with no data
+2026-04-03 15:57:59,131 - python_multipart.multipart - DEBUG - callback - Calling on_end with no data
+2026-04-03 15:57:59,136 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "PUT /pdf-files/test_resume.pdf HTTP/1.1" 200 0
+2026-04-03 15:57:59,136 - root - DEBUG - upload - Uploaded: test_resume.pdf
+2026-04-03 15:57:59,139 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "HEAD /pdf-files/test_resume.pdf HTTP/1.1" 200 0
+2026-04-03 15:57:59,140 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "GET /pdf-files/test_resume.pdf HTTP/1.1" 200 3196
+2026-04-03 15:57:59,197 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_delete_by_query?refresh=true HTTP/1.1" 200 0
+2026-04-03 15:57:59,197 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_delete_by_query?refresh=true [status:200 duration:0.013s]
+2026-04-03 15:57:59,197 - root - DEBUG - delete_page - Deleted existing pages for: test_resume.pdf
+2026-04-03 15:57:59,201 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_doc HTTP/1.1" 201 0
+2026-04-03 15:57:59,201 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_doc [status:201 duration:0.004s]
+2026-04-03 15:57:59,201 - root - DEBUG - index_page - Indexed page 1 of test_resume.pdf: created
+2026-04-03 15:57:59,204 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_doc HTTP/1.1" 201 0
+2026-04-03 15:57:59,204 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_doc [status:201 duration:0.003s]
+2026-04-03 15:57:59,204 - root - DEBUG - index_page - Indexed page 2 of test_resume.pdf: created
+2026-04-03 15:57:59,204 - root - INFO - index_document - Indexed test_resume.pdf (2 pages)
+2026-04-03 15:58:04,168 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 15:58:04,169 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.018s]
+2026-04-03 15:58:04,471 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 15:58:04,471 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.281s]
+2026-04-03 15:58:04,481 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 15:58:04,481 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.009s]
+2026-04-03 15:58:04,681 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 15:58:04,682 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.180s]
+2026-04-03 15:58:04,691 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 15:58:04,691 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.008s]
+2026-04-03 15:58:04,817 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 15:58:04,817 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.112s]
+2026-04-03 15:58:04,826 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 15:58:04,826 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.008s]
+2026-04-03 15:58:04,893 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 15:58:04,893 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.052s]
+2026-04-03 15:58:04,902 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 15:58:04,903 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.009s]
+2026-04-03 15:58:05,141 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 15:58:05,141 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.211s]
+2026-04-03 15:58:05,151 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 15:58:05,151 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.009s]
+2026-04-03 15:59:27,135 - urllib3.connectionpool - DEBUG - _get_conn - Resetting dropped connection: minio
+2026-04-03 15:59:27,138 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "GET / HTTP/1.1" 200 0
+2026-04-03 15:59:27,140 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-03 15:59:27,141 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.002s]
+2026-04-03 15:59:27,146 - python_multipart.multipart - DEBUG - callback - Calling on_part_begin with no data
+2026-04-03 15:59:27,146 - python_multipart.multipart - DEBUG - callback - Calling on_header_field with data[36:55]
+2026-04-03 15:59:27,147 - python_multipart.multipart - DEBUG - callback - Calling on_header_value with data[57:107]
+2026-04-03 15:59:27,147 - python_multipart.multipart - DEBUG - callback - Calling on_header_end with no data
+2026-04-03 15:59:27,147 - python_multipart.multipart - DEBUG - callback - Calling on_header_field with data[109:121]
+2026-04-03 15:59:27,147 - python_multipart.multipart - DEBUG - callback - Calling on_header_value with data[123:138]
+2026-04-03 15:59:27,147 - python_multipart.multipart - DEBUG - callback - Calling on_header_end with no data
+2026-04-03 15:59:27,147 - python_multipart.multipart - DEBUG - callback - Calling on_headers_finished with no data
+2026-04-03 15:59:27,148 - python_multipart.multipart - DEBUG - callback - Calling on_part_data with data[142:3338]
+2026-04-03 15:59:27,148 - python_multipart.multipart - DEBUG - callback - Calling on_part_end with no data
+2026-04-03 15:59:27,148 - python_multipart.multipart - DEBUG - callback - Calling on_end with no data
+2026-04-03 15:59:27,153 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "PUT /pdf-files/test_resume.pdf HTTP/1.1" 200 0
+2026-04-03 15:59:27,153 - root - DEBUG - upload - Uploaded: test_resume.pdf
+2026-04-03 15:59:27,155 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "HEAD /pdf-files/test_resume.pdf HTTP/1.1" 200 0
+2026-04-03 15:59:27,156 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "GET /pdf-files/test_resume.pdf HTTP/1.1" 200 3196
+2026-04-03 15:59:27,212 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_delete_by_query?refresh=true HTTP/1.1" 200 0
+2026-04-03 15:59:27,212 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_delete_by_query?refresh=true [status:200 duration:0.013s]
+2026-04-03 15:59:27,212 - root - DEBUG - delete_page - Deleted existing pages for: test_resume.pdf
+2026-04-03 15:59:27,217 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_doc HTTP/1.1" 201 0
+2026-04-03 15:59:27,217 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_doc [status:201 duration:0.004s]
+2026-04-03 15:59:27,217 - root - DEBUG - index_page - Indexed page 1 of test_resume.pdf: created
+2026-04-03 15:59:27,221 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_doc HTTP/1.1" 201 0
+2026-04-03 15:59:27,222 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_doc [status:201 duration:0.004s]
+2026-04-03 15:59:27,222 - root - DEBUG - index_page - Indexed page 2 of test_resume.pdf: created
+2026-04-03 15:59:27,222 - root - INFO - index_document - Indexed test_resume.pdf (2 pages)
+2026-04-03 15:59:32,187 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 15:59:32,188 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.018s]
+2026-04-03 15:59:32,531 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 15:59:32,532 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.321s]
+2026-04-03 15:59:32,541 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 15:59:32,541 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.008s]
+2026-04-03 15:59:32,727 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 15:59:32,727 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.174s]
+2026-04-03 15:59:32,737 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 15:59:32,737 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.008s]
+2026-04-03 15:59:32,858 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 15:59:32,858 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.108s]
+2026-04-03 15:59:32,866 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 15:59:32,867 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.008s]
+2026-04-03 15:59:32,929 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 15:59:32,929 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.050s]
+2026-04-03 15:59:32,938 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 15:59:32,938 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.008s]
+2026-04-03 15:59:33,166 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 15:59:33,167 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.198s]
+2026-04-03 15:59:33,176 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 15:59:33,176 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.008s]
+2026-04-03 16:02:17,781 - urllib3.connectionpool - DEBUG - _get_conn - Resetting dropped connection: minio
+2026-04-03 16:02:17,783 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "GET / HTTP/1.1" 200 0
+2026-04-03 16:02:17,786 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-03 16:02:17,786 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.002s]
+2026-04-03 16:02:17,791 - python_multipart.multipart - DEBUG - callback - Calling on_part_begin with no data
+2026-04-03 16:02:17,791 - python_multipart.multipart - DEBUG - callback - Calling on_header_field with data[36:55]
+2026-04-03 16:02:17,792 - python_multipart.multipart - DEBUG - callback - Calling on_header_value with data[57:107]
+2026-04-03 16:02:17,792 - python_multipart.multipart - DEBUG - callback - Calling on_header_end with no data
+2026-04-03 16:02:17,792 - python_multipart.multipart - DEBUG - callback - Calling on_header_field with data[109:121]
+2026-04-03 16:02:17,792 - python_multipart.multipart - DEBUG - callback - Calling on_header_value with data[123:138]
+2026-04-03 16:02:17,792 - python_multipart.multipart - DEBUG - callback - Calling on_header_end with no data
+2026-04-03 16:02:17,793 - python_multipart.multipart - DEBUG - callback - Calling on_headers_finished with no data
+2026-04-03 16:02:17,793 - python_multipart.multipart - DEBUG - callback - Calling on_part_data with data[142:3338]
+2026-04-03 16:02:17,793 - python_multipart.multipart - DEBUG - callback - Calling on_part_end with no data
+2026-04-03 16:02:17,793 - python_multipart.multipart - DEBUG - callback - Calling on_end with no data
+2026-04-03 16:02:17,799 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "PUT /pdf-files/test_resume.pdf HTTP/1.1" 200 0
+2026-04-03 16:02:17,799 - root - DEBUG - upload - Uploaded: test_resume.pdf
+2026-04-03 16:02:17,802 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "HEAD /pdf-files/test_resume.pdf HTTP/1.1" 200 0
+2026-04-03 16:02:17,804 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "GET /pdf-files/test_resume.pdf HTTP/1.1" 200 3196
+2026-04-03 16:02:17,882 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_delete_by_query?refresh=true HTTP/1.1" 200 0
+2026-04-03 16:02:17,882 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_delete_by_query?refresh=true [status:200 duration:0.016s]
+2026-04-03 16:02:17,882 - root - DEBUG - delete_page - Deleted existing pages for: test_resume.pdf
+2026-04-03 16:02:17,888 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_doc HTTP/1.1" 201 0
+2026-04-03 16:02:17,888 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_doc [status:201 duration:0.005s]
+2026-04-03 16:02:17,888 - root - DEBUG - index_page - Indexed page 1 of test_resume.pdf: created
+2026-04-03 16:02:17,893 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_doc HTTP/1.1" 201 0
+2026-04-03 16:02:17,893 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_doc [status:201 duration:0.004s]
+2026-04-03 16:02:17,893 - root - DEBUG - index_page - Indexed page 2 of test_resume.pdf: created
+2026-04-03 16:02:17,894 - root - INFO - index_document - Indexed test_resume.pdf (2 pages)
+2026-04-03 16:02:22,832 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:02:22,832 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.017s]
+2026-04-03 16:02:23,118 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:02:23,119 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.269s]
+2026-04-03 16:02:23,128 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:02:23,128 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.008s]
+2026-04-03 16:02:23,321 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:02:23,321 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.182s]
+2026-04-03 16:02:23,330 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:02:23,330 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.008s]
+2026-04-03 16:02:23,447 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:02:23,447 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.105s]
+2026-04-03 16:02:23,456 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:02:23,456 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.008s]
+2026-04-03 16:02:23,518 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:02:23,518 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.051s]
+2026-04-03 16:02:23,526 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:02:23,526 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.007s]
+2026-04-03 16:02:23,746 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:02:23,746 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.193s]
+2026-04-03 16:02:23,755 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:02:23,755 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.007s]
+2026-04-03 16:07:55,128 - urllib3.connectionpool - DEBUG - _get_conn - Resetting dropped connection: minio
+2026-04-03 16:07:55,130 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "GET / HTTP/1.1" 200 0
+2026-04-03 16:07:55,133 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-03 16:07:55,133 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.002s]
+2026-04-03 16:07:55,138 - python_multipart.multipart - DEBUG - callback - Calling on_part_begin with no data
+2026-04-03 16:07:55,138 - python_multipart.multipart - DEBUG - callback - Calling on_header_field with data[36:55]
+2026-04-03 16:07:55,138 - python_multipart.multipart - DEBUG - callback - Calling on_header_value with data[57:116]
+2026-04-03 16:07:55,139 - python_multipart.multipart - DEBUG - callback - Calling on_header_end with no data
+2026-04-03 16:07:55,139 - python_multipart.multipart - DEBUG - callback - Calling on_header_field with data[118:130]
+2026-04-03 16:07:55,139 - python_multipart.multipart - DEBUG - callback - Calling on_header_value with data[132:147]
+2026-04-03 16:07:55,139 - python_multipart.multipart - DEBUG - callback - Calling on_header_end with no data
+2026-04-03 16:07:55,139 - python_multipart.multipart - DEBUG - callback - Calling on_headers_finished with no data
+2026-04-03 16:07:55,139 - python_multipart.multipart - DEBUG - callback - Calling on_part_data with data[151:119759]
+2026-04-03 16:07:55,140 - python_multipart.multipart - DEBUG - callback - Calling on_part_end with no data
+2026-04-03 16:07:55,140 - python_multipart.multipart - DEBUG - callback - Calling on_end with no data
+2026-04-03 16:07:55,146 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "PUT /pdf-files/Prasad_Jawale_Resume.pdf HTTP/1.1" 200 0
+2026-04-03 16:07:55,146 - root - DEBUG - upload - Uploaded: Prasad_Jawale_Resume.pdf
+2026-04-03 16:07:55,147 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "HEAD /pdf-files/Prasad_Jawale_Resume.pdf HTTP/1.1" 200 0
+2026-04-03 16:07:55,148 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "GET /pdf-files/Prasad_Jawale_Resume.pdf HTTP/1.1" 200 119608
+2026-04-03 16:07:55,217 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_delete_by_query?refresh=true HTTP/1.1" 200 0
+2026-04-03 16:07:55,217 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_delete_by_query?refresh=true [status:200 duration:0.010s]
+2026-04-03 16:07:55,217 - root - DEBUG - delete_page - Deleted existing pages for: Prasad_Jawale_Resume.pdf
+2026-04-03 16:07:55,221 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_doc HTTP/1.1" 201 0
+2026-04-03 16:07:55,221 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_doc [status:201 duration:0.003s]
+2026-04-03 16:07:55,221 - root - DEBUG - index_page - Indexed page 1 of Prasad_Jawale_Resume.pdf: created
+2026-04-03 16:07:55,221 - root - INFO - index_document - Indexed Prasad_Jawale_Resume.pdf (1 pages)
+2026-04-03 16:08:00,170 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:08:00,171 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.013s]
+2026-04-03 16:08:00,515 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:08:00,515 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.318s]
+2026-04-03 16:08:00,524 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:08:00,525 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.008s]
+2026-04-03 16:08:00,834 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:08:00,834 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.296s]
+2026-04-03 16:08:00,843 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:08:00,844 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.008s]
+2026-04-03 16:08:01,251 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:08:01,251 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.393s]
+2026-04-03 16:08:01,261 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:08:01,261 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.009s]
+2026-04-03 16:08:01,618 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:08:01,619 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.343s]
+2026-04-03 16:08:01,627 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:08:01,627 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.008s]
+2026-04-03 16:08:01,978 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:08:01,978 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.334s]
+2026-04-03 16:08:01,987 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:08:01,987 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.007s]
+2026-04-03 16:08:02,365 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:08:02,365 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.362s]
+2026-04-03 16:08:02,378 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:08:02,378 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.012s]
+2026-04-03 16:08:02,727 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:08:02,727 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.336s]
+2026-04-03 16:08:02,736 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:08:02,736 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.008s]
+2026-04-03 16:08:03,168 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:08:03,168 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.410s]
+2026-04-03 16:08:03,178 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:08:03,179 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.009s]
+2026-04-03 16:08:03,563 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:08:03,563 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.366s]
+2026-04-03 16:08:03,572 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:08:03,572 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.008s]
+2026-04-03 16:08:03,910 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:08:03,910 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.319s]
+2026-04-03 16:08:03,918 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:08:03,918 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.008s]
+2026-04-03 16:08:56,633 - urllib3.connectionpool - DEBUG - _get_conn - Resetting dropped connection: minio
+2026-04-03 16:08:56,636 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "GET / HTTP/1.1" 200 0
+2026-04-03 16:08:56,638 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-03 16:08:56,639 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.002s]
+2026-04-03 16:08:56,643 - python_multipart.multipart - DEBUG - callback - Calling on_part_begin with no data
+2026-04-03 16:08:56,643 - python_multipart.multipart - DEBUG - callback - Calling on_header_field with data[36:55]
+2026-04-03 16:08:56,643 - python_multipart.multipart - DEBUG - callback - Calling on_header_value with data[57:116]
+2026-04-03 16:08:56,643 - python_multipart.multipart - DEBUG - callback - Calling on_header_end with no data
+2026-04-03 16:08:56,644 - python_multipart.multipart - DEBUG - callback - Calling on_header_field with data[118:130]
+2026-04-03 16:08:56,644 - python_multipart.multipart - DEBUG - callback - Calling on_header_value with data[132:147]
+2026-04-03 16:08:56,644 - python_multipart.multipart - DEBUG - callback - Calling on_header_end with no data
+2026-04-03 16:08:56,644 - python_multipart.multipart - DEBUG - callback - Calling on_headers_finished with no data
+2026-04-03 16:08:56,644 - python_multipart.multipart - DEBUG - callback - Calling on_part_data with data[151:32514]
+2026-04-03 16:08:56,645 - python_multipart.multipart - DEBUG - callback - Calling on_part_data with data[0:87245]
+2026-04-03 16:08:56,645 - python_multipart.multipart - DEBUG - callback - Calling on_part_end with no data
+2026-04-03 16:08:56,645 - python_multipart.multipart - DEBUG - callback - Calling on_end with no data
+2026-04-03 16:08:56,652 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "PUT /pdf-files/Prasad_Jawale_Resume.pdf HTTP/1.1" 200 0
+2026-04-03 16:08:56,652 - root - DEBUG - upload - Uploaded: Prasad_Jawale_Resume.pdf
+2026-04-03 16:08:56,653 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "HEAD /pdf-files/Prasad_Jawale_Resume.pdf HTTP/1.1" 200 0
+2026-04-03 16:08:56,655 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "GET /pdf-files/Prasad_Jawale_Resume.pdf HTTP/1.1" 200 119608
+2026-04-03 16:08:56,731 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_delete_by_query?refresh=true HTTP/1.1" 200 0
+2026-04-03 16:08:56,731 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_delete_by_query?refresh=true [status:200 duration:0.013s]
+2026-04-03 16:08:56,731 - root - DEBUG - delete_page - Deleted existing pages for: Prasad_Jawale_Resume.pdf
+2026-04-03 16:08:56,735 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_doc HTTP/1.1" 201 0
+2026-04-03 16:08:56,735 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_doc [status:201 duration:0.004s]
+2026-04-03 16:08:56,736 - root - DEBUG - index_page - Indexed page 1 of Prasad_Jawale_Resume.pdf: created
+2026-04-03 16:08:56,736 - root - INFO - index_document - Indexed Prasad_Jawale_Resume.pdf (1 pages)
+2026-04-03 16:09:01,675 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:09:01,675 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.010s]
+2026-04-03 16:09:02,078 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:09:02,079 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.358s]
+2026-04-03 16:09:02,088 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:09:02,088 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.008s]
+2026-04-03 16:09:02,398 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:09:02,398 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.296s]
+2026-04-03 16:09:02,407 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:09:02,407 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.008s]
+2026-04-03 16:09:02,778 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:09:02,779 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.353s]
+2026-04-03 16:09:02,787 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:09:02,787 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.008s]
+2026-04-03 16:09:03,146 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:09:03,146 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.336s]
+2026-04-03 16:09:03,155 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:09:03,155 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.008s]
+2026-04-03 16:09:03,521 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:09:03,521 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.334s]
+2026-04-03 16:09:03,530 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:09:03,530 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.008s]
+2026-04-03 16:09:03,865 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:09:03,865 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.323s]
+2026-04-03 16:09:03,874 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:09:03,874 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.008s]
+2026-04-03 16:09:04,194 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:09:04,195 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.309s]
+2026-04-03 16:09:04,203 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:09:04,204 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.008s]
+2026-04-03 16:09:04,620 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:09:04,620 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.399s]
+2026-04-03 16:09:04,629 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:09:04,629 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.008s]
+2026-04-03 16:09:05,017 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:09:05,017 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.375s]
+2026-04-03 16:09:05,026 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:09:05,026 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.008s]
+2026-04-03 16:09:05,350 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:09:05,351 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.313s]
+2026-04-03 16:09:05,362 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:09:05,362 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.011s]
+2026-04-03 16:09:38,401 - urllib3.connectionpool - DEBUG - _get_conn - Resetting dropped connection: minio
+2026-04-03 16:09:38,403 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "GET / HTTP/1.1" 200 0
+2026-04-03 16:09:38,406 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-03 16:09:38,406 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.002s]
+2026-04-03 16:09:38,413 - python_multipart.multipart - DEBUG - callback - Calling on_part_begin with no data
+2026-04-03 16:09:38,415 - python_multipart.multipart - DEBUG - callback - Calling on_header_field with data[36:55]
+2026-04-03 16:09:38,416 - python_multipart.multipart - DEBUG - callback - Calling on_header_value with data[57:116]
+2026-04-03 16:09:38,417 - python_multipart.multipart - DEBUG - callback - Calling on_header_end with no data
+2026-04-03 16:09:38,417 - python_multipart.multipart - DEBUG - callback - Calling on_header_field with data[118:130]
+2026-04-03 16:09:38,417 - python_multipart.multipart - DEBUG - callback - Calling on_header_value with data[132:147]
+2026-04-03 16:09:38,418 - python_multipart.multipart - DEBUG - callback - Calling on_header_end with no data
+2026-04-03 16:09:38,418 - python_multipart.multipart - DEBUG - callback - Calling on_headers_finished with no data
+2026-04-03 16:09:38,418 - python_multipart.multipart - DEBUG - callback - Calling on_part_data with data[151:65282]
+2026-04-03 16:09:38,418 - python_multipart.multipart - DEBUG - callback - Calling on_part_data with data[0:54477]
+2026-04-03 16:09:38,419 - python_multipart.multipart - DEBUG - callback - Calling on_part_end with no data
+2026-04-03 16:09:38,419 - python_multipart.multipart - DEBUG - callback - Calling on_end with no data
+2026-04-03 16:09:38,423 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "PUT /pdf-files/Prasad_Jawale_Resume.pdf HTTP/1.1" 200 0
+2026-04-03 16:09:38,423 - root - DEBUG - upload - Uploaded: Prasad_Jawale_Resume.pdf
+2026-04-03 16:09:38,424 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "HEAD /pdf-files/Prasad_Jawale_Resume.pdf HTTP/1.1" 200 0
+2026-04-03 16:09:38,425 - urllib3.connectionpool - DEBUG - _make_request - http://minio:9000 "GET /pdf-files/Prasad_Jawale_Resume.pdf HTTP/1.1" 200 119608
+2026-04-03 16:09:38,497 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_delete_by_query?refresh=true HTTP/1.1" 200 0
+2026-04-03 16:09:38,497 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_delete_by_query?refresh=true [status:200 duration:0.013s]
+2026-04-03 16:09:38,497 - root - DEBUG - delete_page - Deleted existing pages for: Prasad_Jawale_Resume.pdf
+2026-04-03 16:09:38,502 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_doc HTTP/1.1" 201 0
+2026-04-03 16:09:38,502 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_doc [status:201 duration:0.004s]
+2026-04-03 16:09:38,502 - root - DEBUG - index_page - Indexed page 1 of Prasad_Jawale_Resume.pdf: created
+2026-04-03 16:09:38,502 - root - INFO - index_document - Indexed Prasad_Jawale_Resume.pdf (1 pages)
+2026-04-03 16:09:43,459 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:09:43,459 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.021s]
+2026-04-03 16:09:43,793 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:09:43,793 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.304s]
+2026-04-03 16:09:43,802 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:09:43,803 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.008s]
+2026-04-03 16:09:44,090 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:09:44,090 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.273s]
+2026-04-03 16:09:44,099 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:09:44,099 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.008s]
+2026-04-03 16:09:44,533 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:09:44,533 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.416s]
+2026-04-03 16:09:44,542 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:09:44,543 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.008s]
+2026-04-03 16:09:44,922 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:09:44,922 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.363s]
+2026-04-03 16:09:44,931 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:09:44,931 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.007s]
+2026-04-03 16:09:45,288 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:09:45,288 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.344s]
+2026-04-03 16:09:45,298 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:09:45,298 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.008s]
+2026-04-03 16:09:45,615 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:09:45,616 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.306s]
+2026-04-03 16:09:45,624 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:09:45,625 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.008s]
+2026-04-03 16:09:45,898 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:09:45,898 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.257s]
+2026-04-03 16:09:45,906 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:09:45,907 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.007s]
+2026-04-03 16:09:46,336 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:09:46,336 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.414s]
+2026-04-03 16:09:46,344 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:09:46,344 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.007s]
+2026-04-03 16:09:46,717 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:09:46,717 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.361s]
+2026-04-03 16:09:46,725 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:09:46,725 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.007s]
+2026-04-03 16:09:47,046 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:09:47,047 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.308s]
+2026-04-03 16:09:47,055 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-03 16:09:47,055 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.007s]

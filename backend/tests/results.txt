@@ -1,0 +1,312 @@
+2026-04-03 11:07:55,121 - INFO - Starting end-to-end retrieval test...
+
+2026-04-03 11:07:55,121 - INFO - Loaded 10 Q&A pairs from tests/qa_pairs.json
+
+2026-04-03 11:07:55,135 - INFO - ✓ FastAPI healthy
+
+2026-04-03 11:07:55,136 - INFO - Uploading PDF: backend/tests/Prasad_Jawale_Resume.pdf
+2026-04-03 11:07:55,148 - INFO - ✓ Upload successful
+2026-04-03 11:07:55,148 - INFO - Waiting for indexing...
+2026-04-03 11:08:00,174 - INFO - ✓ Indexed 7 documents
+2026-04-03 11:08:00,174 - INFO - 
+================================================================================
+2026-04-03 11:08:00,174 - INFO - EVALUATION RESULTS
+2026-04-03 11:08:00,174 - INFO - ================================================================================
+
+2026-04-03 11:08:00,174 - INFO - Q1: What degree is Prasad Jawale currently pursuing and at which university?
+2026-04-03 11:08:00,528 - INFO -   [1] Page 1 | Relevance: 66.7%
+2026-04-03 11:08:00,528 - INFO -   [2] Page 769 | Relevance: 0.0%
+2026-04-03 11:08:00,528 - INFO -   [3] Page 1163 | Relevance: 0.0%
+2026-04-03 11:08:00,528 - INFO -   [4] Page 803 | Relevance: 0.0%
+2026-04-03 11:08:00,528 - INFO -   [5] Page 661 | Relevance: 0.0%
+2026-04-03 11:08:00,528 - INFO -   Precision@5: 20.0% | Avg Relevance: 13.3%
+
+2026-04-03 11:08:00,528 - INFO - Q2: When is Prasad Jawale expected to graduate from his master's program?
+2026-04-03 11:08:00,848 - INFO -   [1] Page 1 | Relevance: 100.0%
+2026-04-03 11:08:00,848 - INFO -   [2] Page 13 | Relevance: 0.0%
+2026-04-03 11:08:00,848 - INFO -   [3] Page 139 | Relevance: 0.0%
+2026-04-03 11:08:00,848 - INFO -   [4] Page 266 | Relevance: 0.0%
+2026-04-03 11:08:00,848 - INFO -   [5] Page 1142 | Relevance: 0.0%
+2026-04-03 11:08:00,848 - INFO -   Precision@5: 20.0% | Avg Relevance: 20.0%
+
+2026-04-03 11:08:00,848 - INFO - Q3: What undergraduate degree did Prasad Jawale complete and from which university?
+2026-04-03 11:08:01,264 - INFO -   [1] Page 1 | Relevance: 100.0%
+2026-04-03 11:08:01,264 - INFO -   [2] Page 769 | Relevance: 0.0%
+2026-04-03 11:08:01,264 - INFO -   [3] Page 174 | Relevance: 0.0%
+2026-04-03 11:08:01,264 - INFO -   [4] Page 1270 | Relevance: 0.0%
+2026-04-03 11:08:01,264 - INFO -   [5] Page 427 | Relevance: 0.0%
+2026-04-03 11:08:01,264 - INFO -   Precision@5: 20.0% | Avg Relevance: 20.0%
+
+2026-04-03 11:08:01,264 - INFO - Q4: What was the main responsibility of Prasad during his Data Analyst internship?
+2026-04-03 11:08:01,631 - INFO -   [1] Page 1 | Relevance: 100.0%
+2026-04-03 11:08:01,631 - INFO -   [2] Page 1199 | Relevance: 0.0%
+2026-04-03 11:08:01,631 - INFO -   [3] Page 1242 | Relevance: 0.0%
+2026-04-03 11:08:01,631 - INFO -   [4] Page 216 | Relevance: 0.0%
+2026-04-03 11:08:01,631 - INFO -   [5] Page 1124 | Relevance: 0.0%
+2026-04-03 11:08:01,631 - INFO -   Precision@5: 20.0% | Avg Relevance: 20.0%
+
+2026-04-03 11:08:01,631 - INFO - Q5: What performance metric did Prasad achieve in spam classification?
+2026-04-03 11:08:01,990 - INFO -   [1] Page 1 | Relevance: 50.0%
+2026-04-03 11:08:01,990 - INFO -   [2] Page 943 | Relevance: 0.0%
+2026-04-03 11:08:01,990 - INFO -   [3] Page 802 | Relevance: 0.0%
+2026-04-03 11:08:01,990 - INFO -   [4] Page 1100 | Relevance: 0.0%
+2026-04-03 11:08:01,990 - INFO -   [5] Page 1129 | Relevance: 0.0%
+2026-04-03 11:08:01,991 - INFO -   Precision@5: 20.0% | Avg Relevance: 10.0%
+
+2026-04-03 11:08:01,991 - INFO - Q6: Which technologies were used in the Credit Risk Inference Service project?
+2026-04-03 11:08:02,381 - INFO -   [1] Page 209 | Relevance: 0.0%
+2026-04-03 11:08:02,381 - INFO -   [2] Page 1100 | Relevance: 0.0%
+2026-04-03 11:08:02,381 - INFO -   [3] Page 1 | Relevance: 100.0%
+2026-04-03 11:08:02,381 - INFO -   [4] Page 675 | Relevance: 0.0%
+2026-04-03 11:08:02,381 - INFO -   [5] Page 774 | Relevance: 0.0%
+2026-04-03 11:08:02,381 - INFO -   Precision@5: 20.0% | Avg Relevance: 20.0%
+
+2026-04-03 11:08:02,381 - INFO - Q7: What was the latency achieved by the Credit Risk Inference Service?
+2026-04-03 11:08:02,739 - INFO -   [1] Page 957 | Relevance: 0.0%
+2026-04-03 11:08:02,739 - INFO -   [2] Page 209 | Relevance: 0.0%
+2026-04-03 11:08:02,739 - INFO -   [3] Page 152 | Relevance: 0.0%
+2026-04-03 11:08:02,739 - INFO -   [4] Page 675 | Relevance: 0.0%
+2026-04-03 11:08:02,739 - INFO -   [5] Page 774 | Relevance: 0.0%
+2026-04-03 11:08:02,740 - INFO -   Precision@5: 0.0% | Avg Relevance: 0.0%
+
+2026-04-03 11:08:02,740 - INFO - Q8: What approach was used in the Semantic Document Retriever to improve search relevance?
+2026-04-03 11:08:03,182 - INFO -   [1] Page 1063 | Relevance: 0.0%
+2026-04-03 11:08:03,182 - INFO -   [2] Page 1 | Relevance: 100.0%
+2026-04-03 11:08:03,182 - INFO -   [3] Page 325 | Relevance: 0.0%
+2026-04-03 11:08:03,182 - INFO -   [4] Page 1079 | Relevance: 0.0%
+2026-04-03 11:08:03,182 - INFO -   [5] Page 326 | Relevance: 0.0%
+2026-04-03 11:08:03,182 - INFO -   Precision@5: 20.0% | Avg Relevance: 20.0%
+
+2026-04-03 11:08:03,182 - INFO - Q9: How many documents were supported by the Semantic Document Retriever system?
+2026-04-03 11:08:03,575 - INFO -   [1] Page 1079 | Relevance: 0.0%
+2026-04-03 11:08:03,575 - INFO -   [2] Page 1063 | Relevance: 0.0%
+2026-04-03 11:08:03,575 - INFO -   [3] Page 325 | Relevance: 0.0%
+2026-04-03 11:08:03,575 - INFO -   [4] Page 1 | Relevance: 50.0%
+2026-04-03 11:08:03,575 - INFO -   [5] Page 326 | Relevance: 0.0%
+2026-04-03 11:08:03,575 - INFO -   Precision@5: 20.0% | Avg Relevance: 10.0%
+
+2026-04-03 11:08:03,575 - INFO - Q10: What machine learning technique was used in the music recommender system?
+2026-04-03 11:08:03,921 - INFO -   [1] Page 1118 | Relevance: 0.0%
+2026-04-03 11:08:03,921 - INFO -   [2] Page 1111 | Relevance: 0.0%
+2026-04-03 11:08:03,922 - INFO -   [3] Page 101 | Relevance: 0.0%
+2026-04-03 11:08:03,922 - INFO -   [4] Page 1 | Relevance: 66.7%
+2026-04-03 11:08:03,922 - INFO -   [5] Page 1108 | Relevance: 0.0%
+2026-04-03 11:08:03,922 - INFO -   Precision@5: 20.0% | Avg Relevance: 13.3%
+
+2026-04-03 11:08:03,922 - INFO - ================================================================================
+2026-04-03 11:08:03,922 - INFO - SUMMARY
+2026-04-03 11:08:03,922 - INFO - ================================================================================
+2026-04-03 11:08:03,922 - INFO - Total Questions: 10
+2026-04-03 11:08:03,922 - INFO - Average Precision@5: 18.0%
+2026-04-03 11:08:03,922 - INFO - Average Relevance Score: 14.7%
+2026-04-03 11:08:03,922 - INFO - ================================================================================
+2026-04-03 11:08:03,923 - INFO - 
+✓ Test completed successfully!
+2026-04-03 11:08:56,626 - INFO - Starting end-to-end retrieval test...
+
+2026-04-03 11:08:56,626 - INFO - Loaded 10 Q&A pairs from backend/tests/qa_pairs.json
+
+2026-04-03 11:08:56,640 - INFO - ✓ FastAPI healthy
+
+2026-04-03 11:08:56,641 - INFO - Uploading PDF: backend/tests/Prasad_Jawale_Resume.pdf
+2026-04-03 11:08:56,653 - INFO - ✓ Upload successful
+2026-04-03 11:08:56,653 - INFO - Waiting for indexing...
+2026-04-03 11:09:01,679 - INFO - ✓ Indexed 7 documents
+2026-04-03 11:09:01,679 - INFO - 
+================================================================================
+2026-04-03 11:09:01,679 - INFO - EVALUATION RESULTS
+2026-04-03 11:09:01,679 - INFO - ================================================================================
+
+2026-04-03 11:09:01,679 - INFO - Q1: What degree is Prasad Jawale currently pursuing and at which university?
+2026-04-03 11:09:02,092 - INFO -   [1] Page 1 | Relevance: 66.7%
+2026-04-03 11:09:02,092 - INFO -   [2] Page 769 | Relevance: 0.0%
+2026-04-03 11:09:02,092 - INFO -   [3] Page 1163 | Relevance: 0.0%
+2026-04-03 11:09:02,092 - INFO -   [4] Page 803 | Relevance: 0.0%
+2026-04-03 11:09:02,093 - INFO -   [5] Page 661 | Relevance: 0.0%
+2026-04-03 11:09:02,093 - INFO -   Precision@5: 20.0% | Avg Relevance: 13.3%
+
+2026-04-03 11:09:02,093 - INFO - Q2: When is Prasad Jawale expected to graduate from his master's program?
+2026-04-03 11:09:02,412 - INFO -   [1] Page 1 | Relevance: 100.0%
+2026-04-03 11:09:02,412 - INFO -   [2] Page 13 | Relevance: 0.0%
+2026-04-03 11:09:02,412 - INFO -   [3] Page 139 | Relevance: 0.0%
+2026-04-03 11:09:02,412 - INFO -   [4] Page 266 | Relevance: 0.0%
+2026-04-03 11:09:02,412 - INFO -   [5] Page 1142 | Relevance: 0.0%
+2026-04-03 11:09:02,412 - INFO -   Precision@5: 20.0% | Avg Relevance: 20.0%
+
+2026-04-03 11:09:02,412 - INFO - Q3: What undergraduate degree did Prasad Jawale complete and from which university?
+2026-04-03 11:09:02,792 - INFO -   [1] Page 1 | Relevance: 100.0%
+2026-04-03 11:09:02,792 - INFO -   [2] Page 769 | Relevance: 0.0%
+2026-04-03 11:09:02,792 - INFO -   [3] Page 174 | Relevance: 0.0%
+2026-04-03 11:09:02,792 - INFO -   [4] Page 1270 | Relevance: 0.0%
+2026-04-03 11:09:02,792 - INFO -   [5] Page 427 | Relevance: 0.0%
+2026-04-03 11:09:02,792 - INFO -   Precision@5: 20.0% | Avg Relevance: 20.0%
+
+2026-04-03 11:09:02,792 - INFO - Q4: What was the main responsibility of Prasad during his Data Analyst internship?
+2026-04-03 11:09:03,159 - INFO -   [1] Page 1 | Relevance: 100.0%
+2026-04-03 11:09:03,160 - INFO -   [2] Page 1199 | Relevance: 0.0%
+2026-04-03 11:09:03,160 - INFO -   [3] Page 1242 | Relevance: 0.0%
+2026-04-03 11:09:03,160 - INFO -   [4] Page 216 | Relevance: 0.0%
+2026-04-03 11:09:03,160 - INFO -   [5] Page 1124 | Relevance: 0.0%
+2026-04-03 11:09:03,160 - INFO -   Precision@5: 20.0% | Avg Relevance: 20.0%
+
+2026-04-03 11:09:03,160 - INFO - Q5: What performance metric did Prasad achieve in spam classification?
+2026-04-03 11:09:03,534 - INFO -   [1] Page 1 | Relevance: 50.0%
+2026-04-03 11:09:03,535 - INFO -   [2] Page 943 | Relevance: 0.0%
+2026-04-03 11:09:03,535 - INFO -   [3] Page 802 | Relevance: 0.0%
+2026-04-03 11:09:03,535 - INFO -   [4] Page 1100 | Relevance: 0.0%
+2026-04-03 11:09:03,535 - INFO -   [5] Page 1129 | Relevance: 0.0%
+2026-04-03 11:09:03,535 - INFO -   Precision@5: 20.0% | Avg Relevance: 10.0%
+
+2026-04-03 11:09:03,535 - INFO - Q6: Which technologies were used in the Credit Risk Inference Service project?
+2026-04-03 11:09:03,878 - INFO -   [1] Page 209 | Relevance: 0.0%
+2026-04-03 11:09:03,878 - INFO -   [2] Page 1100 | Relevance: 0.0%
+2026-04-03 11:09:03,878 - INFO -   [3] Page 1 | Relevance: 100.0%
+2026-04-03 11:09:03,878 - INFO -   [4] Page 675 | Relevance: 0.0%
+2026-04-03 11:09:03,878 - INFO -   [5] Page 774 | Relevance: 0.0%
+2026-04-03 11:09:03,878 - INFO -   Precision@5: 20.0% | Avg Relevance: 20.0%
+
+2026-04-03 11:09:03,878 - INFO - Q7: What was the latency achieved by the Credit Risk Inference Service?
+2026-04-03 11:09:04,208 - INFO -   [1] Page 957 | Relevance: 0.0%
+2026-04-03 11:09:04,208 - INFO -   [2] Page 209 | Relevance: 0.0%
+2026-04-03 11:09:04,208 - INFO -   [3] Page 152 | Relevance: 0.0%
+2026-04-03 11:09:04,208 - INFO -   [4] Page 675 | Relevance: 0.0%
+2026-04-03 11:09:04,208 - INFO -   [5] Page 774 | Relevance: 0.0%
+2026-04-03 11:09:04,209 - INFO -   Precision@5: 0.0% | Avg Relevance: 0.0%
+
+2026-04-03 11:09:04,209 - INFO - Q8: What approach was used in the Semantic Document Retriever to improve search relevance?
+2026-04-03 11:09:04,634 - INFO -   [1] Page 1063 | Relevance: 0.0%
+2026-04-03 11:09:04,634 - INFO -   [2] Page 1 | Relevance: 100.0%
+2026-04-03 11:09:04,634 - INFO -   [3] Page 325 | Relevance: 0.0%
+2026-04-03 11:09:04,634 - INFO -   [4] Page 1079 | Relevance: 0.0%
+2026-04-03 11:09:04,635 - INFO -   [5] Page 326 | Relevance: 0.0%
+2026-04-03 11:09:04,635 - INFO -   Precision@5: 20.0% | Avg Relevance: 20.0%
+
+2026-04-03 11:09:04,635 - INFO - Q9: How many documents were supported by the Semantic Document Retriever system?
+2026-04-03 11:09:05,031 - INFO -   [1] Page 1079 | Relevance: 0.0%
+2026-04-03 11:09:05,031 - INFO -   [2] Page 1063 | Relevance: 0.0%
+2026-04-03 11:09:05,031 - INFO -   [3] Page 325 | Relevance: 0.0%
+2026-04-03 11:09:05,031 - INFO -   [4] Page 1 | Relevance: 50.0%
+2026-04-03 11:09:05,031 - INFO -   [5] Page 326 | Relevance: 0.0%
+2026-04-03 11:09:05,031 - INFO -   Precision@5: 20.0% | Avg Relevance: 10.0%
+
+2026-04-03 11:09:05,031 - INFO - Q10: What machine learning technique was used in the music recommender system?
+2026-04-03 11:09:05,368 - INFO -   [1] Page 1118 | Relevance: 0.0%
+2026-04-03 11:09:05,368 - INFO -   [2] Page 1111 | Relevance: 0.0%
+2026-04-03 11:09:05,368 - INFO -   [3] Page 101 | Relevance: 0.0%
+2026-04-03 11:09:05,368 - INFO -   [4] Page 1 | Relevance: 66.7%
+2026-04-03 11:09:05,368 - INFO -   [5] Page 1108 | Relevance: 0.0%
+2026-04-03 11:09:05,368 - INFO -   Precision@5: 20.0% | Avg Relevance: 13.3%
+
+2026-04-03 11:09:05,368 - INFO - ================================================================================
+2026-04-03 11:09:05,368 - INFO - SUMMARY
+2026-04-03 11:09:05,368 - INFO - ================================================================================
+2026-04-03 11:09:05,368 - INFO - Total Questions: 10
+2026-04-03 11:09:05,368 - INFO - Average Precision@5: 18.0%
+2026-04-03 11:09:05,368 - INFO - Average Relevance Score: 14.7%
+2026-04-03 11:09:05,368 - INFO - ================================================================================
+2026-04-03 11:09:05,368 - INFO - 
+✓ Test completed successfully!
+2026-04-03 11:09:38,393 - INFO - Starting end-to-end retrieval test...
+
+2026-04-03 11:09:38,393 - INFO - Loaded 10 Q&A pairs from backend/tests/qa_pairs.json
+
+2026-04-03 11:09:38,409 - INFO - ✓ FastAPI healthy
+
+2026-04-03 11:09:38,409 - INFO - Uploading PDF: backend/tests/Prasad_Jawale_Resume.pdf
+2026-04-03 11:09:38,425 - INFO - ✓ Upload successful
+2026-04-03 11:09:38,425 - INFO - Waiting for indexing...
+2026-04-03 11:09:43,463 - INFO - ✓ Indexed 7 documents
+2026-04-03 11:09:43,465 - INFO - 
+================================================================================
+2026-04-03 11:09:43,465 - INFO - EVALUATION RESULTS
+2026-04-03 11:09:43,466 - INFO - ================================================================================
+
+2026-04-03 11:09:43,466 - INFO - Q1: What degree is Prasad Jawale currently pursuing and at which university?
+2026-04-03 11:09:43,806 - INFO -   [1] Page 1 | Relevance: 66.7%
+2026-04-03 11:09:43,806 - INFO -   [2] Page 769 | Relevance: 0.0%
+2026-04-03 11:09:43,806 - INFO -   [3] Page 1163 | Relevance: 0.0%
+2026-04-03 11:09:43,807 - INFO -   [4] Page 803 | Relevance: 0.0%
+2026-04-03 11:09:43,807 - INFO -   [5] Page 661 | Relevance: 0.0%
+2026-04-03 11:09:43,807 - INFO -   Precision@5: 20.0% | Avg Relevance: 13.3%
+
+2026-04-03 11:09:43,807 - INFO - Q2: When is Prasad Jawale expected to graduate from his master's program?
+2026-04-03 11:09:44,103 - INFO -   [1] Page 1 | Relevance: 100.0%
+2026-04-03 11:09:44,103 - INFO -   [2] Page 13 | Relevance: 0.0%
+2026-04-03 11:09:44,103 - INFO -   [3] Page 139 | Relevance: 0.0%
+2026-04-03 11:09:44,103 - INFO -   [4] Page 266 | Relevance: 0.0%
+2026-04-03 11:09:44,103 - INFO -   [5] Page 1142 | Relevance: 0.0%
+2026-04-03 11:09:44,103 - INFO -   Precision@5: 20.0% | Avg Relevance: 20.0%
+
+2026-04-03 11:09:44,103 - INFO - Q3: What undergraduate degree did Prasad Jawale complete and from which university?
+2026-04-03 11:09:44,546 - INFO -   [1] Page 1 | Relevance: 100.0%
+2026-04-03 11:09:44,546 - INFO -   [2] Page 769 | Relevance: 0.0%
+2026-04-03 11:09:44,546 - INFO -   [3] Page 174 | Relevance: 0.0%
+2026-04-03 11:09:44,547 - INFO -   [4] Page 1270 | Relevance: 0.0%
+2026-04-03 11:09:44,547 - INFO -   [5] Page 427 | Relevance: 0.0%
+2026-04-03 11:09:44,547 - INFO -   Precision@5: 20.0% | Avg Relevance: 20.0%
+
+2026-04-03 11:09:44,547 - INFO - Q4: What was the main responsibility of Prasad during his Data Analyst internship?
+2026-04-03 11:09:44,934 - INFO -   [1] Page 1 | Relevance: 100.0%
+2026-04-03 11:09:44,935 - INFO -   [2] Page 1199 | Relevance: 0.0%
+2026-04-03 11:09:44,935 - INFO -   [3] Page 1242 | Relevance: 0.0%
+2026-04-03 11:09:44,935 - INFO -   [4] Page 216 | Relevance: 0.0%
+2026-04-03 11:09:44,935 - INFO -   [5] Page 1124 | Relevance: 0.0%
+2026-04-03 11:09:44,935 - INFO -   Precision@5: 20.0% | Avg Relevance: 20.0%
+
+2026-04-03 11:09:44,935 - INFO - Q5: What performance metric did Prasad achieve in spam classification?
+2026-04-03 11:09:45,301 - INFO -   [1] Page 1 | Relevance: 50.0%
+2026-04-03 11:09:45,302 - INFO -   [2] Page 943 | Relevance: 0.0%
+2026-04-03 11:09:45,302 - INFO -   [3] Page 802 | Relevance: 0.0%
+2026-04-03 11:09:45,302 - INFO -   [4] Page 1100 | Relevance: 0.0%
+2026-04-03 11:09:45,302 - INFO -   [5] Page 1129 | Relevance: 0.0%
+2026-04-03 11:09:45,302 - INFO -   Precision@5: 20.0% | Avg Relevance: 10.0%
+
+2026-04-03 11:09:45,302 - INFO - Q6: Which technologies were used in the Credit Risk Inference Service project?
+2026-04-03 11:09:45,629 - INFO -   [1] Page 209 | Relevance: 0.0%
+2026-04-03 11:09:45,629 - INFO -   [2] Page 1100 | Relevance: 0.0%
+2026-04-03 11:09:45,629 - INFO -   [3] Page 1 | Relevance: 100.0%
+2026-04-03 11:09:45,629 - INFO -   [4] Page 675 | Relevance: 0.0%
+2026-04-03 11:09:45,629 - INFO -   [5] Page 774 | Relevance: 0.0%
+2026-04-03 11:09:45,629 - INFO -   Precision@5: 20.0% | Avg Relevance: 20.0%
+
+2026-04-03 11:09:45,629 - INFO - Q7: What was the latency achieved by the Credit Risk Inference Service?
+2026-04-03 11:09:45,910 - INFO -   [1] Page 957 | Relevance: 0.0%
+2026-04-03 11:09:45,910 - INFO -   [2] Page 209 | Relevance: 0.0%
+2026-04-03 11:09:45,911 - INFO -   [3] Page 152 | Relevance: 0.0%
+2026-04-03 11:09:45,911 - INFO -   [4] Page 675 | Relevance: 0.0%
+2026-04-03 11:09:45,911 - INFO -   [5] Page 1051 | Relevance: 0.0%
+2026-04-03 11:09:45,911 - INFO -   Precision@5: 0.0% | Avg Relevance: 0.0%
+
+2026-04-03 11:09:45,912 - INFO - Q8: What approach was used in the Semantic Document Retriever to improve search relevance?
+2026-04-03 11:09:46,348 - INFO -   [1] Page 1063 | Relevance: 0.0%
+2026-04-03 11:09:46,348 - INFO -   [2] Page 1 | Relevance: 100.0%
+2026-04-03 11:09:46,348 - INFO -   [3] Page 325 | Relevance: 0.0%
+2026-04-03 11:09:46,348 - INFO -   [4] Page 1079 | Relevance: 0.0%
+2026-04-03 11:09:46,348 - INFO -   [5] Page 326 | Relevance: 0.0%
+2026-04-03 11:09:46,348 - INFO -   Precision@5: 20.0% | Avg Relevance: 20.0%
+
+2026-04-03 11:09:46,348 - INFO - Q9: How many documents were supported by the Semantic Document Retriever system?
+2026-04-03 11:09:46,729 - INFO -   [1] Page 1079 | Relevance: 0.0%
+2026-04-03 11:09:46,729 - INFO -   [2] Page 1063 | Relevance: 0.0%
+2026-04-03 11:09:46,730 - INFO -   [3] Page 325 | Relevance: 0.0%
+2026-04-03 11:09:46,730 - INFO -   [4] Page 1 | Relevance: 50.0%
+2026-04-03 11:09:46,730 - INFO -   [5] Page 326 | Relevance: 0.0%
+2026-04-03 11:09:46,730 - INFO -   Precision@5: 20.0% | Avg Relevance: 10.0%
+
+2026-04-03 11:09:46,730 - INFO - Q10: What machine learning technique was used in the music recommender system?
+2026-04-03 11:09:47,059 - INFO -   [1] Page 1118 | Relevance: 0.0%
+2026-04-03 11:09:47,060 - INFO -   [2] Page 1111 | Relevance: 0.0%
+2026-04-03 11:09:47,060 - INFO -   [3] Page 101 | Relevance: 0.0%
+2026-04-03 11:09:47,060 - INFO -   [4] Page 1 | Relevance: 66.7%
+2026-04-03 11:09:47,060 - INFO -   [5] Page 1108 | Relevance: 0.0%
+2026-04-03 11:09:47,060 - INFO -   Precision@5: 20.0% | Avg Relevance: 13.3%
+
+2026-04-03 11:09:47,060 - INFO - ================================================================================
+2026-04-03 11:09:47,060 - INFO - SUMMARY
+2026-04-03 11:09:47,060 - INFO - ================================================================================
+2026-04-03 11:09:47,061 - INFO - Total Questions: 10
+2026-04-03 11:09:47,061 - INFO - Average Precision@5: 18.0%
+2026-04-03 11:09:47,061 - INFO - Average Relevance Score: 14.7%
+2026-04-03 11:09:47,061 - INFO - ================================================================================
+2026-04-03 11:09:47,061 - INFO - 
+✓ Test completed successfully!
