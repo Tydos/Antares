@@ -10,6 +10,9 @@ __pycache__/
 log/
 *.log
 
+# Test data / uploads
+backend/tests/input/
+
 # Distribution / packaging
 .Python
 build/

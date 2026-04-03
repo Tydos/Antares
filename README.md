@@ -192,3 +192,86 @@ $$
 * Higher scores indicate stronger relevance.
 
 This approach ensures retrieval accounts for both exact word matches and semantic meaning.
+
+---
+
+## 8. Testing & Evaluation
+
+### 8.1 Run the End-to-End Test
+
+The test suite evaluates retrieval quality by uploading PDFs, running QA queries, and reporting metrics.
+
+```bash
+cd backend/tests
+python test_end_to_end.py <pdf_directory> <qa_pairs_json>
+```
+
+Example:
+
+```bash
+python test_end_to_end.py ./input input/qa_pairs.json
+```
+
+### 8.2 Test Metrics
+
+The test reports four metrics for each query and averages across all queries:
+
+1. **Precision@5** — Fraction of top-5 results containing relevant keywords (%)
+2. **Recall@5** — Best keyword coverage found in any single top-5 result (%)
+3. **Retrieval Accuracy** — Average keyword coverage across all top-5 results (%)
+4. **Source Doc Hit Rate** — Percentage of queries where the correct source document appears in top-5 (%)
+
+### 8.3 Expected Results
+
+For a well-tuned system with clean index:
+- Precision@5: 60-100%
+- Recall@5: 80-100%
+- Retrieval Accuracy: 50-100%
+- Source Doc Hit Rate: 80-100%
+
+### 8.4 Test Files
+
+- `backend/tests/test_end_to_end.py` — Main test script
+- `backend/tests/qa_pairs.json` — 20 QA pairs across 6 documents
+- `backend/tests/input/` — Test PDF directory
+- `backend/tests/results.txt` — Latest test output
+
+---
+
+## 9. Known Limitations & Future Work
+
+### Current Limitations
+
+- **Page-level indexing only** — No sub-page chunking means single-page documents become one index entry.
+- **No LLM integration yet** — Q&A uses retrieved text only; full LLM-based answers are reserved for future work.
+- **Limited OCR support** — Relies on pypdf text extraction; scanned PDFs may fail.
+
+### Future Improvements
+
+- Sub-page chunking (e.g., sentence-level or semantic splitting) to improve precision.
+- LLM integration (Gemini) for context-aware natural language Q&A.
+- Fine-tuning embeddings on domain-specific data.
+- Advanced ranking models (e.g., cross-encoders) for re-ranking results.
+- Support for multi-modal documents (images, tables).
+
+---
+
+## 10. Troubleshooting
+
+### Services fail to start
+
+- Check Docker daemon is running.
+- Verify ports 8000, 3000, 9200, 9000 are not in use.
+- Review logs: `docker compose logs -f <service_name>`
+
+### Search returns no results
+
+- Confirm PDFs are indexed: `GET /documents`
+- Check Elasticsearch health: `GET /health`
+- Verify query text matches document content (keyword matching is case-insensitive but must match extracted text).
+
+### Low retrieval accuracy
+
+- Clean the index and re-upload PDFs.
+- Adjust `top_k` parameter (default: 5).
+- Review QA pair keywords to ensure they match actual document text.
