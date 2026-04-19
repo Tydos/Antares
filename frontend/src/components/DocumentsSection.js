@@ -61,7 +61,7 @@ export default function DocumentsSection() {
           <span className="doc-name" title={doc.filename}>
             {doc.filename}
           </span>
-          <span className="muted" title="Indexing / search status">
+          <span className="muted" title="Processing status">
             {statusLabel(doc.status)}
           </span>
           <span className="muted">{doc.page_count ?? 0} pages</span>

@@ -39,9 +39,6 @@ export const uploadPDF = async (file, onProgress) => {
   return notifyUploadComplete(result.pathname, result.url);
 };
 
-export const search = (query, topK = 5) =>
-  request(`/search?q=${encodeURIComponent(query)}&top_k=${topK}`).then((d) => d.results);
-
 export const listDocuments = () =>
   request('/documents').then((d) => d.documents);
 

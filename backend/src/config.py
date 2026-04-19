@@ -1,6 +1,6 @@
 import os
 
-from pydantic import field_validator, model_validator
+from pydantic import model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -8,52 +8,24 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",
-        extra="ignore"
+        extra="ignore",
     )
 
-    # Elasticsearch
-    es_host: str = "http://elasticsearch:9200"
-    index_name: str = "pdf-index"
-
-    # Embeddings (Hugging Face Inference API — see backends/embeddings.py)
-    embedding_model: str = "sentence-transformers/all-MiniLM-L6-v2"
-    embedding_dims: int = 384
-    batch_size: int = 16
-    huggingface_api_token: str = ""
-    # Optional: full inference URL or model id override (InferenceClient `model` argument)
-    huggingface_inference_url: str = ""
-
-    # Gemini (reserved for LLM step)
-    gemini_api_key: str = ""
-
-    # Vercel Blob (client uploads — mint tokens in FastAPI)
+    database_url: str = ""
     blob_read_write_token: str = ""
 
-    # Vercel Services: backend routePrefix (see vercel.json) is included in incoming paths.
-    # Leave unset locally; on Vercel we default to /_/backend when VERCEL=1.
+    # Vercel Services: routePrefix (see vercel.json). Empty locally; /_/backend on Vercel.
     route_prefix: str = ""
 
     @model_validator(mode="after")
     def normalize_route_prefix(self) -> "Settings":
         rp = (self.route_prefix or "").strip()
-        # Vercel Services passes the full URL path including routePrefix (vercel.json → /_/backend).
         if not rp and os.environ.get("VERCEL"):
             rp = "/_/backend"
-        if not rp:
-            self.route_prefix = ""
-            return self
-        rp = rp.rstrip("/")
-        if not rp.startswith("/"):
-            rp = "/" + rp
+        if rp:
+            rp = "/" + rp.strip("/")
         self.route_prefix = rp
         return self
-
-    @field_validator("huggingface_api_token", "blob_read_write_token", mode="before")
-    @classmethod
-    def strip_secrets(cls, v: object) -> object:
-        if isinstance(v, str):
-            return v.strip()
-        return v
 
 
 settings = Settings()
