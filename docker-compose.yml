@@ -4,12 +4,8 @@ services:
   fastapi:
     build: ./backend
     env_file: .env
-    environment:
-      - LOG_DIR=/app/log
     ports:
       - "8000:8000"
-    volumes:
-      - ./log:/app/log
     depends_on:
       elasticsearch:
         condition: service_healthy

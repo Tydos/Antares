@@ -1,4 +1,6 @@
-from pydantic import field_validator
+import os
+
+from pydantic import field_validator, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -26,6 +28,25 @@ class Settings(BaseSettings):
 
     # Vercel Blob (client uploads — mint tokens in FastAPI)
     blob_read_write_token: str = ""
+
+    # Vercel Services: backend routePrefix (see vercel.json) is included in incoming paths.
+    # Leave unset locally; on Vercel we default to /_/backend when VERCEL=1.
+    route_prefix: str = ""
+
+    @model_validator(mode="after")
+    def normalize_route_prefix(self) -> "Settings":
+        rp = (self.route_prefix or "").strip()
+        # Vercel Services passes the full URL path including routePrefix (vercel.json → /_/backend).
+        if not rp and os.environ.get("VERCEL"):
+            rp = "/_/backend"
+        if not rp:
+            self.route_prefix = ""
+            return self
+        rp = rp.rstrip("/")
+        if not rp.startswith("/"):
+            rp = "/" + rp
+        self.route_prefix = rp
+        return self
 
     @field_validator("huggingface_api_token", "blob_read_write_token", mode="before")
     @classmethod

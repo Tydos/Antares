@@ -26722,3 +26722,540 @@ For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/St
 2026-04-19 19:18:41,980 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
 2026-04-19 19:18:57,713 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
 2026-04-19 19:18:57,714 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:20:14,888 - root - INFO - init_services - Initialising search backend...
+2026-04-19 19:20:14,892 - urllib3.connectionpool - DEBUG - _new_conn - Starting new HTTP connection (1): elasticsearch:9200
+2026-04-19 19:20:14,942 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "PUT /pdf-index HTTP/1.1" 400 0
+2026-04-19 19:20:14,943 - elastic_transport.transport - INFO - perform_request - PUT http://elasticsearch:9200/pdf-index [status:400 duration:0.052s]
+2026-04-19 19:20:14,991 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "PUT /pdf-index/_mapping HTTP/1.1" 200 0
+2026-04-19 19:20:14,992 - elastic_transport.transport - INFO - perform_request - PUT http://elasticsearch:9200/pdf-index/_mapping [status:200 duration:0.047s]
+2026-04-19 19:20:15,004 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "PUT /pdf-index-uploads HTTP/1.1" 400 0
+2026-04-19 19:20:15,005 - elastic_transport.transport - INFO - perform_request - PUT http://elasticsearch:9200/pdf-index-uploads [status:400 duration:0.012s]
+2026-04-19 19:20:15,035 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "PUT /pdf-index-uploads/_mapping HTTP/1.1" 200 0
+2026-04-19 19:20:15,036 - elastic_transport.transport - INFO - perform_request - PUT http://elasticsearch:9200/pdf-index-uploads/_mapping [status:200 duration:0.029s]
+2026-04-19 19:20:15,037 - root - INFO - init_services - Initialising embedding service...
+2026-04-19 19:20:17,189 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:20:17,190 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.010s]
+2026-04-19 19:20:30,620 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index-uploads/_search HTTP/1.1" 200 None
+2026-04-19 19:20:30,621 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index-uploads/_search [status:200 duration:0.126s]
+2026-04-19 19:20:30,733 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-19 19:20:30,734 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.111s]
+2026-04-19 19:20:30,780 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index-uploads/_search HTTP/1.1" 200 None
+2026-04-19 19:20:30,781 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index-uploads/_search [status:200 duration:0.024s]
+2026-04-19 19:20:30,829 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-19 19:20:30,830 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.048s]
+2026-04-19 19:20:32,571 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index-uploads/_search HTTP/1.1" 200 None
+2026-04-19 19:20:32,572 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index-uploads/_search [status:200 duration:0.025s]
+2026-04-19 19:20:32,595 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-19 19:20:32,597 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.023s]
+2026-04-19 19:20:32,989 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:20:32,990 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.007s]
+2026-04-19 19:20:34,843 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index-uploads/_search HTTP/1.1" 200 None
+2026-04-19 19:20:34,844 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index-uploads/_search [status:200 duration:0.016s]
+2026-04-19 19:20:34,871 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-19 19:20:34,873 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.027s]
+2026-04-19 19:20:35,343 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index-uploads/_search HTTP/1.1" 200 None
+2026-04-19 19:20:35,345 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index-uploads/_search [status:200 duration:0.012s]
+2026-04-19 19:20:35,361 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-19 19:20:35,363 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.016s]
+2026-04-19 19:20:35,837 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index-uploads/_search HTTP/1.1" 200 None
+2026-04-19 19:20:35,838 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index-uploads/_search [status:200 duration:0.011s]
+2026-04-19 19:20:35,856 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-19 19:20:35,857 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.018s]
+2026-04-19 19:20:36,230 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index-uploads/_search HTTP/1.1" 200 None
+2026-04-19 19:20:36,232 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index-uploads/_search [status:200 duration:0.011s]
+2026-04-19 19:20:36,247 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-19 19:20:36,248 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.015s]
+2026-04-19 19:20:36,480 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index-uploads/_search HTTP/1.1" 200 None
+2026-04-19 19:20:36,481 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index-uploads/_search [status:200 duration:0.013s]
+2026-04-19 19:20:36,499 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-19 19:20:36,500 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.017s]
+2026-04-19 19:20:36,726 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index-uploads/_search HTTP/1.1" 200 None
+2026-04-19 19:20:36,728 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index-uploads/_search [status:200 duration:0.010s]
+2026-04-19 19:20:36,741 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-19 19:20:36,742 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.013s]
+2026-04-19 19:20:48,713 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:20:48,715 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.006s]
+2026-04-19 19:21:04,440 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:21:04,442 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.006s]
+2026-04-19 19:21:05,783 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "PUT /pdf-index-uploads/_doc/418cff46736ab3daff010a141e64e64e19026ab2058a58354a7873a3493678e2?refresh=true HTTP/1.1" 201 0
+2026-04-19 19:21:05,784 - elastic_transport.transport - INFO - perform_request - PUT http://elasticsearch:9200/pdf-index-uploads/_doc/418cff46736ab3daff010a141e64e64e19026ab2058a58354a7873a3493678e2?refresh=true [status:201 duration:0.206s]
+2026-04-19 19:21:06,512 - httpcore.connection - DEBUG - trace - connect_tcp.started host='huggingface.co' port=443 local_address=None timeout=None socket_options=None
+2026-04-19 19:21:06,579 - httpcore.connection - DEBUG - trace - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x7b75d6b57580>
+2026-04-19 19:21:06,580 - httpcore.connection - DEBUG - trace - start_tls.started ssl_context=<ssl.SSLContext object at 0x7b75d6c417c0> server_hostname='huggingface.co' timeout=None
+2026-04-19 19:21:06,613 - httpcore.connection - DEBUG - trace - start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x7b75d6b57550>
+2026-04-19 19:21:06,615 - httpcore.http11 - DEBUG - trace - send_request_headers.started request=<Request [b'GET']>
+2026-04-19 19:21:06,616 - httpcore.http11 - DEBUG - trace - send_request_headers.complete
+2026-04-19 19:21:06,618 - httpcore.http11 - DEBUG - trace - send_request_body.started request=<Request [b'GET']>
+2026-04-19 19:21:06,619 - httpcore.http11 - DEBUG - trace - send_request_body.complete
+2026-04-19 19:21:06,621 - httpcore.http11 - DEBUG - trace - receive_response_headers.started request=<Request [b'GET']>
+2026-04-19 19:21:06,705 - httpcore.http11 - DEBUG - trace - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Content-Length', b'247'), (b'Connection', b'keep-alive'), (b'Date', b'Sun, 19 Apr 2026 19:21:06 GMT'), (b'ETag', b'W/"f7-Zs/xuOjfDM+kVO/V27yPe11L9V0"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69e52b22-783472fe3de82a426724e922;00eada2b-a8d8-4111-9dc0-150960d66853'), (b'RateLimit', b'"api";r=499;t=70'), (b'RateLimit-Policy', b'"fixed window";"api";q=500;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 58ea883d062b945d06808a28f651f2f4.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'MSP50-P1'), (b'X-Amz-Cf-Id', b'XUlUV3tQPyd3FpuQSrAdtz1yiSCTEmkMnuotflm3lhChBVoBt3ucjg==')])
+2026-04-19 19:21:06,707 - httpx - INFO - _send_single_request - HTTP Request: GET https://huggingface.co/api/models/sentence-transformers/all-MiniLM-L6-v2?expand=inferenceProviderMapping "HTTP/1.1 200 OK"
+2026-04-19 19:21:06,709 - httpcore.http11 - DEBUG - trace - receive_response_body.started request=<Request [b'GET']>
+2026-04-19 19:21:06,710 - httpcore.http11 - DEBUG - trace - receive_response_body.complete
+2026-04-19 19:21:06,711 - httpcore.http11 - DEBUG - trace - response_closed.started
+2026-04-19 19:21:06,712 - httpcore.http11 - DEBUG - trace - response_closed.complete
+2026-04-19 19:21:06,715 - httpcore.http11 - DEBUG - trace - send_request_headers.started request=<Request [b'GET']>
+2026-04-19 19:21:06,716 - httpcore.http11 - DEBUG - trace - send_request_headers.complete
+2026-04-19 19:21:06,717 - httpcore.http11 - DEBUG - trace - send_request_body.started request=<Request [b'GET']>
+2026-04-19 19:21:06,719 - httpcore.http11 - DEBUG - trace - send_request_body.complete
+2026-04-19 19:21:06,720 - httpcore.http11 - DEBUG - trace - receive_response_headers.started request=<Request [b'GET']>
+2026-04-19 19:21:06,791 - httpcore.http11 - DEBUG - trace - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Date', b'Sun, 19 Apr 2026 19:21:06 GMT'), (b'content-encoding', b'gzip'), (b'ETag', b'W/"1ae1-oSQJZRbSiQJzFfO/zlU7yC5q6uk"'), (b'X-Powered-By', b'huggingface-moon'), (b'X-Request-Id', b'Root=1-69e52b22-0d3253920cd0bc6432b98beb;822fa842-fb8a-4d12-a649-fd4fab2a2931'), (b'RateLimit', b'"api";r=498;t=70'), (b'RateLimit-Policy', b'"fixed window";"api";q=500;w=300'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'Access-Control-Max-Age', b'86400'), (b'Access-Control-Allow-Origin', b'https://huggingface.co'), (b'Vary', b'Origin'), (b'vary', b'Accept-Encoding'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 58ea883d062b945d06808a28f651f2f4.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'MSP50-P1'), (b'X-Amz-Cf-Id', b'w-JWIaZERfli8gLT-Udd2zIj7GlEvQrIake-NrBC08-PMTEAi5ljfg==')])
+2026-04-19 19:21:06,793 - httpx - INFO - _send_single_request - HTTP Request: GET https://huggingface.co/api/models/sentence-transformers/all-MiniLM-L6-v2 "HTTP/1.1 200 OK"
+2026-04-19 19:21:06,794 - httpcore.http11 - DEBUG - trace - receive_response_body.started request=<Request [b'GET']>
+2026-04-19 19:21:06,796 - httpcore.http11 - DEBUG - trace - receive_response_body.complete
+2026-04-19 19:21:06,797 - httpcore.http11 - DEBUG - trace - response_closed.started
+2026-04-19 19:21:06,798 - httpcore.http11 - DEBUG - trace - response_closed.complete
+2026-04-19 19:21:06,814 - httpcore.connection - DEBUG - trace - connect_tcp.started host='router.huggingface.co' port=443 local_address=None timeout=120.0 socket_options=None
+2026-04-19 19:21:07,009 - httpcore.connection - DEBUG - trace - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x7b75d5f46110>
+2026-04-19 19:21:07,010 - httpcore.connection - DEBUG - trace - start_tls.started ssl_context=<ssl.SSLContext object at 0x7b75d6c417c0> server_hostname='router.huggingface.co' timeout=120.0
+2026-04-19 19:21:07,043 - httpcore.connection - DEBUG - trace - start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x7b75d5f46140>
+2026-04-19 19:21:07,044 - httpcore.http11 - DEBUG - trace - send_request_headers.started request=<Request [b'POST']>
+2026-04-19 19:21:07,046 - httpcore.http11 - DEBUG - trace - send_request_headers.complete
+2026-04-19 19:21:07,047 - httpcore.http11 - DEBUG - trace - send_request_body.started request=<Request [b'POST']>
+2026-04-19 19:21:07,049 - httpcore.http11 - DEBUG - trace - send_request_body.complete
+2026-04-19 19:21:07,050 - httpcore.http11 - DEBUG - trace - receive_response_headers.started request=<Request [b'POST']>
+2026-04-19 19:21:07,199 - httpcore.http11 - DEBUG - trace - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json'), (b'Content-Length', b'8081'), (b'Connection', b'keep-alive'), (b'Date', b'Sun, 19 Apr 2026 19:21:06 GMT'), (b'x-proxied-replica', b'kdjvq3i3-vn7sd'), (b'X-Powered-By', b'huggingface-moon'), (b'x-request-id', b'Root=1-69e52b22-21c1a98139b00d6702174d4e;ce093c87-0529-4d76-859f-21b658464cc2'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'vary', b'origin, access-control-request-method, access-control-request-headers, origin, access-control-request-method, access-control-request-headers'), (b'Access-Control-Allow-Origin', b'*'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Robots-Tag', b'none'), (b'access-control-allow-credentials', b'true'), (b'server', b'uvicorn'), (b'x-inference-provider', b'hf-inference'), (b'x-inference-id', b'b7d1bfe6-8925-4f69-ae9d-1b33f0168b0e'), (b'x-proxied-host', b'http://10.109.152.42'), (b'x-proxied-path', b'/pipeline/feature-extraction'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 b95cfb5fc55d930ff76b6dbfba308b40.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'MSP50-P2'), (b'X-Amz-Cf-Id', b'jUlwqpALgjeTDhbeg0nuvHoE0K-RjokElCN8bzVYN6FKaoajgApvxQ==')])
+2026-04-19 19:21:07,201 - httpx - INFO - _send_single_request - HTTP Request: POST https://router.huggingface.co/hf-inference/models/sentence-transformers/all-MiniLM-L6-v2/pipeline/feature-extraction "HTTP/1.1 200 OK"
+2026-04-19 19:21:07,202 - httpcore.http11 - DEBUG - trace - receive_response_body.started request=<Request [b'POST']>
+2026-04-19 19:21:07,204 - httpcore.http11 - DEBUG - trace - receive_response_body.complete
+2026-04-19 19:21:07,205 - httpcore.http11 - DEBUG - trace - response_closed.started
+2026-04-19 19:21:07,206 - httpcore.http11 - DEBUG - trace - response_closed.complete
+2026-04-19 19:21:07,209 - httpcore.http11 - DEBUG - trace - send_request_headers.started request=<Request [b'POST']>
+2026-04-19 19:21:07,210 - httpcore.http11 - DEBUG - trace - send_request_headers.complete
+2026-04-19 19:21:07,211 - httpcore.http11 - DEBUG - trace - send_request_body.started request=<Request [b'POST']>
+2026-04-19 19:21:07,214 - httpcore.http11 - DEBUG - trace - send_request_body.complete
+2026-04-19 19:21:07,217 - httpcore.http11 - DEBUG - trace - receive_response_headers.started request=<Request [b'POST']>
+2026-04-19 19:21:07,357 - httpcore.http11 - DEBUG - trace - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json'), (b'Content-Length', b'8061'), (b'Connection', b'keep-alive'), (b'Date', b'Sun, 19 Apr 2026 19:21:07 GMT'), (b'x-proxied-replica', b'kdjvq3i3-vn7sd'), (b'X-Powered-By', b'huggingface-moon'), (b'x-request-id', b'Root=1-69e52b23-2b04442d28f763d370e6aea1;12260d51-e2aa-4694-9042-68abc97732b8'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'vary', b'origin, access-control-request-method, access-control-request-headers, origin, access-control-request-method, access-control-request-headers'), (b'Access-Control-Allow-Origin', b'*'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Robots-Tag', b'none'), (b'access-control-allow-credentials', b'true'), (b'server', b'uvicorn'), (b'x-inference-provider', b'hf-inference'), (b'x-inference-id', b'f227d9e8-a977-4dd4-8e08-8cafbb51fa35'), (b'x-proxied-host', b'http://10.109.152.42'), (b'x-proxied-path', b'/pipeline/feature-extraction'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 b95cfb5fc55d930ff76b6dbfba308b40.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'MSP50-P2'), (b'X-Amz-Cf-Id', b'EST8SLnly-Da83iOswCQEChQYDb7MJbZwIBC_Z4P7reUfsKo4YpZig==')])
+2026-04-19 19:21:07,359 - httpx - INFO - _send_single_request - HTTP Request: POST https://router.huggingface.co/hf-inference/models/sentence-transformers/all-MiniLM-L6-v2/pipeline/feature-extraction "HTTP/1.1 200 OK"
+2026-04-19 19:21:07,360 - httpcore.http11 - DEBUG - trace - receive_response_body.started request=<Request [b'POST']>
+2026-04-19 19:21:07,361 - httpcore.http11 - DEBUG - trace - receive_response_body.complete
+2026-04-19 19:21:07,362 - httpcore.http11 - DEBUG - trace - response_closed.started
+2026-04-19 19:21:07,363 - httpcore.http11 - DEBUG - trace - response_closed.complete
+2026-04-19 19:21:07,366 - httpcore.http11 - DEBUG - trace - send_request_headers.started request=<Request [b'POST']>
+2026-04-19 19:21:07,368 - httpcore.http11 - DEBUG - trace - send_request_headers.complete
+2026-04-19 19:21:07,369 - httpcore.http11 - DEBUG - trace - send_request_body.started request=<Request [b'POST']>
+2026-04-19 19:21:07,370 - httpcore.http11 - DEBUG - trace - send_request_body.complete
+2026-04-19 19:21:07,371 - httpcore.http11 - DEBUG - trace - receive_response_headers.started request=<Request [b'POST']>
+2026-04-19 19:21:07,500 - httpcore.http11 - DEBUG - trace - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json'), (b'Content-Length', b'8024'), (b'Connection', b'keep-alive'), (b'Date', b'Sun, 19 Apr 2026 19:21:07 GMT'), (b'x-proxied-replica', b'kdjvq3i3-vn7sd'), (b'X-Powered-By', b'huggingface-moon'), (b'x-request-id', b'Root=1-69e52b23-229bf7e93d91453528dee129;90ecc897-e063-40e5-8711-7d40c03d3a6c'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'vary', b'origin, access-control-request-method, access-control-request-headers, origin, access-control-request-method, access-control-request-headers'), (b'Access-Control-Allow-Origin', b'*'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Robots-Tag', b'none'), (b'access-control-allow-credentials', b'true'), (b'server', b'uvicorn'), (b'x-inference-provider', b'hf-inference'), (b'x-inference-id', b'9e46fd01-09f0-4f92-867f-df052c88eff8'), (b'x-proxied-host', b'http://10.109.152.42'), (b'x-proxied-path', b'/pipeline/feature-extraction'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 b95cfb5fc55d930ff76b6dbfba308b40.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'MSP50-P2'), (b'X-Amz-Cf-Id', b'btpxh-Bt1SOD7xNUnidwGkPU02w3kt2XAiZEIc13UYrhWo1sQRnL9w==')])
+2026-04-19 19:21:07,502 - httpx - INFO - _send_single_request - HTTP Request: POST https://router.huggingface.co/hf-inference/models/sentence-transformers/all-MiniLM-L6-v2/pipeline/feature-extraction "HTTP/1.1 200 OK"
+2026-04-19 19:21:07,503 - httpcore.http11 - DEBUG - trace - receive_response_body.started request=<Request [b'POST']>
+2026-04-19 19:21:07,504 - httpcore.http11 - DEBUG - trace - receive_response_body.complete
+2026-04-19 19:21:07,505 - httpcore.http11 - DEBUG - trace - response_closed.started
+2026-04-19 19:21:07,507 - httpcore.http11 - DEBUG - trace - response_closed.complete
+2026-04-19 19:21:07,565 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_delete_by_query?refresh=true HTTP/1.1" 200 0
+2026-04-19 19:21:07,566 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_delete_by_query?refresh=true [status:200 duration:0.058s]
+2026-04-19 19:21:07,567 - root - DEBUG - delete_page - Deleted existing pages for: Boston Uni SOP.pdf
+2026-04-19 19:21:07,708 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_doc HTTP/1.1" 201 0
+2026-04-19 19:21:07,709 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_doc [status:201 duration:0.139s]
+2026-04-19 19:21:07,710 - root - DEBUG - index_page - Indexed page 1 of Boston Uni SOP.pdf: created
+2026-04-19 19:21:07,763 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_doc HTTP/1.1" 201 0
+2026-04-19 19:21:07,764 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_doc [status:201 duration:0.052s]
+2026-04-19 19:21:07,766 - root - DEBUG - index_page - Indexed page 2 of Boston Uni SOP.pdf: created
+2026-04-19 19:21:07,818 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_doc HTTP/1.1" 201 0
+2026-04-19 19:21:07,819 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_doc [status:201 duration:0.051s]
+2026-04-19 19:21:07,821 - root - DEBUG - index_page - Indexed page 3 of Boston Uni SOP.pdf: created
+2026-04-19 19:21:07,822 - root - INFO - index_document - Indexed Boston Uni SOP.pdf (3 pages)
+2026-04-19 19:21:08,025 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index-uploads/_update/418cff46736ab3daff010a141e64e64e19026ab2058a58354a7873a3493678e2?refresh=true HTTP/1.1" 200 0
+2026-04-19 19:21:08,026 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index-uploads/_update/418cff46736ab3daff010a141e64e64e19026ab2058a58354a7873a3493678e2?refresh=true [status:200 duration:0.203s]
+2026-04-19 19:21:11,199 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index-uploads/_search HTTP/1.1" 200 None
+2026-04-19 19:21:11,200 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index-uploads/_search [status:200 duration:0.062s]
+2026-04-19 19:21:11,256 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-19 19:21:11,257 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.056s]
+2026-04-19 19:21:20,121 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:21:20,123 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.006s]
+2026-04-19 19:21:29,153 - httpcore.connection - DEBUG - trace - close.started
+2026-04-19 19:21:29,155 - httpcore.connection - DEBUG - trace - close.complete
+2026-04-19 19:21:29,155 - httpcore.connection - DEBUG - trace - close.started
+2026-04-19 19:21:29,157 - httpcore.connection - DEBUG - trace - close.complete
+2026-04-19 19:21:29,158 - httpcore.connection - DEBUG - trace - connect_tcp.started host='router.huggingface.co' port=443 local_address=None timeout=120.0 socket_options=None
+2026-04-19 19:21:29,201 - httpcore.connection - DEBUG - trace - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x7b75d5f773a0>
+2026-04-19 19:21:29,202 - httpcore.connection - DEBUG - trace - start_tls.started ssl_context=<ssl.SSLContext object at 0x7b75d6c417c0> server_hostname='router.huggingface.co' timeout=120.0
+2026-04-19 19:21:29,237 - httpcore.connection - DEBUG - trace - start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x7b75d5f77400>
+2026-04-19 19:21:29,238 - httpcore.http11 - DEBUG - trace - send_request_headers.started request=<Request [b'POST']>
+2026-04-19 19:21:29,240 - httpcore.http11 - DEBUG - trace - send_request_headers.complete
+2026-04-19 19:21:29,241 - httpcore.http11 - DEBUG - trace - send_request_body.started request=<Request [b'POST']>
+2026-04-19 19:21:29,242 - httpcore.http11 - DEBUG - trace - send_request_body.complete
+2026-04-19 19:21:29,244 - httpcore.http11 - DEBUG - trace - receive_response_headers.started request=<Request [b'POST']>
+2026-04-19 19:21:29,356 - httpcore.http11 - DEBUG - trace - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json'), (b'Content-Length', b'8067'), (b'Connection', b'keep-alive'), (b'Date', b'Sun, 19 Apr 2026 19:21:29 GMT'), (b'x-proxied-replica', b'kdjvq3i3-vn7sd'), (b'X-Powered-By', b'huggingface-moon'), (b'x-request-id', b'Root=1-69e52b39-23f4680f18f887402e20e0f8;0c760a06-bf33-450d-89e7-7ce466ab0895'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'vary', b'origin, access-control-request-method, access-control-request-headers, origin, access-control-request-method, access-control-request-headers'), (b'Access-Control-Allow-Origin', b'*'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Robots-Tag', b'none'), (b'access-control-allow-credentials', b'true'), (b'server', b'uvicorn'), (b'x-inference-provider', b'hf-inference'), (b'x-inference-id', b'99986afd-4f4d-401c-aad6-15870ebec34a'), (b'x-proxied-host', b'http://10.109.152.42'), (b'x-proxied-path', b'/pipeline/feature-extraction'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 a5e934660f9817baef055c1ec689c0b6.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'MSP50-P2'), (b'X-Amz-Cf-Id', b'nardd5DM1IdjCgBsU9j7u28c3NPVSN8oUFiazZifT90jRA9hca0Q9Q==')])
+2026-04-19 19:21:29,358 - httpx - INFO - _send_single_request - HTTP Request: POST https://router.huggingface.co/hf-inference/models/sentence-transformers/all-MiniLM-L6-v2/pipeline/feature-extraction "HTTP/1.1 200 OK"
+2026-04-19 19:21:29,359 - httpcore.http11 - DEBUG - trace - receive_response_body.started request=<Request [b'POST']>
+2026-04-19 19:21:29,360 - httpcore.http11 - DEBUG - trace - receive_response_body.complete
+2026-04-19 19:21:29,361 - httpcore.http11 - DEBUG - trace - response_closed.started
+2026-04-19 19:21:29,362 - httpcore.http11 - DEBUG - trace - response_closed.complete
+2026-04-19 19:21:29,430 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-19 19:21:29,431 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.067s]
+2026-04-19 19:21:29,545 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-19 19:21:29,547 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.113s]
+2026-04-19 19:21:35,812 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:21:35,813 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.006s]
+2026-04-19 19:21:36,992 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index-uploads/_search HTTP/1.1" 200 None
+2026-04-19 19:21:36,995 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index-uploads/_search [status:200 duration:0.016s]
+2026-04-19 19:21:37,012 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-19 19:21:37,013 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.016s]
+2026-04-19 19:21:51,503 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:21:51,505 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.009s]
+2026-04-19 19:22:07,155 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:22:07,156 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.006s]
+2026-04-19 19:22:22,812 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:22:22,814 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.008s]
+2026-04-19 19:22:25,055 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "PUT /pdf-index-uploads/_doc/b4aeb97da3bc79884207c0d80351a08f233220575ee9a54d64c6f4bd9ec3ad51?refresh=true HTTP/1.1" 201 0
+2026-04-19 19:22:25,056 - elastic_transport.transport - INFO - perform_request - PUT http://elasticsearch:9200/pdf-index-uploads/_doc/b4aeb97da3bc79884207c0d80351a08f233220575ee9a54d64c6f4bd9ec3ad51?refresh=true [status:201 duration:0.072s]
+2026-04-19 19:22:26,216 - httpcore.connection - DEBUG - trace - close.started
+2026-04-19 19:22:26,218 - httpcore.connection - DEBUG - trace - close.complete
+2026-04-19 19:22:26,219 - httpcore.connection - DEBUG - trace - connect_tcp.started host='router.huggingface.co' port=443 local_address=None timeout=120.0 socket_options=None
+2026-04-19 19:22:26,454 - httpcore.connection - DEBUG - trace - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x7b75d68c4a90>
+2026-04-19 19:22:26,455 - httpcore.connection - DEBUG - trace - start_tls.started ssl_context=<ssl.SSLContext object at 0x7b75d6c417c0> server_hostname='router.huggingface.co' timeout=120.0
+2026-04-19 19:22:26,497 - httpcore.connection - DEBUG - trace - start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x7b75d68c4a60>
+2026-04-19 19:22:26,498 - httpcore.http11 - DEBUG - trace - send_request_headers.started request=<Request [b'POST']>
+2026-04-19 19:22:26,500 - httpcore.http11 - DEBUG - trace - send_request_headers.complete
+2026-04-19 19:22:26,501 - httpcore.http11 - DEBUG - trace - send_request_body.started request=<Request [b'POST']>
+2026-04-19 19:22:26,503 - httpcore.http11 - DEBUG - trace - send_request_body.complete
+2026-04-19 19:22:26,504 - httpcore.http11 - DEBUG - trace - receive_response_headers.started request=<Request [b'POST']>
+2026-04-19 19:22:26,650 - httpcore.http11 - DEBUG - trace - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json'), (b'Content-Length', b'8051'), (b'Connection', b'keep-alive'), (b'Date', b'Sun, 19 Apr 2026 19:22:26 GMT'), (b'x-proxied-replica', b'kdjvq3i3-vn7sd'), (b'X-Powered-By', b'huggingface-moon'), (b'x-request-id', b'Root=1-69e52b72-59c3321e46268e6d6ea9de45;c8e523f8-5e17-4e21-b080-b43b7de02524'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'vary', b'origin, access-control-request-method, access-control-request-headers, origin, access-control-request-method, access-control-request-headers'), (b'Access-Control-Allow-Origin', b'*'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Robots-Tag', b'none'), (b'access-control-allow-credentials', b'true'), (b'server', b'uvicorn'), (b'x-inference-provider', b'hf-inference'), (b'x-inference-id', b'e76ef689-98e2-4cab-b3e0-5f544aad454d'), (b'x-proxied-host', b'http://10.109.152.42'), (b'x-proxied-path', b'/pipeline/feature-extraction'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 8668391dce76a5e01d23980e8e8d3454.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'MSP50-P2'), (b'X-Amz-Cf-Id', b'eguzLDzU7DryLU_4U0r76tpxE8ow1Fas0VQfMQT9v3Xo9UE8PkIVGQ==')])
+2026-04-19 19:22:26,652 - httpx - INFO - _send_single_request - HTTP Request: POST https://router.huggingface.co/hf-inference/models/sentence-transformers/all-MiniLM-L6-v2/pipeline/feature-extraction "HTTP/1.1 200 OK"
+2026-04-19 19:22:26,653 - httpcore.http11 - DEBUG - trace - receive_response_body.started request=<Request [b'POST']>
+2026-04-19 19:22:26,655 - httpcore.http11 - DEBUG - trace - receive_response_body.complete
+2026-04-19 19:22:26,656 - httpcore.http11 - DEBUG - trace - response_closed.started
+2026-04-19 19:22:26,657 - httpcore.http11 - DEBUG - trace - response_closed.complete
+2026-04-19 19:22:26,681 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_delete_by_query?refresh=true HTTP/1.1" 200 0
+2026-04-19 19:22:26,682 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_delete_by_query?refresh=true [status:200 duration:0.023s]
+2026-04-19 19:22:26,684 - root - DEBUG - delete_page - Deleted existing pages for: Prasad Resume.pdf
+2026-04-19 19:22:26,756 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_doc HTTP/1.1" 201 0
+2026-04-19 19:22:26,757 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_doc [status:201 duration:0.071s]
+2026-04-19 19:22:26,760 - root - DEBUG - index_page - Indexed page 1 of Prasad Resume.pdf: created
+2026-04-19 19:22:26,762 - root - INFO - index_document - Indexed Prasad Resume.pdf (1 pages)
+2026-04-19 19:22:26,882 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index-uploads/_update/b4aeb97da3bc79884207c0d80351a08f233220575ee9a54d64c6f4bd9ec3ad51?refresh=true HTTP/1.1" 200 0
+2026-04-19 19:22:26,884 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index-uploads/_update/b4aeb97da3bc79884207c0d80351a08f233220575ee9a54d64c6f4bd9ec3ad51?refresh=true [status:200 duration:0.118s]
+2026-04-19 19:22:30,663 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index-uploads/_search HTTP/1.1" 200 None
+2026-04-19 19:22:30,665 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index-uploads/_search [status:200 duration:0.016s]
+2026-04-19 19:22:30,690 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-19 19:22:30,692 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.026s]
+2026-04-19 19:22:38,581 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:22:38,583 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.006s]
+2026-04-19 19:22:54,220 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:22:54,221 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:22:54,631 - httpcore.connection - DEBUG - trace - close.started
+2026-04-19 19:22:54,633 - httpcore.connection - DEBUG - trace - close.complete
+2026-04-19 19:22:54,634 - httpcore.connection - DEBUG - trace - connect_tcp.started host='router.huggingface.co' port=443 local_address=None timeout=120.0 socket_options=None
+2026-04-19 19:22:54,678 - httpcore.connection - DEBUG - trace - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x7b75d68c6710>
+2026-04-19 19:22:54,679 - httpcore.connection - DEBUG - trace - start_tls.started ssl_context=<ssl.SSLContext object at 0x7b75d6c417c0> server_hostname='router.huggingface.co' timeout=120.0
+2026-04-19 19:22:54,721 - httpcore.connection - DEBUG - trace - start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x7b75d68c6740>
+2026-04-19 19:22:54,722 - httpcore.http11 - DEBUG - trace - send_request_headers.started request=<Request [b'POST']>
+2026-04-19 19:22:54,724 - httpcore.http11 - DEBUG - trace - send_request_headers.complete
+2026-04-19 19:22:54,726 - httpcore.http11 - DEBUG - trace - send_request_body.started request=<Request [b'POST']>
+2026-04-19 19:22:54,728 - httpcore.http11 - DEBUG - trace - send_request_body.complete
+2026-04-19 19:22:54,729 - httpcore.http11 - DEBUG - trace - receive_response_headers.started request=<Request [b'POST']>
+2026-04-19 19:22:54,880 - httpcore.http11 - DEBUG - trace - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json'), (b'Content-Length', b'8045'), (b'Connection', b'keep-alive'), (b'Date', b'Sun, 19 Apr 2026 19:22:54 GMT'), (b'x-proxied-replica', b'kdjvq3i3-vn7sd'), (b'X-Powered-By', b'huggingface-moon'), (b'x-request-id', b'Root=1-69e52b8e-525bec43439694fa377b2951;70054cd3-3760-409b-8316-c573da8dfd72'), (b'cross-origin-opener-policy', b'same-origin'), (b'Referrer-Policy', b'strict-origin-when-cross-origin'), (b'vary', b'origin, access-control-request-method, access-control-request-headers, origin, access-control-request-method, access-control-request-headers'), (b'Access-Control-Allow-Origin', b'*'), (b'Access-Control-Expose-Headers', b'X-Repo-Commit,X-Request-Id,X-Error-Code,X-Error-Message,X-Total-Count,ETag,Link,Accept-Ranges,Content-Range,X-Linked-Size,X-Linked-ETag,X-Xet-Hash'), (b'X-Robots-Tag', b'none'), (b'access-control-allow-credentials', b'true'), (b'server', b'uvicorn'), (b'x-inference-provider', b'hf-inference'), (b'x-inference-id', b'8d361268-f616-46f7-8be5-6a3087b25d0a'), (b'x-proxied-host', b'http://10.109.152.42'), (b'x-proxied-path', b'/pipeline/feature-extraction'), (b'X-Cache', b'Miss from cloudfront'), (b'Via', b'1.1 c77aeab3024e2cd98690f252e49562ac.cloudfront.net (CloudFront)'), (b'X-Amz-Cf-Pop', b'MSP50-P2'), (b'X-Amz-Cf-Id', b'RF1Scst_EtJmCXi82qE6bCIGZ3pg8FSDBlwrHYLd3srM-RR8oVZy_A==')])
+2026-04-19 19:22:54,882 - httpx - INFO - _send_single_request - HTTP Request: POST https://router.huggingface.co/hf-inference/models/sentence-transformers/all-MiniLM-L6-v2/pipeline/feature-extraction "HTTP/1.1 200 OK"
+2026-04-19 19:22:54,883 - httpcore.http11 - DEBUG - trace - receive_response_body.started request=<Request [b'POST']>
+2026-04-19 19:22:54,885 - httpcore.http11 - DEBUG - trace - receive_response_body.complete
+2026-04-19 19:22:54,886 - httpcore.http11 - DEBUG - trace - response_closed.started
+2026-04-19 19:22:54,887 - httpcore.http11 - DEBUG - trace - response_closed.complete
+2026-04-19 19:22:55,058 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-19 19:22:55,060 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.170s]
+2026-04-19 19:22:55,097 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "POST /pdf-index/_search HTTP/1.1" 200 None
+2026-04-19 19:22:55,098 - elastic_transport.transport - INFO - perform_request - POST http://elasticsearch:9200/pdf-index/_search [status:200 duration:0.036s]
+2026-04-19 19:23:09,901 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:23:09,902 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.011s]
+2026-04-19 19:23:25,542 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:23:25,544 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.007s]
+2026-04-19 19:23:41,218 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:23:41,222 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.013s]
+2026-04-19 19:23:56,967 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:23:56,968 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.006s]
+2026-04-19 19:24:12,658 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:24:12,660 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.006s]
+2026-04-19 19:24:28,317 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:24:28,319 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.010s]
+2026-04-19 19:24:43,965 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:24:43,966 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:24:59,603 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:24:59,605 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:25:15,336 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:25:15,338 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.025s]
+2026-04-19 19:25:31,000 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:25:31,002 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.006s]
+2026-04-19 19:25:46,671 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:25:46,672 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.006s]
+2026-04-19 19:26:02,292 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:26:02,294 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:26:17,953 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:26:17,955 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.009s]
+2026-04-19 19:26:33,591 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:26:33,592 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:26:49,212 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:26:49,213 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:27:04,847 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:27:04,849 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:27:20,466 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:27:20,467 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.006s]
+2026-04-19 19:27:36,108 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:27:36,109 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:27:51,744 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:27:51,745 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:28:07,395 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:28:07,396 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:28:23,009 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:28:23,010 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:28:38,615 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:28:38,616 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:28:54,231 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:28:54,232 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.007s]
+2026-04-19 19:29:09,868 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:29:09,869 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:29:25,485 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:29:25,486 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:29:41,091 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:29:41,092 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:29:56,719 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:29:56,720 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:30:12,355 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:30:12,356 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.004s]
+2026-04-19 19:30:27,959 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:30:27,961 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.006s]
+2026-04-19 19:30:43,936 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:30:43,938 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:30:59,769 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:30:59,771 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:31:15,455 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:31:15,456 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:31:31,145 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:31:31,146 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:31:46,762 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:31:46,764 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:32:02,376 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:32:02,378 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.004s]
+2026-04-19 19:32:17,981 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:32:17,982 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.004s]
+2026-04-19 19:32:33,617 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:32:33,618 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:32:49,231 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:32:49,232 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.004s]
+2026-04-19 19:33:04,845 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:33:04,846 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.004s]
+2026-04-19 19:33:20,480 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:33:20,482 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:33:36,097 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:33:36,098 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:33:51,693 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:33:51,694 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:34:07,314 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:34:07,315 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:34:22,930 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:34:22,931 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.004s]
+2026-04-19 19:34:38,532 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:34:38,533 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.004s]
+2026-04-19 19:34:54,139 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:34:54,140 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.004s]
+2026-04-19 19:35:09,742 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:35:09,744 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:35:25,364 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:35:25,366 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:35:41,064 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:35:41,065 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:35:56,665 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:35:56,666 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.004s]
+2026-04-19 19:36:12,289 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:36:12,290 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.004s]
+2026-04-19 19:36:27,908 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:36:27,909 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.004s]
+2026-04-19 19:36:43,527 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:36:43,528 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:36:59,139 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:36:59,141 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:37:14,745 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:37:14,746 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:37:30,359 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:37:30,360 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:37:45,980 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:37:45,981 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:38:01,600 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:38:01,602 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:38:17,317 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:38:17,318 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:38:32,953 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:38:32,955 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.004s]
+2026-04-19 19:38:48,562 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:38:48,563 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.004s]
+2026-04-19 19:39:04,199 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:39:04,201 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:39:19,817 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:39:19,819 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:39:35,437 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:39:35,439 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:39:51,049 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:39:51,051 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:40:06,759 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:40:06,761 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:40:22,383 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:40:22,384 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:40:38,002 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:40:38,003 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:40:53,619 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:40:53,620 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:41:09,259 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:41:09,260 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.004s]
+2026-04-19 19:41:24,869 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:41:24,870 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:41:40,486 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:41:40,487 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:41:56,089 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:41:56,090 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.006s]
+2026-04-19 19:42:11,753 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:42:11,754 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:42:27,378 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:42:27,379 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:42:42,981 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:42:42,982 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:42:58,609 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:42:58,611 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:43:14,300 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:43:14,301 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:43:29,930 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:43:29,932 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:43:45,553 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:43:45,554 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.004s]
+2026-04-19 19:44:01,165 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:44:01,167 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:44:16,808 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:44:16,809 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.004s]
+2026-04-19 19:44:32,432 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:44:32,433 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:44:48,021 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:44:48,022 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.004s]
+2026-04-19 19:45:03,663 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:45:03,664 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.004s]
+2026-04-19 19:45:19,276 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:45:19,278 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:45:34,898 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:45:34,899 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.004s]
+2026-04-19 19:45:50,505 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:45:50,506 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:46:06,128 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:46:06,129 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.004s]
+2026-04-19 19:46:21,746 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:46:21,747 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.004s]
+2026-04-19 19:46:37,361 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:46:37,362 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.004s]
+2026-04-19 19:46:52,962 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:46:52,963 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:47:08,583 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:47:08,584 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.004s]
+2026-04-19 19:47:24,202 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:47:24,203 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:47:39,815 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:47:39,816 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.004s]
+2026-04-19 19:47:55,477 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:47:55,478 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:48:11,105 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:48:11,106 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.004s]
+2026-04-19 19:48:26,702 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:48:26,703 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.004s]
+2026-04-19 19:48:42,328 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:48:42,329 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:48:57,959 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:48:57,961 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.004s]
+2026-04-19 19:49:13,571 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:49:13,572 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.004s]
+2026-04-19 19:49:29,175 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:49:29,177 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.004s]
+2026-04-19 19:49:44,786 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:49:44,787 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.004s]
+2026-04-19 19:50:00,384 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:50:00,386 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.004s]
+2026-04-19 19:50:15,993 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:50:15,994 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.004s]
+2026-04-19 19:50:31,605 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:50:31,606 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.004s]
+2026-04-19 19:50:47,218 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:50:47,219 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.004s]
+2026-04-19 19:51:02,824 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:51:02,826 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:51:18,449 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:51:18,450 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.004s]
+2026-04-19 19:51:34,060 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:51:34,061 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.004s]
+2026-04-19 19:51:49,684 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:51:49,685 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.004s]
+2026-04-19 19:52:05,299 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:52:05,300 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.004s]
+2026-04-19 19:52:20,916 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:52:20,917 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:52:36,520 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:52:36,521 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.004s]
+2026-04-19 19:52:52,138 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:52:52,139 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.004s]
+2026-04-19 19:53:07,744 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:53:07,745 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:53:23,374 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:53:23,375 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:53:38,995 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:53:38,996 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.004s]
+2026-04-19 19:53:54,605 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:53:54,606 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.004s]
+2026-04-19 19:54:10,215 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:54:10,216 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.004s]
+2026-04-19 19:54:25,826 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:54:25,828 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:54:41,453 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:54:41,455 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.004s]
+2026-04-19 19:54:57,063 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:54:57,065 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:55:12,719 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:55:12,721 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:55:28,326 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:55:28,328 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:55:43,973 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:55:43,974 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.004s]
+2026-04-19 19:55:59,598 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:55:59,599 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:56:15,226 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:56:15,227 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.004s]
+2026-04-19 19:56:30,841 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:56:30,842 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:56:46,473 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:56:46,474 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.004s]
+2026-04-19 19:57:02,076 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:57:02,078 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:57:17,703 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:57:17,704 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:57:33,346 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:57:33,347 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:57:48,994 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:57:48,996 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.006s]
+2026-04-19 19:58:04,650 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:58:04,651 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:58:20,311 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:58:20,312 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:58:35,944 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:58:35,945 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:58:51,584 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:58:51,585 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:59:07,242 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:59:07,243 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:59:22,887 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:59:22,888 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.004s]
+2026-04-19 19:59:38,521 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:59:38,523 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 19:59:54,143 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 19:59:54,144 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.004s]
+2026-04-19 20:00:09,784 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 20:00:09,785 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 20:00:25,414 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 20:00:25,415 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 20:00:41,034 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 20:00:41,035 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 20:00:56,662 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 20:00:56,664 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.004s]
+2026-04-19 20:01:12,308 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 20:01:12,310 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 20:01:27,950 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 20:01:27,951 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 20:01:43,614 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 20:01:43,616 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 20:01:59,264 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 20:01:59,266 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.004s]
+2026-04-19 20:02:14,884 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 20:02:14,885 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.005s]
+2026-04-19 20:02:30,516 - urllib3.connectionpool - DEBUG - _make_request - http://elasticsearch:9200 "HEAD / HTTP/1.1" 200 0
+2026-04-19 20:02:30,517 - elastic_transport.transport - INFO - perform_request - HEAD http://elasticsearch:9200/ [status:200 duration:0.004s]

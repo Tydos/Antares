@@ -2,11 +2,11 @@ import time
 from contextlib import asynccontextmanager
 from typing import Any
 
-from fastapi import BackgroundTasks, Depends, FastAPI, Query
+from fastapi import APIRouter, BackgroundTasks, Depends, FastAPI, Query
 from fastapi.exceptions import HTTPException
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
-import src.utils.logger  # noqa: F401 — configures root logger as a side effect
+import src.utils.logger  # noqa: F401 — configures stdout logging as a side effect
 from src.backends.search import ElasticsearchSearchBackend
 from src.blob_client_token import generate_client_token_from_read_write_token
 from src.config import settings
@@ -25,14 +25,15 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(title="RAG PDF Hybrid Search", lifespan=lifespan)
+router = APIRouter()
 
 
-@app.get("/")
+@router.get("/")
 def root():
     return {"message": "Welcome to the RAG PDF Hybrid Search API. Use /docs for interactive API docs."}
 
 
-@app.get("/health")
+@router.get("/health")
 def health(search: ElasticsearchSearchBackend = Depends(get_search)):
     checks = {"elasticsearch": search.ping_es()}
     ok = all(checks.values())
@@ -49,7 +50,7 @@ class UploadCompleteRequest(BaseModel):
     blobUrl: str
 
 
-@app.post("/blob-upload")
+@router.post("/blob-upload")
 def blob_upload(body: dict[str, Any]):
     """
     Vercel Blob handleUpload-compatible endpoint (@vercel/blob client upload()).
@@ -94,7 +95,7 @@ def blob_upload(body: dict[str, Any]):
     return {"type": "blob.generate-client-token", "clientToken": client_token}
 
 
-@app.post("/upload-complete")
+@router.post("/upload-complete")
 def upload_complete(
     req: UploadCompleteRequest,
     background_tasks: BackgroundTasks,
@@ -106,7 +107,7 @@ def upload_complete(
     return {"status": "upload recorded, indexing in progress"}
 
 
-@app.get("/search")
+@router.get("/search")
 def search(
     q: str = Query(...),
     top_k: int = Query(5, ge=1, le=50),
@@ -123,7 +124,7 @@ def search(
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.get("/documents")
+@router.get("/documents")
 def list_documents(search: ElasticsearchSearchBackend = Depends(get_search)):
     try:
         docs = search.list_documents()
@@ -132,7 +133,7 @@ def list_documents(search: ElasticsearchSearchBackend = Depends(get_search)):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.delete("/files/{filename}")
+@router.delete("/files/{filename}")
 def delete_file(
     filename: str,
     es: ElasticsearchSearchBackend = Depends(get_search),
@@ -145,3 +146,6 @@ def delete_file(
         raise HTTPException(status_code=404, detail=str(e))
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
+app.include_router(router, prefix=settings.route_prefix)
