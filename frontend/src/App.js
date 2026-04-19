@@ -21,7 +21,7 @@ export default function App() {
       </main>
 
       <footer className="site-footer">
-        <p>RAG PDF Hybrid Search &mdash; Elasticsearch + MinIO</p>
+        <p>RAG PDF Hybrid Search &mdash; Elasticsearch + Vercel Blob</p>
       </footer>
     </div>
   );
