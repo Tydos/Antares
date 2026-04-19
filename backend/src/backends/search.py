@@ -1,7 +1,10 @@
-from elasticsearch import Elasticsearch
-from elasticsearch.exceptions import BadRequestError
-from datetime import datetime, timezone
+import hashlib
 import logging
+from datetime import datetime, timezone
+
+from elasticsearch import Elasticsearch
+from elasticsearch.exceptions import BadRequestError, NotFoundError
+
 from src.config import settings
 
 
@@ -14,6 +17,20 @@ _INDEX_MAPPINGS = {
         "embedding":   {"type": "dense_vector", "dims": settings.embedding_dims, "index": True, "similarity": "cosine"}
     }
 }
+
+_UPLOADS_MAPPINGS = {
+    "properties": {
+        "filename":    {"type": "keyword"},
+        "blob_url":    {"type": "keyword"},
+        "uploaded_at": {"type": "date"},
+        "status":      {"type": "keyword"},
+        "page_count":  {"type": "integer"},
+    }
+}
+
+
+def _upload_doc_id(filename: str) -> str:
+    return hashlib.sha256(filename.encode("utf-8")).hexdigest()
 
 
 class ElasticsearchSearchBackend:
@@ -34,6 +51,7 @@ class ElasticsearchSearchBackend:
         """Connect to Elasticsearch and ensure the index exists with the correct mapping."""
         self._client = client
         self._index = index_name
+        self._uploads_index = f"{index_name}-uploads"
         try:
             self._client.indices.create(index=self._index, mappings=_INDEX_MAPPINGS)
             logging.debug(f"Created index: {self._index}")
@@ -44,6 +62,21 @@ class ElasticsearchSearchBackend:
                 self._client.indices.put_mapping(index=self._index, properties=_INDEX_MAPPINGS["properties"])
             except Exception:
                 logging.warning(f"Could not update mapping for index '{self._index}' — it may be out of date.")
+
+        try:
+            self._client.indices.create(index=self._uploads_index, mappings=_UPLOADS_MAPPINGS)
+            logging.debug(f"Created uploads index: {self._uploads_index}")
+        except BadRequestError as e:
+            if "resource_already_exists_exception" not in str(e):
+                raise
+            try:
+                self._client.indices.put_mapping(
+                    index=self._uploads_index, properties=_UPLOADS_MAPPINGS["properties"]
+                )
+            except Exception:
+                logging.warning(
+                    f"Could not update mapping for uploads index '{self._uploads_index}' — it may be out of date."
+                )
 
     def ping_es(self) -> bool:
         """Return True if the Elasticsearch cluster is reachable."""
@@ -77,6 +110,64 @@ class ElasticsearchSearchBackend:
             refresh=True
         )
         logging.debug(f"Deleted existing pages for: {filename}")
+
+    def record_upload(self, filename: str, blob_url: str) -> None:
+        """Persist one row per Vercel upload so /documents can list files before indexing finishes."""
+        doc = {
+            "filename":    filename,
+            "blob_url":    blob_url,
+            "uploaded_at": datetime.now(timezone.utc).isoformat(),
+            "status":      "pending",
+            "page_count":  0,
+        }
+        self._client.index(
+            index=self._uploads_index,
+            id=_upload_doc_id(filename),
+            document=doc,
+            refresh=True,
+        )
+
+    def set_upload_status(self, filename: str, status: str, page_count: int = 0) -> None:
+        """Update ingestion outcome (indexed / skipped / failed)."""
+        self._client.update(
+            index=self._uploads_index,
+            id=_upload_doc_id(filename),
+            doc={"status": status, "page_count": page_count},
+            refresh=True,
+        )
+
+    def delete_upload_record(self, filename: str) -> None:
+        try:
+            self._client.delete(
+                index=self._uploads_index, id=_upload_doc_id(filename), refresh=True
+            )
+        except NotFoundError:
+            pass
+
+    def _aggregate_indexed_files(self) -> dict[str, dict]:
+        response = self._client.search(
+            index=self._index,
+            size=0,
+            aggs={
+                "by_file": {
+                    "terms": {"field": "filename", "size": 10000},
+                    "aggs": {
+                        "pages":          {"max": {"field": "page_number"}},
+                        "uploaded_at":    {"max": {"field": "uploaded_at"}},
+                        "embedded_pages": {"filter": {"exists": {"field": "embedding"}}},
+                    },
+                }
+            },
+        )
+        out: dict[str, dict] = {}
+        for bucket in response["aggregations"]["by_file"]["buckets"]:
+            fn = bucket["key"]
+            out[fn] = {
+                "page_count":  int(bucket["pages"]["value"]),
+                "uploaded_at": bucket["uploaded_at"]["value_as_string"],
+                "embedded":    bucket["embedded_pages"]["doc_count"] == bucket["doc_count"],
+            }
+        return out
 
     def hybrid_search(self, query: str, query_vector: list[float], top_k: int = 5) -> list[dict]:
         """Combine BM25 and kNN results using Reciprocal Rank Fusion (RRF).
@@ -131,31 +222,52 @@ class ElasticsearchSearchBackend:
         return results
 
     def list_documents(self) -> list[dict]:
-        """Return a summary list of all indexed PDFs.
+        """Return every known upload (Vercel) plus legacy rows that only exist in the page index."""
+        upload_hits = self._client.search(
+            index=self._uploads_index,
+            size=10000,
+            sort=[{"uploaded_at": {"order": "desc"}}],
+            query={"match_all": {}},
+        )["hits"]["hits"]
 
-        Uses a terms aggregation to group pages by filename, returning one entry per file
-        with its total page count and the timestamp of its most recent upload.
-        """
-        response = self._client.search(
-            index=self._index,
-            size=0,
-            aggs={
-                "by_file": {
-                    "terms": {"field": "filename", "size": 10000},
-                    "aggs": {
-                        "pages":          {"max": {"field": "page_number"}},
-                        "uploaded_at":    {"max": {"field": "uploaded_at"}},
-                        "embedded_pages": {"filter": {"exists": {"field": "embedding"}}},
-                    }
-                }
+        by_name: dict[str, dict] = {}
+        for hit in upload_hits:
+            src = hit["_source"]
+            fn = src["filename"]
+            by_name[fn] = {
+                "filename":    fn,
+                "blob_url":    src.get("blob_url", ""),
+                "page_count":  int(src.get("page_count") or 0),
+                "uploaded_at": src.get("uploaded_at"),
+                "status":      src.get("status", "pending"),
+                "embedded":    src.get("status") == "indexed" and int(src.get("page_count") or 0) > 0,
             }
-        )
-        return [
-            {
-                "filename":    bucket["key"],
-                "page_count":  int(bucket["pages"]["value"]),
-                "uploaded_at": bucket["uploaded_at"]["value_as_string"],
-                "embedded":    bucket["embedded_pages"]["doc_count"] == bucket["doc_count"],
+
+        indexed_only = self._aggregate_indexed_files()
+        for fn, meta in indexed_only.items():
+            if fn in by_name:
+                if by_name[fn]["status"] == "indexed":
+                    by_name[fn]["embedded"] = meta["embedded"]
+                continue
+            by_name[fn] = {
+                "filename":    fn,
+                "blob_url":    "",
+                "page_count":  meta["page_count"],
+                "uploaded_at": meta["uploaded_at"],
+                "status":      "indexed",
+                "embedded":    meta["embedded"],
             }
-            for bucket in response["aggregations"]["by_file"]["buckets"]
-        ]
+
+        for fn, row in by_name.items():
+            if fn in indexed_only and row.get("status") == "indexed":
+                row["page_count"] = indexed_only[fn]["page_count"]
+                row["embedded"] = indexed_only[fn]["embedded"]
+
+        rows = list(by_name.values())
+
+        def _sort_key(row: dict) -> str:
+            u = row.get("uploaded_at") or ""
+            return u if isinstance(u, str) else ""
+
+        rows.sort(key=_sort_key, reverse=True)
+        return rows

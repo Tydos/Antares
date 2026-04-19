@@ -6,12 +6,14 @@ export default function UploadSection() {
   const [file, setFile] = useState(null);
   const [msg, setMsg] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [progress, setProgress] = useState(null);
 
   async function handleUpload() {
     setLoading(true);
     setMsg(null);
+    setProgress(0);
     try {
-      const res = await uploadPDF(file);
+      const res = await uploadPDF(file, setProgress);
       setMsg({ ok: true, text: res.status });
       setFile(null);
       setKey((k) => k + 1);
@@ -19,6 +21,7 @@ export default function UploadSection() {
       setMsg({ ok: false, text: String(e) });
     } finally {
       setLoading(false);
+      setProgress(null);
     }
   }
 
@@ -31,6 +34,7 @@ export default function UploadSection() {
           {loading ? 'Uploading…' : 'Upload'}
         </button>
       </div>
+      {loading && progress !== null && <progress value={progress} max={1} />}
       {msg && <p className={msg.ok ? 'success' : 'error'}>{msg.text}</p>}
     </section>
   );

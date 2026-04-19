@@ -1,19 +1,23 @@
+import time
 from contextlib import asynccontextmanager
-from fastapi import BackgroundTasks, Depends, FastAPI, Query, UploadFile
+from typing import Any
+
+from fastapi import APIRouter, BackgroundTasks, Depends, FastAPI, Query
 from fastapi.exceptions import HTTPException
 from fastapi.responses import JSONResponse
-import src.utils.logger  # noqa: F401 — configures root logger as a side effect
-from src.backends.storage import MinioStorageBackend
+from pydantic import BaseModel
+import src.utils.logger  # noqa: F401 — configures stdout logging as a side effect
 from src.backends.search import ElasticsearchSearchBackend
+from src.blob_client_token import generate_client_token_from_read_write_token
+from src.config import settings
 from src.pipeline.ingestion import IngestionPipeline
-from src.services import init_services, get_storage, get_search, get_indexing, get_embeddings
+from src.services import init_services, get_search, get_indexing, get_embeddings
 from src.backends.embeddings import TextEncoder
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     services = init_services()
-    app.state.storage    = services["storage"]
     app.state.search     = services["search"]
     app.state.indexing   = services["indexing"]
     app.state.embeddings = services["embeddings"]
@@ -21,37 +25,89 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(title="RAG PDF Hybrid Search", lifespan=lifespan)
+router = APIRouter()
 
 
-@app.get("/")
+@router.get("/")
 def root():
     return {"message": "Welcome to the RAG PDF Hybrid Search API. Use /docs for interactive API docs."}
 
-@app.get("/health")
-def health(minio: MinioStorageBackend = Depends(get_storage), search: ElasticsearchSearchBackend = Depends(get_search)):
-    checks = {"minio": minio.ping_minio(), "elasticsearch": search.ping_es()}
+
+@router.get("/health")
+def health(search: ElasticsearchSearchBackend = Depends(get_search)):
+    checks = {"elasticsearch": search.ping_es()}
     ok = all(checks.values())
     return JSONResponse({"status": "ok" if ok else "degraded", "services": checks}, status_code=200 if ok else 503)
 
 
-@app.post("/upload")
-async def upload(
-    background_tasks: BackgroundTasks,
-    file: UploadFile,
-    minio: MinioStorageBackend = Depends(get_storage),
-    indexing: IngestionPipeline = Depends(get_indexing),
-):
+# Max PDF size for client uploads (100 MiB)
+_MAX_PDF_BYTES = 100 * 1024 * 1024
+_PDF_CONTENT_TYPES = ("application/pdf", "application/x-pdf", "application/octet-stream")
+
+
+class UploadCompleteRequest(BaseModel):
+    filename: str
+    blobUrl: str
+
+
+@router.post("/blob-upload")
+def blob_upload(body: dict[str, Any]):
+    """
+    Vercel Blob handleUpload-compatible endpoint (@vercel/blob client upload()).
+    """
+    token = settings.blob_read_write_token.strip()
+    if not token:
+        raise HTTPException(
+            status_code=503,
+            detail="BLOB_READ_WRITE_TOKEN is not configured; cannot mint client tokens.",
+        )
+
+    event_type = body.get("type")
+    if event_type == "blob.upload-completed":
+        raise HTTPException(
+            status_code=400,
+            detail="Upload completion callbacks are not enabled; indexing is triggered via POST /upload-complete.",
+        )
+
+    if event_type != "blob.generate-client-token":
+        raise HTTPException(status_code=400, detail=f"Unsupported event type: {event_type!r}")
+
+    payload = body.get("payload") or {}
+    pathname = payload.get("pathname")
+    if not pathname or not isinstance(pathname, str):
+        raise HTTPException(status_code=400, detail="Missing payload.pathname")
+
+    one_hour_ms = 60 * 60 * 1000
+    valid_until = int(time.time() * 1000) + one_hour_ms
+
     try:
-        filename = await minio.upload(file)
-        background_tasks.add_task(indexing.index_document, filename)
-        return {"url": f"/files/{filename}", "status": "upload successful, indexing in progress"}
+        client_token = generate_client_token_from_read_write_token(
+            read_write_token=token,
+            pathname=pathname,
+            valid_until_ms=valid_until,
+            allowed_content_types=list(_PDF_CONTENT_TYPES),
+            maximum_size_in_bytes=_MAX_PDF_BYTES,
+            add_random_suffix=True,
+        )
     except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=503, detail=str(e)) from e
+
+    return {"type": "blob.generate-client-token", "clientToken": client_token}
 
 
-@app.get("/search")
+@router.post("/upload-complete")
+def upload_complete(
+    req: UploadCompleteRequest,
+    background_tasks: BackgroundTasks,
+    indexing: IngestionPipeline = Depends(get_indexing),
+    search: ElasticsearchSearchBackend = Depends(get_search),
+):
+    search.record_upload(req.filename, req.blobUrl)
+    background_tasks.add_task(indexing.index_document, req.filename, req.blobUrl)
+    return {"status": "upload recorded, indexing in progress"}
+
+
+@router.get("/search")
 def search(
     q: str = Query(...),
     top_k: int = Query(5, ge=1, le=50),
@@ -68,7 +124,7 @@ def search(
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.get("/documents")
+@router.get("/documents")
 def list_documents(search: ElasticsearchSearchBackend = Depends(get_search)):
     try:
         docs = search.list_documents()
@@ -77,17 +133,19 @@ def list_documents(search: ElasticsearchSearchBackend = Depends(get_search)):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.delete("/files/{filename}")
+@router.delete("/files/{filename}")
 def delete_file(
     filename: str,
-    minio: MinioStorageBackend = Depends(get_storage),
     es: ElasticsearchSearchBackend = Depends(get_search),
 ):
     try:
-        minio.delete(filename)
         es.delete_page(filename)
+        es.delete_upload_record(filename)
         return {"deleted": filename}
     except FileNotFoundError as e:
         raise HTTPException(status_code=404, detail=str(e))
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
+app.include_router(router, prefix=settings.route_prefix)

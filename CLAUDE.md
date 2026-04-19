@@ -7,11 +7,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 All services run via Docker Compose; there is no separate "dev" build.
 
 ```bash
-cp .env.example .env           # first-time setup — fill in MINIO_* and GEMINI_API_KEY
-docker compose up --build      # starts fastapi (:8000), frontend (:3000), elasticsearch (:9200), minio (:9000/:9001)
+cp .env.example .env           # first-time setup — fill in BLOB_READ_WRITE_TOKEN and GEMINI_API_KEY
+docker compose up --build      # starts fastapi (:8000), frontend (:3000), elasticsearch (:9200)
 docker compose down            # keep volumes
-docker compose down -v         # wipe es_data + minio_data (forces a full re-index on next start)
-docker compose logs -f <svc>   # svc ∈ {fastapi, frontend, elasticsearch, minio}
+docker compose down -v         # wipe es_data (forces a full re-index on next start)
+docker compose logs -f <svc>   # svc ∈ {fastapi, frontend, elasticsearch}
 ```
 
 ### End-to-end retrieval test
@@ -34,9 +34,9 @@ Frontend normally runs inside Compose. If running `npm start` standalone on the 
 
 ### Service wiring (backend)
 
-Backends are constructed **once** in `src/main.py`'s `lifespan` by `init_services()` (`src/services.py`) and stashed on `app.state`. Route handlers never instantiate backends directly — they use `Depends(get_storage|get_search|get_indexing|get_embeddings)` which reads from `app.state`. If you add a new backend, follow the same pattern or the background-task `IngestionPipeline` will not see it.
+Backends are constructed **once** in `src/main.py`'s `lifespan` by `init_services()` (`src/services.py`) and stashed on `app.state`. Route handlers never instantiate backends directly — they use `Depends(get_search|get_indexing|get_embeddings)` which reads from `app.state`. If you add a new backend, follow the same pattern or the background-task `IngestionPipeline` will not see it.
 
-The ingestion pipeline is a FastAPI `BackgroundTask` scheduled by `POST /upload` — the response returns immediately after MinIO upload, **before** indexing is complete. Callers (including the e2e test) must poll `/documents` or wait.
+Upload flow is two-step: browser hits `POST /upload-url` to get a Vercel Blob upload URL + token, PUTs the PDF bytes directly to Vercel Blob, then calls `POST /upload-complete` which schedules `IngestionPipeline.index_document(filename, blob_url)` as a `BackgroundTask`. The response returns **before** indexing is complete; callers (including the e2e test) must poll `/documents` or wait. `/upload-url` currently returns dummy values — wiring it to `@vercel/blob`'s token generation is still open.
 
 ### Hybrid search (the core algorithm)
 
@@ -65,7 +65,7 @@ On startup the index is created if missing, or `put_mapping` is attempted if it 
 
 ### Config and paths
 
-- All config is loaded by `pydantic-settings` from `.env` via `src/config.py`. Defaults in `Settings` match the Compose network (`minio:9000`, `http://elasticsearch:9200`). For running backend outside Docker, override `MINIO_HOST=localhost:9000` and `ES_HOST=http://localhost:9200`.
+- All config is loaded by `pydantic-settings` from `.env` via `src/config.py`. Defaults in `Settings` match the Compose network (`http://elasticsearch:9200`). For running backend outside Docker, override `ES_HOST=http://localhost:9200`.
 - `src/utils/logger.py` is imported in `main.py` purely for the side effect of configuring the root logger (writes to stdout + `$LOG_DIR/app.log`, defaults to `./log`). Compose mounts `./log` into the container.
 - Imports use the `src.` prefix (e.g. `from src.backends.search import ...`). Uvicorn must be invoked from `backend/` (`src.main:app`) — the Dockerfile does this; running from elsewhere breaks imports.
 
