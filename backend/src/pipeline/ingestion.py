@@ -32,6 +32,7 @@ class IngestionPipeline:
 
             if not pages:
                 logging.warning(f"No text extracted from {filename}, skipping index.")
+                self.search.set_upload_status(filename, "skipped", 0)
                 return
 
             new_docs = []
@@ -47,9 +48,14 @@ class IngestionPipeline:
                 self.search.index_page(filename, page_number, text, vector)
 
             logging.info(f"Indexed {filename} ({len(pages)} pages)")
+            self.search.set_upload_status(filename, "indexed", len(pages))
 
         except Exception:
             logging.exception(f"Indexing failed: {filename}")
+            try:
+                self.search.set_upload_status(filename, "failed", 0)
+            except Exception:
+                logging.exception(f"Could not mark upload failed for {filename}")
 
         finally:
             if tmp_path and os.path.exists(tmp_path):

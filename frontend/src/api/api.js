@@ -22,7 +22,7 @@ const notifyUploadComplete = (filename, blobUrl) =>
     body: JSON.stringify({ filename, blobUrl }),
   });
 
-/** Same-origin path; CRA dev proxy forwards to FastAPI. */
+/** Same-origin paths; local CRA proxy → FastAPI. On Vercel, vercel.json rewrites these to /_/backend/... */
 const BLOB_HANDLE_UPLOAD = '/blob-upload';
 
 export const uploadPDF = async (file, onProgress) => {

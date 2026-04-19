@@ -99,7 +99,9 @@ def upload_complete(
     req: UploadCompleteRequest,
     background_tasks: BackgroundTasks,
     indexing: IngestionPipeline = Depends(get_indexing),
+    search: ElasticsearchSearchBackend = Depends(get_search),
 ):
+    search.record_upload(req.filename, req.blobUrl)
     background_tasks.add_task(indexing.index_document, req.filename, req.blobUrl)
     return {"status": "upload recorded, indexing in progress"}
 
@@ -137,6 +139,7 @@ def delete_file(
 ):
     try:
         es.delete_page(filename)
+        es.delete_upload_record(filename)
         return {"deleted": filename}
     except FileNotFoundError as e:
         raise HTTPException(status_code=404, detail=str(e))
