@@ -1,5 +1,4 @@
 import UploadSection from './components/UploadSection';
-import SearchSection from './components/SearchSection';
 import DocumentsSection from './components/DocumentsSection';
 
 export default function App() {
@@ -8,20 +7,19 @@ export default function App() {
       <header className="site-header">
         <div className="header-inner">
           <div>
-            <h1>RAG PDF Search</h1>
-            <p className="tagline">Upload, index and search your PDFs</p>
+            <h1>RAG PDF</h1>
+            <p className="tagline">Upload PDFs to Vercel Blob</p>
           </div>
         </div>
       </header>
 
       <main className="site-main">
         <UploadSection />
-        <SearchSection />
         <DocumentsSection />
       </main>
 
       <footer className="site-footer">
-        <p>RAG PDF Hybrid Search &mdash; Elasticsearch + Vercel Blob</p>
+        <p>PDF uploads &mdash; Vercel Blob + PostgreSQL</p>
       </footer>
     </div>
   );

@@ -1,8 +1,6 @@
 fastapi
 uvicorn
-python-multipart
 pypdf
-elasticsearch>=8.14.0,<9.0.0
 pydantic-settings
-huggingface_hub
-numpy
+psycopg[binary]
+psycopg-pool

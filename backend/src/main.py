@@ -1,48 +1,52 @@
+import logging
+import sys
 import time
 from contextlib import asynccontextmanager
 from typing import Any
 
-from fastapi import APIRouter, BackgroundTasks, Depends, FastAPI, Query
+from fastapi import APIRouter, BackgroundTasks, Depends, FastAPI
 from fastapi.exceptions import HTTPException
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
-import src.utils.logger  # noqa: F401 — configures stdout logging as a side effect
-from src.backends.search import ElasticsearchSearchBackend
+
 from src.blob_client_token import generate_client_token_from_read_write_token
 from src.config import settings
-from src.pipeline.ingestion import IngestionPipeline
-from src.services import init_services, get_search, get_indexing, get_embeddings
-from src.backends.embeddings import TextEncoder
+from src.document_store import DocumentStore
+from src.ingestion import IngestionPipeline
+from src.services import init_services, get_store, get_indexing
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(funcName)s - %(message)s",
+    stream=sys.stdout,
+)
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    services = init_services()
-    app.state.search     = services["search"]
-    app.state.indexing   = services["indexing"]
-    app.state.embeddings = services["embeddings"]
+    init_services(app)
     yield
 
 
-app = FastAPI(title="RAG PDF Hybrid Search", lifespan=lifespan)
+app = FastAPI(title="RAG PDF API", lifespan=lifespan)
 router = APIRouter()
+
+_MAX_PDF_BYTES = 100 * 1024 * 1024
+_PDF_CONTENT_TYPES = ("application/pdf", "application/x-pdf", "application/octet-stream")
 
 
 @router.get("/")
 def root():
-    return {"message": "Welcome to the RAG PDF Hybrid Search API. Use /docs for interactive API docs."}
+    return {"message": "Welcome to the RAG PDF API. Use /docs for interactive API docs."}
 
 
 @router.get("/health")
-def health(search: ElasticsearchSearchBackend = Depends(get_search)):
-    checks = {"elasticsearch": search.ping_es()}
-    ok = all(checks.values())
-    return JSONResponse({"status": "ok" if ok else "degraded", "services": checks}, status_code=200 if ok else 503)
-
-
-# Max PDF size for client uploads (100 MiB)
-_MAX_PDF_BYTES = 100 * 1024 * 1024
-_PDF_CONTENT_TYPES = ("application/pdf", "application/x-pdf", "application/octet-stream")
+def health(store: DocumentStore = Depends(get_store)):
+    db_ok = store.ping()
+    return JSONResponse(
+        {"status": "ok" if db_ok else "degraded", "services": {"database": db_ok}},
+        status_code=200 if db_ok else 503,
+    )
 
 
 class UploadCompleteRequest(BaseModel):
@@ -52,23 +56,12 @@ class UploadCompleteRequest(BaseModel):
 
 @router.post("/blob-upload")
 def blob_upload(body: dict[str, Any]):
-    """
-    Vercel Blob handleUpload-compatible endpoint (@vercel/blob client upload()).
-    """
+    """Vercel Blob handleUpload-compatible endpoint (@vercel/blob client upload())."""
     token = settings.blob_read_write_token.strip()
     if not token:
-        raise HTTPException(
-            status_code=503,
-            detail="BLOB_READ_WRITE_TOKEN is not configured; cannot mint client tokens.",
-        )
+        raise HTTPException(status_code=503, detail="BLOB_READ_WRITE_TOKEN is not configured.")
 
     event_type = body.get("type")
-    if event_type == "blob.upload-completed":
-        raise HTTPException(
-            status_code=400,
-            detail="Upload completion callbacks are not enabled; indexing is triggered via POST /upload-complete.",
-        )
-
     if event_type != "blob.generate-client-token":
         raise HTTPException(status_code=400, detail=f"Unsupported event type: {event_type!r}")
 
@@ -77,8 +70,7 @@ def blob_upload(body: dict[str, Any]):
     if not pathname or not isinstance(pathname, str):
         raise HTTPException(status_code=400, detail="Missing payload.pathname")
 
-    one_hour_ms = 60 * 60 * 1000
-    valid_until = int(time.time() * 1000) + one_hour_ms
+    valid_until = int(time.time() * 1000) + 60 * 60 * 1000
 
     try:
         client_token = generate_client_token_from_read_write_token(
@@ -100,52 +92,25 @@ def upload_complete(
     req: UploadCompleteRequest,
     background_tasks: BackgroundTasks,
     indexing: IngestionPipeline = Depends(get_indexing),
-    search: ElasticsearchSearchBackend = Depends(get_search),
+    store: DocumentStore = Depends(get_store),
 ):
-    search.record_upload(req.filename, req.blobUrl)
+    store.record_upload(req.filename, req.blobUrl)
     background_tasks.add_task(indexing.index_document, req.filename, req.blobUrl)
     return {"status": "upload recorded, indexing in progress"}
 
 
-@router.get("/search")
-def search(
-    q: str = Query(...),
-    top_k: int = Query(5, ge=1, le=50),
-    es: ElasticsearchSearchBackend = Depends(get_search),
-    embeddings: TextEncoder = Depends(get_embeddings),
-):
-    try:
-        vector = embeddings.encode(q)
-        results = es.hybrid_search(q, vector, top_k)
-        for r in results:
-            r["url"] = f"/files/{r['filename']}"
-        return {"query": q, "total": len(results), "results": results}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
-
 @router.get("/documents")
-def list_documents(search: ElasticsearchSearchBackend = Depends(get_search)):
-    try:
-        docs = search.list_documents()
-        return {"total": len(docs), "documents": docs}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+def list_documents(store: DocumentStore = Depends(get_store)):
+    return {"documents": store.list_documents()}
 
 
 @router.delete("/files/{filename}")
-def delete_file(
-    filename: str,
-    es: ElasticsearchSearchBackend = Depends(get_search),
-):
+def delete_file(filename: str, store: DocumentStore = Depends(get_store)):
     try:
-        es.delete_page(filename)
-        es.delete_upload_record(filename)
-        return {"deleted": filename}
+        store.delete_upload_record(filename)
     except FileNotFoundError as e:
         raise HTTPException(status_code=404, detail=str(e))
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+    return {"deleted": filename}
 
 
 app.include_router(router, prefix=settings.route_prefix)

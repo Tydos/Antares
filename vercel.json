@@ -13,7 +13,6 @@
     "rewrites": [
         { "source": "/blob-upload", "destination": "/_/backend/blob-upload" },
         { "source": "/upload-complete", "destination": "/_/backend/upload-complete" },
-        { "source": "/search", "destination": "/_/backend/search" },
         { "source": "/documents", "destination": "/_/backend/documents" },
         { "source": "/health", "destination": "/_/backend/health" },
         { "source": "/files/:path*", "destination": "/_/backend/files/:path*" }
