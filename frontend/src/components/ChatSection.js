@@ -33,6 +33,7 @@ export default function ChatSection() {
 
   const answer = result?.answer;
   const chunks = result?.chunks ?? [];
+  const latency = result?.latency;
   const hrefFor = (c) => {
     const url = blobByFilename[c.filename];
     return url ? `${url}#page=${c.page}` : null;
@@ -61,6 +62,12 @@ export default function ChatSection() {
           <div className="answer-label">Answer</div>
           {answer}
         </div>
+      )}
+
+      {latency && (
+        <p className="muted latency-bar">
+          embed {latency.embed_ms}ms · search {latency.search_ms}ms · llm {latency.llm_ms}ms · total {latency.total_ms}ms
+        </p>
       )}
 
       {result && chunks.length === 0 && <p className="muted ask-empty">No matches found.</p>}

@@ -99,6 +99,7 @@ button:disabled { opacity: 0.4; cursor: default; }
 .ask-input { flex: 1; padding: 7px 10px; border-radius: 8px; border: 1px solid #ccc; }
 .ask-results { margin-top: 12px; display: flex; flex-direction: column; gap: 10px; }
 .ask-empty { margin-top: 12px; }
+.latency-bar { margin-top: 8px; font-family: monospace; }
 
 .answer-card {
   margin-top: 12px;

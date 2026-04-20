@@ -1,5 +1,6 @@
 import logging
 import sys
+import time
 from contextlib import asynccontextmanager
 from typing import Any
 
@@ -110,26 +111,50 @@ class QueryRequest(BaseModel):
 
 @router.post("/query")
 def query(req: QueryRequest, db: Database = Depends(get_db)):
+    t_start = time.perf_counter()
     question = req.question.strip()
     if not question:
         raise HTTPException(status_code=400, detail="question is required")
     top_k = max(1, min(req.top_k, 20))
 
     try:
+        t0 = time.perf_counter()
         query_vector = embed([question])[0]
+        embed_ms = (time.perf_counter() - t0) * 1000
     except Exception as e:
         logging.exception("Embedding failed")
         raise HTTPException(status_code=503, detail=f"Embedding service error: {e}")
 
+    t0 = time.perf_counter()
     chunks = db.search_chunks(query_vector, k=top_k, filenames=req.filenames or None)
+    search_ms = (time.perf_counter() - t0) * 1000
 
     answer: str | None = None
+    llm_ms = 0.0
     try:
+        t0 = time.perf_counter()
         answer = generate_answer(question, chunks)
+        llm_ms = (time.perf_counter() - t0) * 1000
     except Exception:
         logging.exception("Answer generation failed; returning raw chunks")
 
-    return {"question": question, "answer": answer, "chunks": chunks}
+    total_ms = (time.perf_counter() - t_start) * 1000
+    logging.info(
+        "query latency — embed: %.0fms | search: %.0fms | llm: %.0fms | total: %.0fms | chunks: %d",
+        embed_ms, search_ms, llm_ms, total_ms, len(chunks),
+    )
+
+    return {
+        "question": question,
+        "answer": answer,
+        "chunks": chunks,
+        "latency": {
+            "embed_ms": round(embed_ms),
+            "search_ms": round(search_ms),
+            "llm_ms": round(llm_ms),
+            "total_ms": round(total_ms),
+        },
+    }
 
 
 @router.delete("/files/{filename}")

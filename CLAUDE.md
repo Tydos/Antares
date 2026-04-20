@@ -3,7 +3,7 @@
 ## Commands
 
 ```bash
-cp .env.example .env           # fill DATABASE_URL, BLOB_READ_WRITE_TOKEN, HF_TOKEN, GEMINI_API_KEY
+cp .env.example .env           # fill DATABASE_URL, BLOB_READ_WRITE_TOKEN, HF_TOKEN
 docker compose up --build      # fastapi (:8000), frontend (:3000)
 docker compose down
 docker compose logs -f <svc>   # svc ∈ {fastapi, frontend}
@@ -26,7 +26,7 @@ backend/src/
   database.py    postgres + pgvector — uploads table + chunks table
   pipeline.py    download → pdf.py → embedder.py → database.py
   embedder.py    HuggingFace Inference API (384-dim cosine vectors)
-  answerer.py    Google Gemini answer generation with chunk citations
+  answerer.py    HuggingFace LLM answer generation with chunk citations
   vercel_blob.py HMAC-SHA256 client token minting (1-hour TTL)
   pdf.py         pypdf text extraction, 800-char chunks / 100-char overlap
 ```
@@ -43,7 +43,7 @@ backend/src/
 
 1. Browser POSTs `{question, top_k, filenames?}` to `/query`.
 2. Backend embeds the question, runs pgvector cosine search (`<=>`) on `chunks`.
-3. Top-k chunks are passed to `answerer.py` → Gemini generates a cited answer.
+3. Top-k chunks are passed to `answerer.py` → HuggingFace LLM generates a cited answer.
 4. Response includes both the answer and the raw chunks (filename, page, score).
 
 ## Note on Vercel deployment

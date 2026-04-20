@@ -5,4 +5,4 @@ pydantic-settings
 psycopg[binary]
 psycopg-pool
 httpx
-google-genai
+huggingface_hub

@@ -15,8 +15,7 @@ class Settings(BaseSettings):
     hf_embed_model: str = "sentence-transformers/all-MiniLM-L6-v2"
     embed_dim: int = 384
 
-    gemini_api_key: str = ""
-    gemini_model: str = "gemini-2.5-flash"
+    hf_llm_model: str = "meta-llama/Llama-3.2-1B-Instruct:novita"
 
 
 settings = Settings()
