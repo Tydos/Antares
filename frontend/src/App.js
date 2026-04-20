@@ -1,5 +1,6 @@
 import UploadSection from './components/UploadSection';
 import DocumentsSection from './components/DocumentsSection';
+import ChatSection from './components/ChatSection';
 
 export default function App() {
   return (
@@ -8,7 +9,7 @@ export default function App() {
         <div className="header-inner">
           <div>
             <h1>RAG PDF</h1>
-            <p className="tagline">Upload PDFs to Vercel Blob</p>
+            <p className="tagline">Upload PDFs and ask questions</p>
           </div>
         </div>
       </header>
@@ -16,6 +17,7 @@ export default function App() {
       <main className="site-main">
         <UploadSection />
         <DocumentsSection />
+        <ChatSection />
       </main>
 
       <footer className="site-footer">

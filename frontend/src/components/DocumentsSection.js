@@ -8,16 +8,6 @@ const STATUS_LABEL = {
   failed: 'Indexing failed',
 };
 
-function formatDate(iso) {
-  if (!iso || typeof iso !== 'string') return '—';
-  return iso.slice(0, 10);
-}
-
-function statusLabel(status) {
-  if (!status) return '—';
-  return STATUS_LABEL[status] ?? status;
-}
-
 export default function DocumentsSection() {
   const [docs, setDocs] = useState([]);
   const [error, setError] = useState(null);
@@ -62,10 +52,10 @@ export default function DocumentsSection() {
             {doc.filename}
           </span>
           <span className="muted" title="Processing status">
-            {statusLabel(doc.status)}
+            {STATUS_LABEL[doc.status] ?? doc.status ?? '—'}
           </span>
-          <span className="muted">{doc.page_count ?? 0} pages</span>
-          <span className="muted">{formatDate(doc.uploaded_at)}</span>
+          <span className="muted">{doc.page_count} pages</span>
+          <span className="muted">{doc.uploaded_at?.slice(0, 10) ?? '—'}</span>
           {doc.blob_url ? (
             <a
               className="muted"

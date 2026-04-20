@@ -29,7 +29,7 @@ def main() -> int:
     if r.status_code != 200:
         print(f"/documents failed: {r.status_code} {r.text}")
         return 1
-    print("Documents:", r.json().get("total", 0), "row(s)")
+    print("Documents:", len(r.json().get("documents", [])), "row(s)")
     return 0
 
 

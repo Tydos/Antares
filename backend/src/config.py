@@ -1,6 +1,3 @@
-import os
-
-from pydantic import model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -14,18 +11,12 @@ class Settings(BaseSettings):
     database_url: str = ""
     blob_read_write_token: str = ""
 
-    # Vercel Services: routePrefix (see vercel.json). Empty locally; /_/backend on Vercel.
-    route_prefix: str = ""
+    hf_token: str = ""
+    hf_embed_model: str = "sentence-transformers/all-MiniLM-L6-v2"
+    embed_dim: int = 384
 
-    @model_validator(mode="after")
-    def normalize_route_prefix(self) -> "Settings":
-        rp = (self.route_prefix or "").strip()
-        if not rp and os.environ.get("VERCEL"):
-            rp = "/_/backend"
-        if rp:
-            rp = "/" + rp.strip("/")
-        self.route_prefix = rp
-        return self
+    gemini_api_key: str = ""
+    gemini_model: str = "gemini-2.5-flash"
 
 
 settings = Settings()

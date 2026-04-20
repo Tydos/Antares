@@ -1,5 +1,10 @@
 import { upload } from '@vercel/blob/client';
 
+/**
+ * Same-origin paths; local CRA proxy -> FastAPI.
+ * On Vercel, vercel.json rewrites these to /_/backend/...
+ */
+
 async function request(url, options) {
   const res = await fetch(url, options);
   if (!res.ok) {
@@ -15,20 +20,17 @@ async function request(url, options) {
   return res.json();
 }
 
-const notifyUploadComplete = (filename, blobUrl) =>
-  request('/upload-complete', {
+const postJSON = (url, body) =>
+  request(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ filename, blobUrl }),
+    body: JSON.stringify(body),
   });
-
-/** Same-origin paths; local CRA proxy → FastAPI. On Vercel, vercel.json rewrites these to /_/backend/... */
-const BLOB_HANDLE_UPLOAD = '/blob-upload';
 
 export const uploadPDF = async (file, onProgress) => {
   const result = await upload(file.name, file, {
     access: 'public',
-    handleUploadUrl: BLOB_HANDLE_UPLOAD,
+    handleUploadUrl: '/blob-upload',
     contentType: file.type || 'application/pdf',
     onUploadProgress: onProgress
       ? ({ loaded, total }) => {
@@ -36,7 +38,7 @@ export const uploadPDF = async (file, onProgress) => {
         }
       : undefined,
   });
-  return notifyUploadComplete(result.pathname, result.url);
+  return postJSON('/upload-complete', { filename: result.pathname, blobUrl: result.url });
 };
 
 export const listDocuments = () =>
@@ -44,3 +46,10 @@ export const listDocuments = () =>
 
 export const deleteDocument = (filename) =>
   request(`/files/${encodeURIComponent(filename)}`, { method: 'DELETE' });
+
+export const query = (question, { topK = 5, filenames } = {}) =>
+  postJSON('/query', {
+    question,
+    top_k: topK,
+    ...(filenames && filenames.length ? { filenames } : {}),
+  });
