@@ -4,3 +4,5 @@ pypdf
 pydantic-settings
 psycopg[binary]
 psycopg-pool
+httpx
+google-genai

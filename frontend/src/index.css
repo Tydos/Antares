@@ -85,11 +85,59 @@ button:disabled { opacity: 0.4; cursor: default; }
 
 /* ── Utilities ── */
 .row { display: flex; gap: 8px; align-items: center; }
-.error   { color: #dc2626; font-size: 13px; margin-top: 8px; }
-.success { color: #16a34a; font-size: 13px; margin-top: 8px; }
+.error, .success { font-size: 13px; margin-top: 8px; }
+.error   { color: #dc2626; }
+.success { color: #16a34a; }
 .muted   { color: #888; font-size: 13px; }
 
 /* ── Documents list ── */
 .doc-row { display: flex; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 1px solid #f3e8ff; }
 .doc-row:last-child { border-bottom: none; }
 .doc-name { flex: 1; font-size: 14px; }
+
+/* ── Chat results ── */
+.ask-input { flex: 1; padding: 7px 10px; border-radius: 8px; border: 1px solid #ccc; }
+.ask-results { margin-top: 12px; display: flex; flex-direction: column; gap: 10px; }
+.ask-empty { margin-top: 12px; }
+
+.answer-card {
+  margin-top: 12px;
+  border: 1px solid rgba(124, 58, 237, 0.25);
+  border-radius: 10px;
+  padding: 14px 16px;
+  background: rgba(243, 232, 255, 0.55);
+  white-space: pre-wrap;
+  line-height: 1.5;
+  font-size: 14px;
+  color: #2d2d2d;
+}
+.answer-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #7c3aed;
+  margin-bottom: 6px;
+}
+
+.chunk-card {
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 10px;
+  padding: 10px 12px;
+  background: rgba(255,255,255,0.7);
+}
+.chunk-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+.chunk-meta a { color: #7c3aed; text-decoration: none; font-weight: 500; }
+.chunk-meta a:hover { text-decoration: underline; }
+.chunk-text {
+  font-size: 13px;
+  color: #333;
+  white-space: pre-wrap;
+  line-height: 1.45;
+}

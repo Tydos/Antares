@@ -1,19 +1,19 @@
 import logging
 import sys
-import time
 from contextlib import asynccontextmanager
 from typing import Any
 
-from fastapi import APIRouter, BackgroundTasks, Depends, FastAPI
+from fastapi import APIRouter, BackgroundTasks, Depends, FastAPI, Request
 from fastapi.exceptions import HTTPException
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
-from src.blob_client_token import generate_client_token_from_read_write_token
+from src.answerer import generate_answer
 from src.config import settings
-from src.document_store import DocumentStore
-from src.ingestion import IngestionPipeline
-from src.services import init_services, get_store, get_indexing
+from src.database import Database, create_connection_pool
+from src.embedder import embed
+from src.pipeline import Pipeline
+from src.vercel_blob import BlobTokenError, handle_upload_event
 
 logging.basicConfig(
     level=logging.INFO,
@@ -21,28 +21,44 @@ logging.basicConfig(
     stream=sys.stdout,
 )
 
+_MAX_PDF_BYTES = 100 * 1024 * 1024
+_PDF_CONTENT_TYPES = ("application/pdf", "application/x-pdf", "application/octet-stream")
+
+
+# --- App startup ---
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    init_services(app)
+    pool = create_connection_pool()
+    app.state.db = Database(pool)
+    app.state.pipeline = Pipeline(app.state.db)
     yield
 
 
 app = FastAPI(title="RAG PDF API", lifespan=lifespan)
 router = APIRouter()
 
-_MAX_PDF_BYTES = 100 * 1024 * 1024
-_PDF_CONTENT_TYPES = ("application/pdf", "application/x-pdf", "application/octet-stream")
 
+# --- Dependency helpers ---
+
+def get_db(request: Request) -> Database:
+    return request.app.state.db
+
+
+def get_pipeline(request: Request) -> Pipeline:
+    return request.app.state.pipeline
+
+
+# --- Routes ---
 
 @router.get("/")
 def root():
-    return {"message": "Welcome to the RAG PDF API. Use /docs for interactive API docs."}
+    return {"message": "RAG PDF API. Visit /docs for the interactive API explorer."}
 
 
 @router.get("/health")
-def health(store: DocumentStore = Depends(get_store)):
-    db_ok = store.ping()
+def health(db: Database = Depends(get_db)):
+    db_ok = db.ping()
     return JSONResponse(
         {"status": "ok" if db_ok else "degraded", "services": {"database": db_ok}},
         status_code=200 if db_ok else 503,
@@ -56,61 +72,73 @@ class UploadCompleteRequest(BaseModel):
 
 @router.post("/blob-upload")
 def blob_upload(body: dict[str, Any]):
-    """Vercel Blob handleUpload-compatible endpoint (@vercel/blob client upload())."""
-    token = settings.blob_read_write_token.strip()
-    if not token:
-        raise HTTPException(status_code=503, detail="BLOB_READ_WRITE_TOKEN is not configured.")
-
-    event_type = body.get("type")
-    if event_type != "blob.generate-client-token":
-        raise HTTPException(status_code=400, detail=f"Unsupported event type: {event_type!r}")
-
-    payload = body.get("payload") or {}
-    pathname = payload.get("pathname")
-    if not pathname or not isinstance(pathname, str):
-        raise HTTPException(status_code=400, detail="Missing payload.pathname")
-
-    valid_until = int(time.time() * 1000) + 60 * 60 * 1000
-
+    """Step 1 of the upload flow: browser asks for a signed token to upload directly to Vercel Blob."""
     try:
-        client_token = generate_client_token_from_read_write_token(
-            read_write_token=token,
-            pathname=pathname,
-            valid_until_ms=valid_until,
+        return handle_upload_event(
+            body,
+            settings.blob_read_write_token.strip(),
             allowed_content_types=list(_PDF_CONTENT_TYPES),
             maximum_size_in_bytes=_MAX_PDF_BYTES,
-            add_random_suffix=True,
         )
-    except ValueError as e:
-        raise HTTPException(status_code=503, detail=str(e)) from e
-
-    return {"type": "blob.generate-client-token", "clientToken": client_token}
+    except BlobTokenError as e:
+        raise HTTPException(status_code=e.status_code, detail=str(e)) from e
 
 
 @router.post("/upload-complete")
 def upload_complete(
     req: UploadCompleteRequest,
     background_tasks: BackgroundTasks,
-    indexing: IngestionPipeline = Depends(get_indexing),
-    store: DocumentStore = Depends(get_store),
+    db: Database = Depends(get_db),
+    pipeline: Pipeline = Depends(get_pipeline),
 ):
-    store.record_upload(req.filename, req.blobUrl)
-    background_tasks.add_task(indexing.index_document, req.filename, req.blobUrl)
+    """Step 2 of the upload flow: browser notifies us the PDF is in blob storage so we can index it."""
+    db.add_upload(req.filename, req.blobUrl)
+    background_tasks.add_task(pipeline.index_document, req.filename, req.blobUrl)
     return {"status": "upload recorded, indexing in progress"}
 
 
 @router.get("/documents")
-def list_documents(store: DocumentStore = Depends(get_store)):
-    return {"documents": store.list_documents()}
+def list_documents(db: Database = Depends(get_db)):
+    return {"documents": db.list_uploads()}
+
+
+class QueryRequest(BaseModel):
+    question: str
+    top_k: int = 5
+    filenames: list[str] | None = None
+
+
+@router.post("/query")
+def query(req: QueryRequest, db: Database = Depends(get_db)):
+    question = req.question.strip()
+    if not question:
+        raise HTTPException(status_code=400, detail="question is required")
+    top_k = max(1, min(req.top_k, 20))
+
+    try:
+        query_vector = embed([question])[0]
+    except Exception as e:
+        logging.exception("Embedding failed")
+        raise HTTPException(status_code=503, detail=f"Embedding service error: {e}")
+
+    chunks = db.search_chunks(query_vector, k=top_k, filenames=req.filenames or None)
+
+    answer: str | None = None
+    try:
+        answer = generate_answer(question, chunks)
+    except Exception:
+        logging.exception("Answer generation failed; returning raw chunks")
+
+    return {"question": question, "answer": answer, "chunks": chunks}
 
 
 @router.delete("/files/{filename}")
-def delete_file(filename: str, store: DocumentStore = Depends(get_store)):
+def delete_file(filename: str, db: Database = Depends(get_db)):
     try:
-        store.delete_upload_record(filename)
+        db.remove_upload(filename)
     except FileNotFoundError as e:
         raise HTTPException(status_code=404, detail=str(e))
     return {"deleted": filename}
 
 
-app.include_router(router, prefix=settings.route_prefix)
+app.include_router(router)
