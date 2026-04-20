@@ -1,9 +1,6 @@
 import { upload } from '@vercel/blob/client';
 
-/**
- * Same-origin paths; local CRA proxy -> FastAPI.
- * On Vercel, vercel.json rewrites these to /_/backend/...
- */
+const API = process.env.REACT_APP_API_PREFIX || '';
 
 async function request(url, options) {
   const res = await fetch(url, options);
@@ -30,7 +27,7 @@ const postJSON = (url, body) =>
 export const uploadPDF = async (file, onProgress) => {
   const result = await upload(file.name, file, {
     access: 'public',
-    handleUploadUrl: '/blob-upload',
+    handleUploadUrl: `${API}/blob-upload`,
     contentType: file.type || 'application/pdf',
     onUploadProgress: onProgress
       ? ({ loaded, total }) => {
@@ -38,17 +35,17 @@ export const uploadPDF = async (file, onProgress) => {
         }
       : undefined,
   });
-  return postJSON('/upload-complete', { filename: result.pathname, blobUrl: result.url });
+  return postJSON(`${API}/upload-complete`, { filename: result.pathname, blobUrl: result.url });
 };
 
 export const listDocuments = () =>
-  request('/documents').then((d) => d.documents);
+  request(`${API}/documents`).then((d) => d.documents);
 
 export const deleteDocument = (filename) =>
-  request(`/files/${encodeURIComponent(filename)}`, { method: 'DELETE' });
+  request(`${API}/files/${encodeURIComponent(filename)}`, { method: 'DELETE' });
 
 export const query = (question, { topK = 5, filenames } = {}) =>
-  postJSON('/query', {
+  postJSON(`${API}/query`, {
     question,
     top_k: topK,
     ...(filenames && filenames.length ? { filenames } : {}),

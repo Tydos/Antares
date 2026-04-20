@@ -2,7 +2,7 @@ fastapi
 uvicorn
 pypdf
 pydantic-settings
-psycopg[binary]
+psycopg
 psycopg-pool
 httpx
 google-genai
