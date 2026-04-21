@@ -18,8 +18,10 @@ class DatabaseProtocol(Protocol):
     def search_chunks(
         self,
         query_vector: list[float],
+        query_text: str = "",
         k: int = 5,
         filenames: list[str] | None = None,
+        search_mode: str = "hybrid",  # "hybrid" | "semantic" | "keyword"
     ) -> list[dict]: ...
 
 
