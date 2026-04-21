@@ -66,7 +66,7 @@ export default function ChatSection() {
 
       {latency && (
         <p className="muted latency-bar">
-          embed {latency.embed_ms}ms · search {latency.search_ms}ms · llm {latency.llm_ms}ms · total {latency.total_ms}ms
+          embed {latency.embed}ms · search {latency.search}ms · llm {latency.llm}ms · total {latency.total}ms
         </p>
       )}
 

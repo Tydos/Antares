@@ -1,20 +1,21 @@
 import logging
 import sys
-import time
 from contextlib import asynccontextmanager
 from typing import Any
 
 from fastapi import APIRouter, BackgroundTasks, Depends, FastAPI, Request
 from fastapi.exceptions import HTTPException
 from fastapi.responses import JSONResponse
-from pydantic import BaseModel
-
-from src.answerer import generate_answer
+from src.generator import HuggingFaceGenerator
 from src.config import settings
-from src.database import Database, create_connection_pool
-from src.embedder import embed
-from src.pipeline import Pipeline
-from src.vercel_blob import BlobTokenError, handle_upload_event
+from src.database import PostgreSQLStorageManager
+from src.embedding import HuggingFaceEmbeddingService
+from src.interfaces import DatabaseProtocol, EmbedderProtocol, ExtractorProtocol, GeneratorProtocol
+from src.utils import LatencyTracker
+from src.pdf_parser import PDFParser
+from src.ingestion_service import IngestionService
+from src.schemas import QueryRequest, UploadCompleteRequest
+from src.create_upload_token import BlobTokenError, create_client_upload_token
 
 logging.basicConfig(
     level=logging.INFO,
@@ -22,17 +23,15 @@ logging.basicConfig(
     stream=sys.stdout,
 )
 
-_MAX_PDF_BYTES = 100 * 1024 * 1024
-_PDF_CONTENT_TYPES = ("application/pdf", "application/x-pdf", "application/octet-stream")
-
-
 # --- App startup ---
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    pool = create_connection_pool()
-    app.state.db = Database(pool)
-    app.state.pipeline = Pipeline(app.state.db)
+    app.state.db = PostgreSQLStorageManager.create()
+    app.state.embedder = HuggingFaceEmbeddingService()
+    app.state.generator = HuggingFaceGenerator()
+    app.state.extractor = PDFParser()
+    app.state.pipeline = IngestionService(app.state.db, app.state.embedder, app.state.extractor)
     yield
 
 
@@ -42,11 +41,19 @@ router = APIRouter()
 
 # --- Dependency helpers ---
 
-def get_db(request: Request) -> Database:
+def get_db(request: Request) -> DatabaseProtocol:
     return request.app.state.db
 
 
-def get_pipeline(request: Request) -> Pipeline:
+def get_embedder(request: Request) -> EmbedderProtocol:
+    return request.app.state.embedder
+
+
+def get_generator(request: Request) -> GeneratorProtocol:
+    return request.app.state.generator
+
+
+def get_pipeline(request: Request) -> IngestionService:
     return request.app.state.pipeline
 
 
@@ -58,7 +65,7 @@ def root():
 
 
 @router.get("/health")
-def health(db: Database = Depends(get_db)):
+def health(db: PostgreSQLStorageManager = Depends(get_db)):
     db_ok = db.ping()
     return JSONResponse(
         {"status": "ok" if db_ok else "degraded", "services": {"database": db_ok}},
@@ -66,20 +73,15 @@ def health(db: Database = Depends(get_db)):
     )
 
 
-class UploadCompleteRequest(BaseModel):
-    filename: str
-    blobUrl: str
-
-
-@router.post("/blob-upload")
+@router.post("/request_upload_token")
 def blob_upload(body: dict[str, Any]):
     """Step 1 of the upload flow: browser asks for a signed token to upload directly to Vercel Blob."""
     try:
-        return handle_upload_event(
+        return create_client_upload_token(
             body,
             settings.blob_read_write_token.strip(),
-            allowed_content_types=list(_PDF_CONTENT_TYPES),
-            maximum_size_in_bytes=_MAX_PDF_BYTES,
+            allowed_content_types=list(set(settings.blob_allowed_content_types)),
+            maximum_size_in_bytes=settings.blob_max_pdf_bytes,
         )
     except BlobTokenError as e:
         raise HTTPException(status_code=e.status_code, detail=str(e)) from e
@@ -89,8 +91,8 @@ def blob_upload(body: dict[str, Any]):
 def upload_complete(
     req: UploadCompleteRequest,
     background_tasks: BackgroundTasks,
-    db: Database = Depends(get_db),
-    pipeline: Pipeline = Depends(get_pipeline),
+    db: PostgreSQLStorageManager = Depends(get_db),
+    pipeline: IngestionService = Depends(get_pipeline),
 ):
     """Step 2 of the upload flow: browser notifies us the PDF is in blob storage so we can index it."""
     db.add_upload(req.filename, req.blobUrl)
@@ -99,66 +101,56 @@ def upload_complete(
 
 
 @router.get("/documents")
-def list_documents(db: Database = Depends(get_db)):
+def list_documents(db: PostgreSQLStorageManager = Depends(get_db)):
     return {"documents": db.list_uploads()}
 
 
-class QueryRequest(BaseModel):
-    question: str
-    top_k: int = 5
-    filenames: list[str] | None = None
-
-
 @router.post("/query")
-def query(req: QueryRequest, db: Database = Depends(get_db)):
-    t_start = time.perf_counter()
+def query(
+    req: QueryRequest,
+    db: DatabaseProtocol = Depends(get_db),
+    embedder: EmbedderProtocol = Depends(get_embedder),
+    generator: GeneratorProtocol = Depends(get_generator),
+):
     question = req.question.strip()
     if not question:
         raise HTTPException(status_code=400, detail="question is required")
     top_k = max(1, min(req.top_k, 20))
+    tracker = LatencyTracker()
 
     try:
-        t0 = time.perf_counter()
-        query_vector = embed([question])[0]
-        embed_ms = (time.perf_counter() - t0) * 1000
+        with tracker.measure("embed"):
+            query_vector = embedder.embed([question])[0]
     except Exception as e:
         logging.exception("Embedding failed")
         raise HTTPException(status_code=503, detail=f"Embedding service error: {e}")
 
-    t0 = time.perf_counter()
-    chunks = db.search_chunks(query_vector, k=top_k, filenames=req.filenames or None)
-    search_ms = (time.perf_counter() - t0) * 1000
+    with tracker.measure("search"):
+        chunks = db.search_chunks(query_vector, k=top_k, filenames=req.filenames or None)
 
     answer: str | None = None
-    llm_ms = 0.0
     try:
-        t0 = time.perf_counter()
-        answer = generate_answer(question, chunks)
-        llm_ms = (time.perf_counter() - t0) * 1000
+        with tracker.measure("llm"):
+            answer = generator.generate_answer(question, chunks)
     except Exception:
         logging.exception("Answer generation failed; returning raw chunks")
 
-    total_ms = (time.perf_counter() - t_start) * 1000
+    latency = tracker.all()
     logging.info(
         "query latency — embed: %.0fms | search: %.0fms | llm: %.0fms | total: %.0fms | chunks: %d",
-        embed_ms, search_ms, llm_ms, total_ms, len(chunks),
+        latency.get("embed", 0), latency.get("search", 0), latency.get("llm", 0), latency.get("total", 0), len(chunks),
     )
 
     return {
         "question": question,
         "answer": answer,
         "chunks": chunks,
-        "latency": {
-            "embed_ms": round(embed_ms),
-            "search_ms": round(search_ms),
-            "llm_ms": round(llm_ms),
-            "total_ms": round(total_ms),
-        },
+        "latency": latency,
     }
 
 
 @router.delete("/files/{filename}")
-def delete_file(filename: str, db: Database = Depends(get_db)):
+def delete_file(filename: str, db: PostgreSQLStorageManager = Depends(get_db)):
     try:
         db.remove_upload(filename)
     except FileNotFoundError as e:

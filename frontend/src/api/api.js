@@ -27,7 +27,7 @@ const postJSON = (url, body) =>
 export const uploadPDF = async (file, onProgress) => {
   const result = await upload(file.name, file, {
     access: 'public',
-    handleUploadUrl: `${API}/blob-upload`,
+    handleUploadUrl: `${API}/request_upload_token`,
     contentType: file.type || 'application/pdf',
     onUploadProgress: onProgress
       ? ({ loaded, total }) => {

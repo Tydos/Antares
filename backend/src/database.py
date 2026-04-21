@@ -1,11 +1,8 @@
 import logging
 from datetime import datetime, timezone
-
 from psycopg.rows import dict_row
 from psycopg_pool import ConnectionPool
-
 from src.config import settings
-
 
 _CREATE_UPLOADS_TABLE = """
 CREATE TABLE IF NOT EXISTS uploads (
@@ -36,17 +33,31 @@ _CREATE_INDEXES = [
 ]
 
 
-def _to_pg_vector(values: list[float]) -> str:
-    """Format a float list as a PostgreSQL vector literal, e.g. '[0.1,0.2,...]'."""
-    return "[" + ",".join(f"{float(v):.7f}" for v in values) + "]"
 
-
-class Database:
+class PostgreSQLStorageManager:
     """All PostgreSQL access: upload records and searchable text chunks."""
+
+    @staticmethod
+    def _to_pg_vector(values: list[float]) -> str:
+        return "[" + ",".join(f"{float(v):.7f}" for v in values) + "]"
 
     def __init__(self, pool: ConnectionPool) -> None:
         self._pool = pool
         self._create_tables()
+
+    @classmethod
+    def create(cls) -> "PostgreSQLStorageManager":
+        url = settings.database_url.strip()
+        if not url:
+            raise ValueError("DATABASE_URL is not set.")
+        pool = ConnectionPool(
+            conninfo=url,
+            min_size=settings.database_pool_min_size,
+            max_size=settings.database_pool_max_size,
+            open=True,
+            kwargs={"autocommit": False, "prepare_threshold": None},
+        )
+        return cls(pool)
 
     def _create_tables(self) -> None:
         with self._pool.connection() as conn:
@@ -155,7 +166,7 @@ class Database:
         if not texts:
             return
         rows = [
-            (filename, page, idx, text, _to_pg_vector(vec))
+            (filename, page, idx, text, self._to_pg_vector(vec))
             for page, idx, text, vec in zip(pages, indexes, texts, vectors)
         ]
         with self._pool.connection() as conn:
@@ -176,7 +187,7 @@ class Database:
         k: int = 5,
         filenames: list[str] | None = None,
     ) -> list[dict]:
-        vec = _to_pg_vector(query_vector)
+        vec = self._to_pg_vector(query_vector)
         sql = (
             "SELECT filename, page, chunk_index, content, "
             "1 - (embedding <=> %s::vector) AS score FROM chunks "
@@ -205,16 +216,3 @@ class Database:
             }
             for r in rows
         ]
-
-
-def create_connection_pool() -> ConnectionPool:
-    url = settings.database_url.strip()
-    if not url:
-        raise ValueError("DATABASE_URL is not set.")
-    return ConnectionPool(
-        conninfo=url,
-        min_size=1,
-        max_size=10,
-        open=True,
-        kwargs={"autocommit": False, "prepare_threshold": None},
-    )

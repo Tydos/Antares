@@ -21,19 +21,22 @@ Entry point: `backend/src/main.py`. Services (`Database`, `Pipeline`) are initia
 
 ```
 backend/src/
-  main.py        routes, lifespan startup
-  config.py      pydantic settings (auto-sets route prefix on Vercel)
-  database.py    postgres + pgvector — uploads table + chunks table
-  pipeline.py    download → pdf.py → embedder.py → database.py
-  embedder.py    HuggingFace Inference API (384-dim cosine vectors)
-  answerer.py    HuggingFace LLM answer generation with chunk citations
-  vercel_blob.py HMAC-SHA256 client token minting (1-hour TTL)
-  pdf.py         pypdf text extraction, 800-char chunks / 100-char overlap
+  main.py             routes, lifespan startup
+  config.py           pydantic settings (auto-sets route prefix on Vercel)
+  database.py         postgres + pgvector — uploads table + chunks table
+  ingestion_service.py download → pdf_parser.py → embedding.py → database.py
+  embedding.py        HuggingFace Inference API (384-dim cosine vectors)
+  generator.py        HuggingFace LLM answer generation with chunk citations
+  create_upload_token.py HMAC-SHA256 client token minting (1-hour TTL)
+  pdf_parser.py       pypdf text extraction, 800-char chunks / 100-char overlap
+  interfaces.py       Protocol definitions for Database, Embedder, Extractor, Generator
+  schemas.py          Pydantic request/response models
+  utils.py            LatencyTracker helper
 ```
 
 ## Upload flow
 
-1. Browser calls `/blob-upload` → backend mints a signed Vercel Blob client token.
+1. Browser calls `/request_upload_token` → backend mints a signed Vercel Blob client token.
 2. `@vercel/blob` SDK uploads the PDF directly from the browser to blob storage.
 3. Browser calls `/upload-complete` with `{filename, blobUrl}`.
 4. Backend inserts a `pending` row in `uploads` and schedules `Pipeline.index_document` as a `BackgroundTask`.
