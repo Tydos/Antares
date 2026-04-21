@@ -44,9 +44,10 @@ export const listDocuments = () =>
 export const deleteDocument = (filename) =>
   request(`${API}/files/${encodeURIComponent(filename)}`, { method: 'DELETE' });
 
-export const query = (question, { topK = 5, filenames } = {}) =>
+export const query = (question, { topK = 5, filenames, searchMode = 'hybrid' } = {}) =>
   postJSON(`${API}/query`, {
     question,
     top_k: topK,
+    search_mode: searchMode,
     ...(filenames && filenames.length ? { filenames } : {}),
   });

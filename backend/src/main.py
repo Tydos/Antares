@@ -126,7 +126,13 @@ def query(
         raise HTTPException(status_code=503, detail=f"Embedding service error: {e}")
 
     with tracker.measure("search"):
-        chunks = db.search_chunks(query_vector, k=top_k, filenames=req.filenames or None)
+        chunks = db.search_chunks(
+            query_vector,
+            query_text=question,
+            k=top_k,
+            filenames=req.filenames or None,
+            search_mode=req.search_mode,
+        )
 
     answer: str | None = None
     try:

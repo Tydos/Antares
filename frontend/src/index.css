@@ -95,6 +95,32 @@ button:disabled { opacity: 0.4; cursor: default; }
 .doc-row:last-child { border-bottom: none; }
 .doc-name { flex: 1; font-size: 14px; }
 
+/* ── Search mode toggle ── */
+.mode-toggle {
+  display: inline-flex;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  gap: 0;
+}
+.mode-toggle button {
+  border: none;
+  border-radius: 0;
+  padding: 5px 14px;
+  font-size: 13px;
+  background: #f9f9f9;
+  color: #555;
+  border-right: 1px solid #ddd;
+  transition: background 0.15s, color 0.15s;
+}
+.mode-toggle button:last-child { border-right: none; }
+.mode-toggle button:hover:not(.active) { background: #f0e8ff; color: #7c3aed; }
+.mode-toggle button.active {
+  background: #7c3aed;
+  color: #fff;
+  font-weight: 600;
+}
+
 /* ── Chat results ── */
 .ask-input { flex: 1; padding: 7px 10px; border-radius: 8px; border: 1px solid #ccc; }
 .ask-results { margin-top: 12px; display: flex; flex-direction: column; gap: 10px; }

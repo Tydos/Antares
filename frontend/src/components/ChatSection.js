@@ -1,11 +1,18 @@
 import { useEffect, useState } from 'react';
 import { listDocuments, query } from '../api/api';
 
+const MODES = [
+  { value: 'hybrid',   label: 'Hybrid',   title: 'Vector + keyword, fused with RRF' },
+  { value: 'semantic', label: 'Semantic',  title: 'Vector cosine similarity only' },
+  { value: 'keyword',  label: 'Keyword',   title: 'Full-text search only (ts_rank)' },
+];
+
 export default function ChatSection() {
-  const [question, setQuestion] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [result, setResult] = useState(null);
+  const [question, setQuestion]     = useState('');
+  const [searchMode, setSearchMode] = useState('hybrid');
+  const [loading, setLoading]       = useState(false);
+  const [error, setError]           = useState(null);
+  const [result, setResult]         = useState(null);
   const [blobByFilename, setBlobByFilename] = useState({});
 
   useEffect(() => {
@@ -23,7 +30,7 @@ export default function ChatSection() {
     setError(null);
     setResult(null);
     try {
-      setResult(await query(question.trim()));
+      setResult(await query(question.trim(), { searchMode }));
     } catch (err) {
       setError(String(err));
     } finally {
@@ -42,7 +49,22 @@ export default function ChatSection() {
   return (
     <section>
       <h2>Ask</h2>
-      <form onSubmit={handleAsk} className="row">
+
+      <div className="mode-toggle" role="group" aria-label="Search mode">
+        {MODES.map((m) => (
+          <button
+            key={m.value}
+            type="button"
+            title={m.title}
+            className={searchMode === m.value ? 'active' : ''}
+            onClick={() => setSearchMode(m.value)}
+          >
+            {m.label}
+          </button>
+        ))}
+      </div>
+
+      <form onSubmit={handleAsk} className="row" style={{ marginTop: 10 }}>
         <input
           className="ask-input"
           type="text"
@@ -86,7 +108,7 @@ export default function ChatSection() {
                   ) : (
                     <span>{c.filename} · p.{c.page}</span>
                   )}
-                  <span className="muted">score {c.score.toFixed(3)}</span>
+                  <span className="muted">score {c.score.toFixed(4)}</span>
                 </div>
                 <p className="chunk-text">{c.content}</p>
               </div>
