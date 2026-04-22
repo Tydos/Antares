@@ -51,3 +51,14 @@ export const query = (question, { topK = 5, filenames, searchMode = 'hybrid' } =
     search_mode: searchMode,
     ...(filenames && filenames.length ? { filenames } : {}),
   });
+
+export const getHistory = () =>
+  request(`${API}/history`).then((d) => d.messages);
+
+export const chat = (question, { topK = 5, filenames, searchMode = 'hybrid' } = {}) =>
+  postJSON(`${API}/chat`, {
+    question,
+    top_k: topK,
+    search_mode: searchMode,
+    ...(filenames && filenames.length ? { filenames } : {}),
+  });

@@ -1,41 +1,47 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { uploadPDF } from '../api/api';
 
 export default function UploadSection() {
-  const [key, setKey] = useState(0);
-  const [file, setFile] = useState(null);
-  const [msg, setMsg] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [key, setKey]           = useState(0);
+  const [loading, setLoading]   = useState(false);
   const [progress, setProgress] = useState(null);
+  const [msg, setMsg]           = useState(null);
+  const inputRef = useRef(null);
 
-  async function handleUpload() {
-    setLoading(true);
+  async function handleFile(e) {
+    const file = e.target.files?.[0];
+    if (!file) return;
     setMsg(null);
+    setLoading(true);
     setProgress(0);
     try {
-      const res = await uploadPDF(file, setProgress);
-      setMsg({ ok: true, text: res.status });
-      setFile(null);
-      setKey((k) => k + 1);
-    } catch (e) {
-      setMsg({ ok: false, text: String(e) });
+      await uploadPDF(file, setProgress);
+      setMsg({ ok: true, text: 'Indexing in progress…' });
+    } catch (err) {
+      setMsg({ ok: false, text: String(err) });
     } finally {
       setLoading(false);
       setProgress(null);
+      setKey((k) => k + 1);
     }
   }
 
   return (
-    <section>
-      <h2>Upload PDF</h2>
-      <div className="row">
-        <input key={key} type="file" accept=".pdf" onChange={(e) => setFile(e.target.files?.[0] ?? null)} />
-        <button className="primary" disabled={!file || loading} onClick={handleUpload}>
-          {loading ? 'Uploading…' : 'Upload'}
-        </button>
-      </div>
-      {loading && progress !== null && <progress value={progress} max={1} />}
-      {msg && <p className={msg.ok ? 'success' : 'error'}>{msg.text}</p>}
-    </section>
+    <div className="upload-area">
+      <input key={key} ref={inputRef} type="file" accept=".pdf"
+        style={{ display: 'none' }} onChange={handleFile} />
+      <button
+        className="upload-doc-btn"
+        disabled={loading}
+        onClick={() => { setMsg(null); inputRef.current?.click(); }}
+      >
+        <span className="upload-plus">+</span>
+        {loading ? 'Uploading…' : 'Upload Document'}
+      </button>
+      {loading && progress !== null && (
+        <div className="progress-bar"><div className="progress-fill" style={{ width: `${Math.round(progress * 100)}%` }} /></div>
+      )}
+      {msg && <p className={msg.ok ? 'upload-ok' : 'upload-err'}>{msg.text}</p>}
+    </div>
   );
 }

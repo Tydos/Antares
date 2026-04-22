@@ -6,16 +6,16 @@ from typing import Any
 from fastapi import APIRouter, BackgroundTasks, Depends, FastAPI, Request
 from fastapi.exceptions import HTTPException
 from fastapi.responses import JSONResponse
-from src.generator import HuggingFaceGenerator
 from src.config import settings
-from src.database import PostgreSQLStorageManager
-from src.embedding import HuggingFaceEmbeddingService
-from src.interfaces import DatabaseProtocol, EmbedderProtocol, ExtractorProtocol, GeneratorProtocol
-from src.utils import LatencyTracker
-from src.pdf_parser import PDFParser
-from src.ingestion_service import IngestionService
-from src.schemas import QueryRequest, UploadCompleteRequest
-from src.create_upload_token import BlobTokenError, create_client_upload_token
+from src.interfaces import DatabaseProtocol, EmbedderProtocol, GeneratorProtocol
+from src.schemas import ChatRequest, QueryRequest, UploadCompleteRequest
+from src.inference.generator import HuggingFaceGenerator
+from src.inference.embedding import HuggingFaceEmbeddingService
+from src.storage.database import PostgreSQLStorageManager
+from src.ingestion.service import IngestionService
+from src.ingestion.pdf_parser import PDFParser
+from src.ingestion.upload_token import BlobTokenError, create_client_upload_token
+from src.utils.latency import LatencyTracker
 
 logging.basicConfig(
     level=logging.INFO,
@@ -149,6 +149,65 @@ def query(
 
     return {
         "question": question,
+        "answer": answer,
+        "chunks": chunks,
+        "latency": latency,
+    }
+
+
+@router.get("/history")
+def get_history(db: PostgreSQLStorageManager = Depends(get_db)):
+    return {"messages": db.get_messages()}
+
+
+@router.post("/chat")
+def chat(
+    req: ChatRequest,
+    db: PostgreSQLStorageManager = Depends(get_db),
+    embedder: EmbedderProtocol = Depends(get_embedder),
+    generator: GeneratorProtocol = Depends(get_generator),
+):
+    question = req.question.strip()
+    if not question:
+        raise HTTPException(status_code=400, detail="question is required")
+    top_k = max(1, min(req.top_k, 20))
+    tracker = LatencyTracker()
+
+    try:
+        with tracker.measure("embed"):
+            query_vector = embedder.embed([question])[0]
+    except Exception as e:
+        logging.exception("Embedding failed")
+        raise HTTPException(status_code=503, detail=f"Embedding service error: {e}")
+
+    with tracker.measure("search"):
+        chunks = db.search_chunks(
+            query_vector,
+            query_text=question,
+            k=top_k,
+            filenames=req.filenames or None,
+            search_mode=req.search_mode,
+        )
+
+    history = db.get_messages()
+
+    answer: str | None = None
+    try:
+        with tracker.measure("llm"):
+            answer = generator.generate_answer_with_history(question, chunks, history)
+    except Exception:
+        logging.exception("Answer generation failed; returning raw chunks")
+
+    db.add_message("user", question)
+    db.add_message("assistant", answer or "", chunks)
+
+    latency = tracker.all()
+    logging.info(
+        "chat latency — embed: %.0fms | search: %.0fms | llm: %.0fms | total: %.0fms | chunks: %d",
+        latency.get("embed", 0), latency.get("search", 0), latency.get("llm", 0), latency.get("total", 0), len(chunks),
+    )
+
+    return {
         "answer": answer,
         "chunks": chunks,
         "latency": latency,

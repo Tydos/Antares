@@ -41,7 +41,6 @@ def create_client_upload_token(
         "pathname": pathname,
         "validUntil": int(time.time() * 1000) + settings.blob_token_ttl_ms,
     }
-    # Must match JS JSON.stringify: no spaces, ASCII-safe
     payload_b64 = base64.b64encode(
         json.dumps(body, separators=(",", ":"), ensure_ascii=True).encode()
     ).decode("ascii")

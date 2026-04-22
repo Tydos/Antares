@@ -5,11 +5,9 @@ from src.config import settings
 _NO_CONTEXT_ANSWER = "I couldn't find anything relevant in the indexed documents."
 
 class HuggingFaceGenerator:
-    # Initialize the HuggingFace InferenceClient with the provided API key
     def __init__(self) -> None:
         self._client = InferenceClient(api_key=settings.hf_token)
 
-    # Format the list of chunks into a single string to be used as context for the LLM
     def _format_chunks_as_context(self, chunks: list[dict]) -> str:
         blocks: list[str] = []
         for i, chunk in enumerate(chunks, start=1):
@@ -18,12 +16,12 @@ class HuggingFaceGenerator:
             blocks.append(f"{header}\n{chunk.get('content', '').strip()}")
         return "\n\n".join(blocks)
 
-    # Given a question and list of chunks, generate an answer using the HuggingFace LLM
-    def generate_answer(self, question: str, chunks: list[dict]) -> str:
+    def generate_answer_with_history(self, question: str, chunks: list[dict], history: list[dict]) -> str:
         if not chunks:
             return _NO_CONTEXT_ANSWER
 
         context = self._format_chunks_as_context(chunks)
+        prior_turns = [{"role": m["role"], "content": m["content"]} for m in history[-6:]]
         messages = [
             {
                 "role": "system",
@@ -34,6 +32,7 @@ class HuggingFaceGenerator:
                     "Keep answers concise and faithful to the source material."
                 ),
             },
+            *prior_turns,
             {
                 "role": "user",
                 "content": (
@@ -60,3 +59,6 @@ class HuggingFaceGenerator:
             logging.warning("HuggingFace LLM returned an empty response")
             return _NO_CONTEXT_ANSWER
         return text
+
+    def generate_answer(self, question: str, chunks: list[dict]) -> str:
+        return self.generate_answer_with_history(question, chunks, [])

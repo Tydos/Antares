@@ -4,25 +4,17 @@ import ChatSection from './components/ChatSection';
 
 export default function App() {
   return (
-    <div className="layout">
-      <header className="site-header">
-        <div className="header-inner">
-          <div>
-            <h1>RAG PDF</h1>
-            <p className="tagline">Upload PDFs and ask questions</p>
-          </div>
+    <div className="app-layout">
+      <aside className="sidebar">
+        <div className="sidebar-header">
+          <h1>Not ChatGPT</h1>
         </div>
-      </header>
-
-      <main className="site-main">
         <UploadSection />
         <DocumentsSection />
+      </aside>
+      <main className="chat-panel">
         <ChatSection />
       </main>
-
-      <footer className="site-footer">
-        <p>PDF uploads &mdash; Vercel Blob + PostgreSQL</p>
-      </footer>
     </div>
   );
 }

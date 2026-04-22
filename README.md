@@ -1,6 +1,6 @@
-# RAG PDF
+# Not ChatGPT
 
-Upload PDFs and ask questions. The app extracts, chunks, and embeds your documents — then uses hybrid search (semantic + keyword, fused with Reciprocal Rank Fusion) and an LLM to answer questions with inline citations.
+Upload PDFs and ask questions with persistent chat memory. The app extracts, chunks, and embeds your documents — then uses hybrid search (semantic + keyword, fused with Reciprocal Rank Fusion) and an LLM to answer questions with inline citations. Conversation history is stored in PostgreSQL and restored on page load.
 
 ## How it works
 
@@ -10,14 +10,17 @@ Upload PDFs and ask questions. The app extracts, chunks, and embeds your documen
 3. Browser calls `/upload-complete`; backend records the file and starts a background task
 4. Background task: download PDF → extract text per page (pypdf) → chunk (800 chars, 100 overlap) → embed (HuggingFace, 384-dim) → store in PostgreSQL with pgvector + tsvector
 
-**Query flow**
-1. Browser POSTs `{question, top_k, filenames?, search_mode?}` to `/query`
-2. Depending on `search_mode`:
-   - **hybrid** (default): pgvector cosine search + PostgreSQL full-text search (`ts_rank`), fused with Reciprocal Rank Fusion (RRF, k=60)
-   - **semantic**: pgvector cosine search only
-   - **keyword**: full-text search only, OR-joined `to_tsquery`
-3. Top-k chunks are passed to the LLM which generates a cited answer
-4. Response includes the answer, raw chunks with scores, and per-stage latency
+**Chat flow (persistent)**
+1. Browser POSTs `{question, search_mode?}` to `/chat`
+2. Backend loads full conversation history from the `messages` table
+3. Embeds question → searches chunks → LLM generates answer with history context (last 6 turns)
+4. Both turns saved to `messages`; response includes answer, chunks, and latency
+5. On page load, `GET /history` restores the full thread
+
+**Search modes**
+- **hybrid** (default): pgvector cosine search + PostgreSQL `ts_rank`, fused with Reciprocal Rank Fusion (RRF, k=60)
+- **semantic**: pgvector cosine search only
+- **keyword**: full-text search only, OR-joined `to_tsquery`
 
 ## Stack
 
@@ -62,16 +65,17 @@ Without `HF_TOKEN`, embedding and answer generation will fail. Without `BLOB_REA
 | POST | `/upload-complete` | Record upload and schedule background indexing |
 | GET | `/documents` | List all documents with status, page count, and chunk count |
 | DELETE | `/files/{filename}` | Delete a document and all its chunks |
-| POST | `/query` | Hybrid/semantic/keyword search + LLM answer with per-stage latency |
+| POST | `/chat` | Persistent chat — search + LLM with conversation history |
+| GET | `/history` | Return full conversation history |
+| POST | `/query` | Stateless search + LLM (no history saved, kept for compatibility) |
 
-### Query request/response
+### Chat request/response
 
 ```json
-// POST /query
+// POST /chat
 {
   "question": "What is the refund policy?",
   "top_k": 5,
-  "filenames": ["policy.pdf"],
   "search_mode": "hybrid"
 }
 
@@ -85,14 +89,6 @@ Without `HF_TOKEN`, embedding and answer generation will fail. Without `BLOB_REA
 
 `top_k` is clamped to [1, 20]. `filenames` is optional; omit to search across all documents.
 
-`search_mode` options:
-
-| Value | Mechanism | Best for |
-|---|---|---|
-| `hybrid` (default) | RRF fusion of vector + full-text | General use — catches semantic and exact-keyword hits |
-| `semantic` | pgvector cosine similarity | Conceptual questions, paraphrases |
-| `keyword` | PostgreSQL `ts_rank` (OR tokens) | Exact terms, names, codes, acronyms |
-
 ## Document statuses
 
 | Status | Meaning |
@@ -102,46 +98,64 @@ Without `HF_TOKEN`, embedding and answer generation will fail. Without `BLOB_REA
 | `skipped` | PDF contained no extractable text (scanned/image-only) |
 | `failed` | Indexing error (check logs) |
 
-## Smoke test
+## Tests
 
 ```bash
-cd backend/tests && python test_end_to_end.py
+docker compose exec fastapi python -m pytest tests/test_api.py tests/test_database.py -v
 ```
 
-Checks `/health` and `/documents` against `localhost:8000`.
+- **`test_api.py`** (15 tests) — FastAPI TestClient with mocked dependencies; no live services needed. Covers health, documents, history, `/query`, `/chat`, error paths.
+- **`test_database.py`** (10 tests) — Integration tests against a live database. Covers messages CRUD, upload CRUD, status updates, and error cases.
 
 ## Project structure
 
 ```
-backend/src/
-  main.py             routes, lifespan startup, dependency injection
-  config.py           pydantic settings (auto-sets route prefix on Vercel)
-  database.py         postgres + pgvector + tsvector — uploads, chunks, hybrid search
-  ingestion_service.py download → pdf_parser.py → embedding.py → database.py
-  embedding.py        HuggingFace Inference API, batch size 32
-  generator.py        HuggingFace LLM answer generation — temperature 0.2, max 400 tokens
-  create_upload_token.py HMAC-SHA256 client token minting, 1-hour TTL
-  pdf_parser.py       pypdf text extraction, 800-char chunks / 100-char overlap
-  interfaces.py       Protocol definitions for Database, Embedder, Extractor, Generator
-  schemas.py          Pydantic request/response models
-  utils.py            LatencyTracker helper
+backend/
+  src/
+    main.py              routes, lifespan startup, dependency injection
+    config.py            pydantic settings (auto-sets route prefix on Vercel)
+    schemas.py           Pydantic request/response models
+    interfaces.py        Protocol definitions — Database, Embedder, Extractor, Generator
+
+    ingestion/
+      service.py         IngestionService — download → parse → embed → store
+      pdf_parser.py      pypdf extraction, 800-char chunks / 100-char overlap
+      upload_token.py    HMAC-SHA256 client token minting (1-hour TTL)
+
+    inference/
+      embedding.py       HuggingFace embedding service (384-dim, batched)
+      generator.py       HuggingFace LLM — history-aware answer generation
+
+    storage/
+      database.py        PostgreSQL — uploads, chunks (pgvector + tsvector), messages
+
+    utils/
+      latency.py         LatencyTracker helper
+
+  tests/
+    test_api.py          API tests (mocked)
+    test_database.py     DB integration tests
 
 frontend/src/
-  App.js                  layout container
-  api/api.js              HTTP client for all backend routes
+  App.js                 two-column layout — sidebar + chat panel
+  api/api.js             HTTP client for all backend routes
   components/
-    UploadSection.js      file picker, progress bar, upload status
-    DocumentsSection.js   document list with status badges and delete
-    ChatSection.js        question input, search mode toggle, answer card, chunk results
+    UploadSection.js     "+ Upload Document" button, progress bar
+    DocumentsSection.js  knowledge base file list with hover-delete
+    ChatSection.js       persistent chat thread, search mode toggle, send button
+    DevPanel.js          always-on right panel — session stats, latency bars, chunk inspector
 ```
 
 ## Deployment (Vercel)
 
-`vercel.json` routes the frontend to `/` and the API to `/_/backend/*`. `config.py` detects `VERCEL=1` and sets the route prefix automatically — no code changes needed.
+`vercel.json` routes the frontend to `/` and the API to `/_/backend/*` using vercel.json
+
 
 ## Limitations
 
 - No OCR support — scanned or image-only PDFs are marked `skipped`
-- No user authentication or access control
+- No user authentication — conversation history is global (single shared thread)
 - Maximum 100 MB per PDF
 - Chunking is character-based; very short pages may produce fewer or no chunks
+- LLM context is capped at the last 6 conversation turns to stay within token limits
+- Ingestion pipeline is still not asnyc

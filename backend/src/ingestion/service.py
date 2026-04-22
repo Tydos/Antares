@@ -9,7 +9,6 @@ class IngestionService:
         self._embedder = embedder
         self._extractor = extractor
 
-    # simple indexing workflow: download PDF, extract chunks, embed, and save to DB with status updates
     def index_document(self, filename: str, blob_url: str) -> None:
         try:
             with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:

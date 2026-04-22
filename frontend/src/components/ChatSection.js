@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
-import { listDocuments, query } from '../api/api';
+import { useEffect, useRef, useState } from 'react';
+import { chat, getHistory, listDocuments } from '../api/api';
+import DevPanel from './DevPanel';
 
 const MODES = [
   { value: 'hybrid',   label: 'Hybrid',   title: 'Vector + keyword, fused with RRF' },
@@ -7,115 +8,139 @@ const MODES = [
   { value: 'keyword',  label: 'Keyword',   title: 'Full-text search only (ts_rank)' },
 ];
 
+const SendIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+    <line x1="22" y1="2" x2="11" y2="13"/>
+    <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+  </svg>
+);
+
+const ArrowIcon = () => (
+  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+    <line x1="7" y1="17" x2="17" y2="7"/>
+    <polyline points="7 7 17 7 17 17"/>
+  </svg>
+);
+
 export default function ChatSection() {
-  const [question, setQuestion]     = useState('');
-  const [searchMode, setSearchMode] = useState('hybrid');
-  const [loading, setLoading]       = useState(false);
-  const [error, setError]           = useState(null);
-  const [result, setResult]         = useState(null);
+  const [messages, setMessages]       = useState([]);
+  const [input, setInput]             = useState('');
+  const [searchMode, setSearchMode]   = useState('hybrid');
+  const [loading, setLoading]         = useState(false);
+  const [error, setError]             = useState(null);
   const [blobByFilename, setBlobByFilename] = useState({});
+  const threadRef = useRef(null);
 
   useEffect(() => {
     listDocuments()
-      .then((docs) =>
-        setBlobByFilename(Object.fromEntries(docs.map((d) => [d.filename, d.blob_url || ''])))
-      )
+      .then((docs) => setBlobByFilename(Object.fromEntries(docs.map((d) => [d.filename, d.blob_url || '']))))
+      .catch(() => {});
+    getHistory()
+      .then((msgs) => setMessages(msgs))
       .catch(() => {});
   }, []);
 
-  async function handleAsk(e) {
+  useEffect(() => {
+    if (threadRef.current) threadRef.current.scrollTop = threadRef.current.scrollHeight;
+  }, [messages, loading]);
+
+  async function handleSend(e) {
     e?.preventDefault?.();
-    if (!question.trim() || loading) return;
-    setLoading(true);
+    const text = input.trim();
+    if (!text || loading) return;
+    setInput('');
     setError(null);
-    setResult(null);
+    setMessages((prev) => [...prev, { role: 'user', content: text, chunks: [] }]);
+    setLoading(true);
     try {
-      setResult(await query(question.trim(), { searchMode }));
+      const res = await chat(text, { searchMode });
+      const assistantMsg = { role: 'assistant', content: res.answer ?? '', chunks: res.chunks ?? [], latency: res.latency };
+      setMessages((prev) => [...prev, assistantMsg]);
     } catch (err) {
       setError(String(err));
+      setMessages((prev) => prev.slice(0, -1));
     } finally {
       setLoading(false);
     }
   }
 
-  const answer = result?.answer;
-  const chunks = result?.chunks ?? [];
-  const latency = result?.latency;
-  const hrefFor = (c) => {
-    const url = blobByFilename[c.filename];
-    return url ? `${url}#page=${c.page}` : null;
-  };
+  function handleKeyDown(e) {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); }
+  }
+
+const hrefFor = (c) => { const url = blobByFilename[c.filename]; return url ? `${url}#page=${c.page}` : null; };
 
   return (
-    <section>
-      <h2>Ask</h2>
+    <div className="chat-with-dev">
+      <div className="chat-container">
+          <div ref={threadRef} className="chat-thread">
+          {messages.length === 0 && !loading && (
+            <div className="chat-empty">
+              <p>Ask a question about your documents to get started.</p>
+            </div>
+          )}
 
-      <div className="mode-toggle" role="group" aria-label="Search mode">
-        {MODES.map((m) => (
-          <button
-            key={m.value}
-            type="button"
-            title={m.title}
-            className={searchMode === m.value ? 'active' : ''}
-            onClick={() => setSearchMode(m.value)}
-          >
-            {m.label}
-          </button>
-        ))}
+          {messages.map((msg, i) => (
+            <div
+              key={i}
+              className={`msg msg-${msg.role}`}
+            >
+              <div className="msg-bubble">{msg.content}</div>
+              {msg.role === 'assistant' && msg.chunks?.length > 0 && (
+                <div className="msg-sources">
+                  {msg.chunks.map((c, j) => {
+                    const href = hrefFor(c);
+                    const label = `${c.filename} p.${c.page}`;
+                    return href ? (
+                      <a key={j} className="source-chip" href={href} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
+                        {label}<ArrowIcon />
+                      </a>
+                    ) : (
+                      <span key={j} className="source-chip">{label}</span>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          ))}
+
+          {loading && (
+            <div className="msg msg-assistant">
+              <div className="msg-bubble typing-indicator"><span /><span /><span /></div>
+            </div>
+          )}
+        </div>
+
+        {error && <p className="chat-error">{error}</p>}
+
+        <div className="chat-input-bar">
+          <div className="mode-toggle" role="group" aria-label="Search mode">
+            {MODES.map((m) => (
+              <button key={m.value} type="button" title={m.title}
+                className={searchMode === m.value ? 'active' : ''}
+                onClick={() => setSearchMode(m.value)}>
+                {m.label}
+              </button>
+            ))}
+          </div>
+          <form className="chat-input-row" onSubmit={handleSend}>
+            <input
+              className="chat-input"
+              type="text"
+              placeholder="Message your workspace…"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={handleKeyDown}
+            />
+            <button className="send-btn" type="submit" disabled={!input.trim() || loading}>
+              <SendIcon />
+            </button>
+          </form>
+          <p className="chat-disclaimer">AI generated content may be inaccurate.</p>
+        </div>
       </div>
 
-      <form onSubmit={handleAsk} className="row" style={{ marginTop: 10 }}>
-        <input
-          className="ask-input"
-          type="text"
-          placeholder="Ask a question about your PDFs…"
-          value={question}
-          onChange={(e) => setQuestion(e.target.value)}
-        />
-        <button className="primary" type="submit" disabled={!question.trim() || loading}>
-          {loading ? 'Searching…' : 'Ask'}
-        </button>
-      </form>
-
-      {error && <p className="error">{error}</p>}
-
-      {answer && (
-        <div className="answer-card">
-          <div className="answer-label">Answer</div>
-          {answer}
-        </div>
-      )}
-
-      {latency && (
-        <p className="muted latency-bar">
-          embed {latency.embed}ms · search {latency.search}ms · llm {latency.llm}ms · total {latency.total}ms
-        </p>
-      )}
-
-      {result && chunks.length === 0 && <p className="muted ask-empty">No matches found.</p>}
-
-      {chunks.length > 0 && (
-        <div className="ask-results">
-          {chunks.map((c, i) => {
-            const href = hrefFor(c);
-            return (
-              <div key={i} className="chunk-card">
-                <div className="chunk-meta">
-                  {href ? (
-                    <a href={href} target="_blank" rel="noopener noreferrer">
-                      {c.filename} · p.{c.page}
-                    </a>
-                  ) : (
-                    <span>{c.filename} · p.{c.page}</span>
-                  )}
-                  <span className="muted">score {c.score.toFixed(4)}</span>
-                </div>
-                <p className="chunk-text">{c.content}</p>
-              </div>
-            );
-          })}
-        </div>
-      )}
-    </section>
+      <DevPanel messages={messages} />
+    </div>
   );
 }
