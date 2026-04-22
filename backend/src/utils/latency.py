@@ -1,7 +1,6 @@
 import time
 from contextlib import contextmanager
 
-# Utility class to track latency of various operations in the API, for logging and debugging purposes.
 class LatencyTracker:
     def __init__(self):
         self._timings: dict[str, float] = {}

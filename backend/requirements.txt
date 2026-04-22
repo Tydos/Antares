@@ -6,3 +6,6 @@ psycopg[binary]
 psycopg-pool
 httpx
 huggingface_hub
+pytest
+pytest-asyncio
+ruff

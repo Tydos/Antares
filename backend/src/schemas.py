@@ -10,3 +10,5 @@ class QueryRequest(BaseModel):
     top_k: int = 5
     filenames: list[str] | None = None
     search_mode: Literal["hybrid", "semantic", "keyword"] = "hybrid"
+
+ChatRequest = QueryRequest

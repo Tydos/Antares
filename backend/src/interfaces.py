@@ -21,8 +21,10 @@ class DatabaseProtocol(Protocol):
         query_text: str = "",
         k: int = 5,
         filenames: list[str] | None = None,
-        search_mode: str = "hybrid",  # "hybrid" | "semantic" | "keyword"
+        search_mode: str = "hybrid",
     ) -> list[dict]: ...
+    def add_message(self, role: str, content: str, chunks: list[dict] | None = None) -> None: ...
+    def get_messages(self, limit: int = 50) -> list[dict]: ...
 
 
 class EmbedderProtocol(Protocol):
@@ -31,6 +33,7 @@ class EmbedderProtocol(Protocol):
 
 class GeneratorProtocol(Protocol):
     def generate_answer(self, question: str, chunks: list[dict]) -> str: ...
+    def generate_answer_with_history(self, question: str, chunks: list[dict], history: list[dict]) -> str: ...
 
 
 class ExtractorProtocol(Protocol):
