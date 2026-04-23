@@ -1,0 +1,17 @@
+RAG Evaluation Results
+======================
+QA file : backend/tests/input/qa_pairs.json
+Questions: 20
+top_k    : 5
+
+MODE          Precision@k   Recall@k       F1
+----------------------------------------------
+hybrid             24.0%     45.0% (9/20)   31.3%
+semantic           24.0%     45.0% (9/20)   31.3%
+keyword            20.0%     25.0% (5/20)   22.2%
+
+Notes
+-----
+- Hybrid and semantic tied at 45% recall — vector search dominates.
+- Keyword recall improved to 25% after stack restart (tsvector populated on re-index).
+- Full per-question breakdown saved in results.json.
