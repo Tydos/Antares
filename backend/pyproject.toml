@@ -9,7 +9,7 @@ dependencies = [
     "pydantic-settings",
     "psycopg[binary]",
     "psycopg-pool",
-    "httpx",x
+    "httpx",
     "huggingface_hub",
 ]
 
