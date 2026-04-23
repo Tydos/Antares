@@ -1,0 +1,59 @@
+"""
+    MessageStore manages the 'messages' table, which stores user and assistant messages along with their associated chunks.
+    add_message inserts a new message into the database, optionally with associated chunks.
+    get_messages retrieves messages from the database, returning them in chronological order with their content and associated chunks.
+    
+    future work: update/delete messages, pagination, filtering by role/date, etc.
+"""
+
+import json
+
+from psycopg.rows import dict_row
+from psycopg_pool import ConnectionPool
+
+_CREATE_MESSAGES_TABLE = """
+CREATE TABLE IF NOT EXISTS messages (
+    id BIGSERIAL PRIMARY KEY,
+    role TEXT NOT NULL CHECK (role IN ('user', 'assistant')),
+    content TEXT NOT NULL,
+    chunks JSONB,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+"""
+
+
+class MessageStore:
+    def __init__(self, pool: ConnectionPool) -> None:
+        self._pool = pool
+        self._create_tables()
+
+    def _create_tables(self) -> None:
+        with self._pool.connection() as conn:
+            conn.execute(_CREATE_MESSAGES_TABLE)
+            conn.commit()
+
+    def add_message(self, role: str, content: str, chunks: list[dict] | None = None) -> None:
+        with self._pool.connection() as conn:
+            conn.execute(
+                "INSERT INTO messages (role, content, chunks) VALUES (%s, %s, %s)",
+                (role, content, json.dumps(chunks) if chunks else None),
+            )
+            conn.commit()
+
+    def get_messages(self, limit: int = 50) -> list[dict]:
+        with self._pool.connection() as conn:
+            with conn.cursor(row_factory=dict_row) as cur:
+                cur.execute(
+                    "SELECT role, content, chunks, created_at FROM messages ORDER BY created_at ASC LIMIT %s",
+                    (limit,),
+                )
+                rows = cur.fetchall()
+        return [
+            {
+                "role": r["role"],
+                "content": r["content"],
+                "chunks": r["chunks"] or [],
+                "created_at": r["created_at"].isoformat() if r["created_at"] else None,
+            }
+            for r in rows
+        ]

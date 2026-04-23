@@ -11,7 +11,7 @@ from src.interfaces import DatabaseProtocol, EmbedderProtocol, GeneratorProtocol
 from src.schemas import ChatRequest, QueryRequest, UploadCompleteRequest
 from src.inference.generator import HuggingFaceGenerator
 from src.inference.embedding import HuggingFaceEmbeddingService
-from src.storage.database import PostgreSQLStorageManager
+from src.storage.database import DBManager
 from src.ingestion.service import IngestionService
 from src.ingestion.pdf_parser import PDFParser
 from src.ingestion.upload_token import BlobTokenError, create_client_upload_token
@@ -27,7 +27,7 @@ logging.basicConfig(
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    app.state.db = PostgreSQLStorageManager.create()
+    app.state.db = DBManager.create()
     app.state.embedder = HuggingFaceEmbeddingService()
     app.state.generator = HuggingFaceGenerator()
     app.state.extractor = PDFParser()
@@ -65,7 +65,7 @@ def root():
 
 
 @router.get("/health")
-def health(db: PostgreSQLStorageManager = Depends(get_db)):
+def health(db: DBManager = Depends(get_db)):
     db_ok = db.ping()
     return JSONResponse(
         {"status": "ok" if db_ok else "degraded", "services": {"database": db_ok}},
@@ -91,7 +91,7 @@ def blob_upload(body: dict[str, Any]):
 def upload_complete(
     req: UploadCompleteRequest,
     background_tasks: BackgroundTasks,
-    db: PostgreSQLStorageManager = Depends(get_db),
+    db: DBManager = Depends(get_db),
     pipeline: IngestionService = Depends(get_pipeline),
 ):
     """Step 2 of the upload flow: browser notifies us the PDF is in blob storage so we can index it."""
@@ -101,7 +101,7 @@ def upload_complete(
 
 
 @router.get("/documents")
-def list_documents(db: PostgreSQLStorageManager = Depends(get_db)):
+def list_documents(db: DBManager = Depends(get_db)):
     return {"documents": db.list_uploads()}
 
 
@@ -156,14 +156,14 @@ def query(
 
 
 @router.get("/history")
-def get_history(db: PostgreSQLStorageManager = Depends(get_db)):
+def get_history(db: DBManager = Depends(get_db)):
     return {"messages": db.get_messages()}
 
 
 @router.post("/chat")
 def chat(
     req: ChatRequest,
-    db: PostgreSQLStorageManager = Depends(get_db),
+    db: DBManager = Depends(get_db),
     embedder: EmbedderProtocol = Depends(get_embedder),
     generator: GeneratorProtocol = Depends(get_generator),
 ):
@@ -215,7 +215,7 @@ def chat(
 
 
 @router.delete("/files/{filename}")
-def delete_file(filename: str, db: PostgreSQLStorageManager = Depends(get_db)):
+def delete_file(filename: str, db: DBManager = Depends(get_db)):
     try:
         db.remove_upload(filename)
     except FileNotFoundError as e:

@@ -5,7 +5,7 @@ Run: pytest backend/tests/test_database.py -v
 """
 import os
 import pytest
-from src.storage.database import PostgreSQLStorageManager
+from src.storage.database import DBManager
 
 
 @pytest.fixture(scope="module")
@@ -14,7 +14,7 @@ def db():
     if not url:
         pytest.skip("DATABASE_URL not set")
     try:
-        manager = PostgreSQLStorageManager.create()
+        manager = DBManager.create()
     except Exception as e:
         pytest.skip(f"Cannot connect to database: {e}")
     return manager
