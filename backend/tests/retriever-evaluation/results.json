@@ -1,0 +1,323 @@
+{
+  "hybrid": {
+    "precision": 0.4,
+    "recall": 1.0,
+    "f1": 0.5714,
+    "per_question": [
+      {
+        "id": 1,
+        "precision": 0.2,
+        "recall": 1.0
+      },
+      {
+        "id": 2,
+        "precision": 0.2,
+        "recall": 1.0
+      },
+      {
+        "id": 3,
+        "precision": 0.2,
+        "recall": 1.0
+      },
+      {
+        "id": 4,
+        "precision": 0.2,
+        "recall": 1.0
+      },
+      {
+        "id": 5,
+        "precision": 0.2,
+        "recall": 1.0
+      },
+      {
+        "id": 6,
+        "precision": 0.4,
+        "recall": 1.0
+      },
+      {
+        "id": 7,
+        "precision": 0.2,
+        "recall": 1.0
+      },
+      {
+        "id": 8,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      {
+        "id": 9,
+        "precision": 0.2,
+        "recall": 1.0
+      },
+      {
+        "id": 10,
+        "precision": 0.4,
+        "recall": 1.0
+      },
+      {
+        "id": 11,
+        "precision": 0.4,
+        "recall": 1.0
+      },
+      {
+        "id": 12,
+        "precision": 0.2,
+        "recall": 1.0
+      },
+      {
+        "id": 13,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      {
+        "id": 14,
+        "precision": 0.2,
+        "recall": 1.0
+      },
+      {
+        "id": 15,
+        "precision": 0.2,
+        "recall": 1.0
+      },
+      {
+        "id": 16,
+        "precision": 0.2,
+        "recall": 1.0
+      },
+      {
+        "id": 17,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      {
+        "id": 18,
+        "precision": 0.4,
+        "recall": 1.0
+      },
+      {
+        "id": 19,
+        "precision": 0.2,
+        "recall": 1.0
+      },
+      {
+        "id": 20,
+        "precision": 1.0,
+        "recall": 1.0
+      }
+    ]
+  },
+  "semantic": {
+    "precision": 0.13,
+    "recall": 0.4,
+    "f1": 0.1962,
+    "per_question": [
+      {
+        "id": 1,
+        "precision": 0.2,
+        "recall": 1.0
+      },
+      {
+        "id": 2,
+        "precision": 0.2,
+        "recall": 1.0
+      },
+      {
+        "id": 3,
+        "precision": 0.2,
+        "recall": 1.0
+      },
+      {
+        "id": 4,
+        "precision": 0.2,
+        "recall": 1.0
+      },
+      {
+        "id": 5,
+        "precision": 0.2,
+        "recall": 1.0
+      },
+      {
+        "id": 6,
+        "precision": 0.4,
+        "recall": 1.0
+      },
+      {
+        "id": 7,
+        "precision": 0.2,
+        "recall": 1.0
+      },
+      {
+        "id": 8,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      {
+        "id": 9,
+        "precision": 0,
+        "recall": 0.0
+      },
+      {
+        "id": 10,
+        "precision": 0,
+        "recall": 0.0
+      },
+      {
+        "id": 11,
+        "precision": 0,
+        "recall": 0.0
+      },
+      {
+        "id": 12,
+        "precision": 0,
+        "recall": 0.0
+      },
+      {
+        "id": 13,
+        "precision": 0,
+        "recall": 0.0
+      },
+      {
+        "id": 14,
+        "precision": 0,
+        "recall": 0.0
+      },
+      {
+        "id": 15,
+        "precision": 0,
+        "recall": 0.0
+      },
+      {
+        "id": 16,
+        "precision": 0,
+        "recall": 0.0
+      },
+      {
+        "id": 17,
+        "precision": 0,
+        "recall": 0.0
+      },
+      {
+        "id": 18,
+        "precision": 0,
+        "recall": 0.0
+      },
+      {
+        "id": 19,
+        "precision": 0,
+        "recall": 0.0
+      },
+      {
+        "id": 20,
+        "precision": 0,
+        "recall": 0.0
+      }
+    ]
+  },
+  "keyword": {
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0,
+    "per_question": [
+      {
+        "id": 1,
+        "precision": 0,
+        "recall": 0.0
+      },
+      {
+        "id": 2,
+        "precision": 0,
+        "recall": 0.0
+      },
+      {
+        "id": 3,
+        "precision": 0,
+        "recall": 0.0
+      },
+      {
+        "id": 4,
+        "precision": 0,
+        "recall": 0.0
+      },
+      {
+        "id": 5,
+        "precision": 0,
+        "recall": 0.0
+      },
+      {
+        "id": 6,
+        "precision": 0,
+        "recall": 0.0
+      },
+      {
+        "id": 7,
+        "precision": 0,
+        "recall": 0.0
+      },
+      {
+        "id": 8,
+        "precision": 0,
+        "recall": 0.0
+      },
+      {
+        "id": 9,
+        "precision": 0,
+        "recall": 0.0
+      },
+      {
+        "id": 10,
+        "precision": 0,
+        "recall": 0.0
+      },
+      {
+        "id": 11,
+        "precision": 0,
+        "recall": 0.0
+      },
+      {
+        "id": 12,
+        "precision": 0,
+        "recall": 0.0
+      },
+      {
+        "id": 13,
+        "precision": 0,
+        "recall": 0.0
+      },
+      {
+        "id": 14,
+        "precision": 0,
+        "recall": 0.0
+      },
+      {
+        "id": 15,
+        "precision": 0,
+        "recall": 0.0
+      },
+      {
+        "id": 16,
+        "precision": 0,
+        "recall": 0.0
+      },
+      {
+        "id": 17,
+        "precision": 0,
+        "recall": 0.0
+      },
+      {
+        "id": 18,
+        "precision": 0,
+        "recall": 0.0
+      },
+      {
+        "id": 19,
+        "precision": 0,
+        "recall": 0.0
+      },
+      {
+        "id": 20,
+        "precision": 0,
+        "recall": 0.0
+      }
+    ]
+  }
+}

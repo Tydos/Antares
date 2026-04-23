@@ -1,0 +1,104 @@
+{
+  "questions": [
+    {
+      "question": "Where is Prasad Jawale currently pursuing his graduate studies?",
+      "expected_keywords": ["University of Wisconsin", "Madison"],
+      "source_pdf": "Prasad_Jawale_Resume.pdf"
+    },
+    {
+      "question": "What degree is Prasad Jawale working toward?",
+      "expected_keywords": ["Master of Science", "Data Science"],
+      "source_pdf": "Prasad_Jawale_Resume.pdf"
+    },
+    {
+      "question": "What are the dates of his MS program?",
+      "expected_keywords": ["September 2024", "May 2026"],
+      "source_pdf": "Prasad_Jawale_Resume.pdf"
+    },
+    {
+      "question": "Which undergraduate institution did he attend?",
+      "expected_keywords": ["University of Mumbai"],
+      "source_pdf": "Prasad_Jawale_Resume.pdf"
+    },
+    {
+      "question": "What was his undergraduate major?",
+      "expected_keywords": ["Bachelor of Technology", "Artificial Intelligence", "Data Science"],
+      "source_pdf": "Prasad_Jawale_Resume.pdf"
+    },
+    {
+      "question": "What kind of pipeline did he build during his Data Analyst internship?",
+      "expected_keywords": ["ETL pipeline", "Python", "SQL", "hotel reviews"],
+      "source_pdf": "Prasad_Jawale_Resume.pdf"
+    },
+    {
+      "question": "How many hotel reviews were processed in his internship project?",
+      "expected_keywords": ["100K", "100,000", "reviews"],
+      "source_pdf": "Prasad_Jawale_Resume.pdf"
+    },
+    {
+      "question": "What was the achieved F1-score for spam classification?",
+      "expected_keywords": ["F1-score", "0.82"],
+      "source_pdf": "Prasad_Jawale_Resume.pdf"
+    },
+    {
+      "question": "Which techniques were used for topic modeling in customer sentiment analysis?",
+      "expected_keywords": ["LDASeq", "BERTopic", "topic modeling"],
+      "source_pdf": "Prasad_Jawale_Resume.pdf"
+    },
+    {
+      "question": "What was the latency achieved in the credit risk inference service?",
+      "expected_keywords": ["450ms", "p99", "latency"],
+      "source_pdf": "Prasad_Jawale_Resume.pdf"
+    },
+    {
+      "question": "Which framework was used to build the inference service API?",
+      "expected_keywords": ["FastAPI"],
+      "source_pdf": "Prasad_Jawale_Resume.pdf"
+    },
+    {
+      "question": "What tool was used for experiment tracking and model registry?",
+      "expected_keywords": ["MLflow"],
+      "source_pdf": "Prasad_Jawale_Resume.pdf"
+    },
+    {
+      "question": "What retrieval accuracy was achieved in the semantic document retriever?",
+      "expected_keywords": ["92%", "top-5", "retrieval accuracy"],
+      "source_pdf": "Prasad_Jawale_Resume.pdf"
+    },
+    {
+      "question": "Which search engine powered the hybrid retrieval system?",
+      "expected_keywords": ["Elasticsearch"],
+      "source_pdf": "Prasad_Jawale_Resume.pdf"
+    },
+    {
+      "question": "What reranking technique was used to improve search relevance?",
+      "expected_keywords": ["Reciprocal Rank Fusion", "RRF"],
+      "source_pdf": "Prasad_Jawale_Resume.pdf"
+    },
+    {
+      "question": "What architecture was used for question answering over documents?",
+      "expected_keywords": ["RAG", "Gemini", "LangChain", "question answering"],
+      "source_pdf": "Prasad_Jawale_Resume.pdf"
+    },
+    {
+      "question": "How large was the dataset used in the music recommender system?",
+      "expected_keywords": ["6M", "6 million", "1M", "1 million", "tracks", "playlists"],
+      "source_pdf": "Prasad_Jawale_Resume.pdf"
+    },
+    {
+      "question": "What algorithm powered the recommendation system?",
+      "expected_keywords": ["KNN", "collaborative filtering", "nearest neighbor"],
+      "source_pdf": "Prasad_Jawale_Resume.pdf"
+    },
+    {
+      "question": "What orchestration tool was used in the pharmaceutical logistics project?",
+      "expected_keywords": ["Apache Airflow"],
+      "source_pdf": "Prasad_Jawale_Resume.pdf"
+    },
+    {
+      "question": "What model performance metric was achieved in logistics optimization?",
+      "expected_keywords": ["Random Forest", "0.82", "AUC"],
+      "source_pdf": "Prasad_Jawale_Resume.pdf"
+    }
+  ]
+}

@@ -107,6 +107,24 @@ docker compose exec fastapi python -m pytest tests/test_api.py tests/test_databa
 - **`test_api.py`** (15 tests) — FastAPI TestClient with mocked dependencies; no live services needed. Covers health, documents, history, `/query`, `/chat`, error paths.
 - **`test_database.py`** (10 tests) — Integration tests against a live database. Covers messages CRUD, upload CRUD, status updates, and error cases.
 
+### Search mode evaluation
+
+Run `backend/tests/evaluate.py` against a QA JSON file to benchmark retrieval quality across all three search modes:
+
+```bash
+python backend/tests/evaluate.py --qa backend/tests/input/qa_pairs.json --top-k 5 --out backend/tests/results.json
+```
+
+Results on a 20-question resume QA set (top-k=5):
+
+| Mode | Precision@5 | Recall@5 | F1 |
+|---|---|---|---|
+| hybrid | 40.0% | 100.0% (20/20) | 57.1% |
+| semantic | 13.0% | 40.0% (8/20) | 19.6% |
+| keyword | 0.0% | 0.0% (0/20) | 0.0% |
+
+Hybrid search finds a relevant chunk for every question; semantic alone misses 60% of questions on entity-heavy resume content.
+
 ## Project structure
 
 ```
