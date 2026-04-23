@@ -1,3 +1,18 @@
+[project]
+name = "rag-pdf"
+version = "0.1.0"
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "pypdf",
+    "pydantic-settings",
+    "psycopg[binary]",
+    "psycopg-pool",
+    "httpx",x
+    "huggingface_hub",
+]
+
 [tool.pytest.ini_options]
 pythonpath = ["."]
 asyncio_mode = "strict"
