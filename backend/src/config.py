@@ -32,6 +32,8 @@ class Settings(BaseSettings):
     hf_llm_model: str = "meta-llama/Llama-3.2-1B-Instruct:novita"
     hf_llm_max_tokens: int = 400
     hf_llm_temperature: float = 0.2
+    
+    claude_token: str = ""
 
 
 settings = Settings()
