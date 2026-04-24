@@ -109,21 +109,35 @@ docker compose exec fastapi python -m pytest tests/test_api.py tests/test_databa
 
 ### Search mode evaluation
 
-Run `backend/tests/evaluate.py` against a QA JSON file to benchmark retrieval quality across all three search modes:
+Two scripts live in `backend/tests/retriever-evaluation/`:
+
+**1. Generate a gold set** — samples random chunks from the indexed PDFs and uses Claude to write a factual QA pair per chunk. Appends to the output file on repeated runs.
 
 ```bash
-python backend/tests/evaluate.py --qa backend/tests/input/qa_pairs.json --top-k 5 --out backend/tests/results.json
+# from backend/
+python tests/retriever-evaluation/generate_gold_set.py --sample-n 20
+# options: --model, --out, --max-tokens, --delay
 ```
 
-Results on a 20-question resume QA set (top-k=5):
+**2. Evaluate retrieval** — runs every question against the live `/query` API across all three search modes and reports Precision@k, Recall@k, and F1.
+
+```bash
+# from backend/
+python tests/retriever-evaluation/evaluate.py \
+  --qa tests/retriever-evaluation/gold_set.json \
+  --top-k 5 \
+  --out tests/retriever-evaluation/results.json
+```
+
+Results on a 20-question gold set sampled from indexed ML/AI textbooks (top-k=5):
 
 | Mode | Precision@5 | Recall@5 | F1 |
 |---|---|---|---|
-| hybrid | 40.0% | 100.0% (20/20) | 57.1% |
-| semantic | 13.0% | 40.0% (8/20) | 19.6% |
-| keyword | 0.0% | 0.0% (0/20) | 0.0% |
+| hybrid | 10.0% | 40.0% (8/20) | 16.0% |
+| semantic | 6.0% | 30.0% (6/20) | 10.0% |
+| keyword | 19.0% | 80.0% (16/20) | 30.7% |
 
-Hybrid search finds a relevant chunk for every question; semantic alone misses 60% of questions on entity-heavy resume content.
+Keyword search leads on this corpus because the gold set questions are generated directly from chunk text, making exact-term overlap high. Hybrid and semantic search are expected to gain ground on paraphrased or conversational queries.
 
 ## Project structure
 
@@ -145,7 +159,10 @@ backend/
       generator.py       HuggingFace LLM — history-aware answer generation
 
     storage/
-      database.py        PostgreSQL — uploads, chunks (pgvector + tsvector), messages
+      database.py        PostgreSQL connection and schema setup
+      chunks.py          Chunk storage — pgvector + tsvector indexing and search
+      uploads.py         Upload record CRUD
+      messages.py        Conversation history CRUD
 
     utils/
       latency.py         LatencyTracker helper
@@ -153,6 +170,13 @@ backend/
   tests/
     test_api.py          API tests (mocked)
     test_database.py     DB integration tests
+    test_end_to_end.py   End-to-end tests
+
+    retriever-evaluation/
+      generate_gold_set.py  Sample chunks → Claude → QA pairs (appends to gold_set.json)
+      evaluate.py           Benchmark Precision/Recall/F1 across hybrid/semantic/keyword modes
+      gold_set.json         Accumulated gold QA pairs (generated, gitignored)
+      results.json          Latest evaluation results (generated, gitignored)
 
 frontend/src/
   App.js                 two-column layout — sidebar + chat panel
