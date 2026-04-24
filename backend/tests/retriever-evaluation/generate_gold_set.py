@@ -16,18 +16,18 @@ import re
 import sys
 import time
 from pathlib import Path
-
-sys.path.insert(0, str(Path(__file__).parents[2]))
-
-from dotenv import load_dotenv
-load_dotenv(Path(__file__).parents[3] / ".env")
-
 import anthropic
 import psycopg
 from psycopg.rows import dict_row
 from tqdm import tqdm
 
 from src.config import settings
+
+sys.path.insert(0, str(Path(__file__).parents[2]))
+
+from dotenv import load_dotenv
+load_dotenv(Path(__file__).parents[3] / ".env")
+
 
 logging.basicConfig(level=logging.WARNING, format="%(levelname)s: %(message)s")
 
