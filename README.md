@@ -201,3 +201,7 @@ frontend/src/
 - Chunking is character-based; very short pages may produce fewer or no chunks
 - LLM context is capped at the last 6 conversation turns to stay within token limits
 - Ingestion pipeline is still not asnyc
+
+## DB Schema
+
+![alt text](docs/image.png)
