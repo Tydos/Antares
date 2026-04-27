@@ -1,0 +1,104 @@
+{
+  "hybrid": [
+    {
+      "id": 1,
+      "question": "What are the two positional encoding formulas used in this work, and what do 'pos' and 'i' represent in these formulas?",
+      "answer": "I couldn't find anything relevant in the indexed documents.",
+      "chunks_returned": 0,
+      "faithfulness_score": null,
+      "faithfulness_reasoning": "no answer or no chunks",
+      "relevance_score": null,
+      "relevance_reasoning": "no answer or no chunks"
+    },
+    {
+      "id": 2,
+      "question": "What BLEU score did the LSTM achieve on the English to French translation task from the WMT'14 dataset?",
+      "answer": "[p.1] The LSTM achieved a BLEU score of 34.8 on the entire test set, where the LSTM's BLEU score was penalized on out-of-vocabulary words.",
+      "chunks_returned": 1,
+      "faithfulness_score": 1.0,
+      "faithfulness_reasoning": "The answer directly quotes the context stating the LSTM achieved a BLEU score of 34.8 on the entire test set with penalization on out-of-vocabulary words, which is explicitly stated in the provided abstract.",
+      "relevance_score": 0.85,
+      "relevance_reasoning": "The answer provides a specific BLEU score (34.8) for LSTM on English-French translation from what appears to be WMT'14, directly addressing the question, though it includes additional context about out-of-vocabulary penalties that wasn't explicitly asked for."
+    },
+    {
+      "id": 3,
+      "question": "What vocabulary sizes were used for the source and target languages in the WMT'14 English to French translation task?",
+      "answer": "[1] [1409.3215v3.pdf p.4]\n\nAccording to the context, the source language vocabulary size was 160,000, and the target language vocabulary size was 80,000.",
+      "chunks_returned": 1,
+      "faithfulness_score": 1.0,
+      "faithfulness_reasoning": "The answer directly cites the exact vocabulary sizes from the context: 160,000 for source language and 80,000 for target language, which are explicitly stated in section 3.1.",
+      "relevance_score": 0.0,
+      "relevance_reasoning": "The answer provides specific vocabulary size numbers (160,000 for source, 80,000 for target) but cites a document that cannot be verified from the context provided, and the numbers appear to be inverted or incorrect for the standard WMT'14 English-French task which typically used 30K/40K BPE vocabularies."
+    },
+    {
+      "id": 4,
+      "question": "What happens to translation quality when using single-head attention compared to the best setting in the Transformer model?",
+      "answer": "[1] p.3. The Transformer model uses multi-head attention, where each sub-layer performs attention over the output of the encoder stack. In the best setting for the Transformer model, this is achieved with 6 identical layers, each with a sub-layer that performs multi-head attention over the output of the encoder stack. [1] p.3\n\nWhen using single-head attention, the Transformer model achieves better translation quality compared to the best setting with 6 identical layers. [1] p.3",
+      "chunks_returned": 1,
+      "faithfulness_score": 0.0,
+      "faithfulness_reasoning": "The answer contains a direct hallucination: it claims single-head attention achieves better translation quality than the best setting, but the provided context contains no information comparing single-head vs multi-head attention performance or any translation quality metrics.",
+      "relevance_score": 0.15,
+      "relevance_reasoning": "The answer contradicts itself and basic Transformer knowledge by claiming single-head attention achieves better quality than multi-head attention, when the opposite is true; it also fails to provide specific quantitative metrics or clear comparisons from the source material."
+    },
+    {
+      "id": 5,
+      "question": "How many GPUs were used for the LSTM layers and how many were used for the softmax parallelization?",
+      "answer": "According to the context, the following GPUs were used for the LSTM layers:\n\n* For the base models, 8 NVIDIA P100 GPUs were used for the LSTM layers. [1409.3215v3.pdf p.2]\n\nNo information is provided about the number of GPUs used for the softmax parallelization.",
+      "chunks_returned": 5,
+      "faithfulness_score": 0.0,
+      "faithfulness_reasoning": "The answer contradicts the context: the 8 NVIDIA P100 GPUs mentioned were used for Transformer training, not LSTM training. The LSTM paper states that 4 GPUs were used for LSTM layers and 4 GPUs for softmax parallelization, but the answer incorrectly attributes the P100s to LSTMs.",
+      "relevance_score": 0.3,
+      "relevance_reasoning": "The answer provides a specific claim about GPU usage (8 P100 GPUs for LSTM layers) but lacks verifiable evidence from the provided context, and does not address the softmax parallelization component of the question."
+    },
+    {
+      "id": 6,
+      "question": "What is the main advantage of the Transformer model compared to recurrent models in terms of computation?",
+      "answer": "There is no direct mention of the Transformer model's computation advantages in the provided context. However, it is mentioned that the Transformer can be trained significantly faster than architectures based on recurrent or convolutional layers, which implies that it may be more efficient in terms of computation.",
+      "chunks_returned": 2,
+      "faithfulness_score": 0.9,
+      "faithfulness_reasoning": "The answer is well-supported by the context, which explicitly states 'For translation tasks, the Transformer can be trained significantly faster than architectures based on recurrent or convolutional layers.' The hedging language ('implies that it may be') is slightly unnecessary given the direct statement in the source, but the core claim is fully supported.",
+      "relevance_score": 0.65,
+      "relevance_reasoning": "The answer identifies the key advantage (faster training) but hedges with 'no direct mention' and 'may be more efficient' rather than clearly stating that Transformers enable parallel computation, which is the primary computational advantage over sequential RNNs."
+    },
+    {
+      "id": 7,
+      "question": "What is one attractive feature of the model described in the passage?",
+      "answer": "One attractive feature of the model described in the passage is that it uses multi-headed self-attention, replacing recurrent layers with this technique. [2] p.9",
+      "chunks_returned": 2,
+      "faithfulness_score": 1.0,
+      "faithfulness_reasoning": "The answer is directly supported by the context, which explicitly states that the Transformer 'replacing the recurrent layers most commonly used in encoder-decoder architectures with multi-headed self-attention' and emphasizes that 'the Transformer can be trained significantly faster than architectures based on recurrent or convolutional layers.'",
+      "relevance_score": 0.7,
+      "relevance_reasoning": "The answer identifies a specific technical feature (multi-headed self-attention) from what appears to be a transformer model description, but 'attractive feature' typically implies benefits or advantages; the answer states what it uses but doesn't explicitly explain why this is attractive or beneficial."
+    },
+    {
+      "id": 8,
+      "question": "Who are the authors of the paper on Long Short-Term Memory (LSTM)?",
+      "answer": "I couldn't find anything relevant in the indexed documents.",
+      "chunks_returned": 0,
+      "faithfulness_score": null,
+      "faithfulness_reasoning": "no answer or no chunks",
+      "relevance_score": null,
+      "relevance_reasoning": "no answer or no chunks"
+    },
+    {
+      "id": 9,
+      "question": "What is the BLEU score achieved by the LSTM model according to the passage?",
+      "answer": "I couldn't find anything relevant in the indexed documents.",
+      "chunks_returned": 0,
+      "faithfulness_score": null,
+      "faithfulness_reasoning": "no answer or no chunks",
+      "relevance_score": null,
+      "relevance_reasoning": "no answer or no chunks"
+    },
+    {
+      "id": 10,
+      "question": "What is a significant limitation of DNNs according to the passage?",
+      "answer": "According to the passage, a significant limitation of DNNs (Deep Neural Networks) is that they are not able to \"overcome the curse of sentence length\" for neural machine translation using automatic segmentation. [26] This means that DNNs struggle to handle long sentences, which can lead to poor performance in tasks like machine translation.",
+      "chunks_returned": 3,
+      "faithfulness_score": 0.0,
+      "faithfulness_reasoning": "The answer claims DNNs have a limitation with sentence length, but the context shows this is a specific paper title ([26]) being cited as a reference, not a statement about DNNs' general limitations discussed in the provided passages.",
+      "relevance_score": 0.7,
+      "relevance_reasoning": "The answer identifies a specific DNN limitation (handling long sentences in machine translation), but lacks context about whether this is presented as the most significant limitation or if other major limitations exist in the passage."
+    }
+  ]
+}

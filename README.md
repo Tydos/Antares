@@ -107,7 +107,7 @@ docker compose exec fastapi python -m pytest tests/test_api.py tests/test_databa
 - **`test_api.py`** (15 tests) — FastAPI TestClient with mocked dependencies; no live services needed. Covers health, documents, history, `/query`, `/chat`, error paths.
 - **`test_database.py`** (10 tests) — Integration tests against a live database. Covers messages CRUD, upload CRUD, status updates, and error cases.
 
-### Search mode evaluation
+### Baseline Evaluation
 
 Two scripts live in `backend/tests/retriever-evaluation/`:
 
@@ -138,6 +138,29 @@ Results on a 20-question gold set sampled from indexed ML/AI textbooks (top-k=5)
 | keyword | 19.0% | 80.0% (16/20) | 30.7% |
 
 Keyword search leads on this corpus because the gold set questions are generated directly from chunk text, making exact-term overlap high. Hybrid and semantic search are expected to gain ground on paraphrased or conversational queries.
+
+**3. Evaluate answer quality** — uses Claude as a judge to score each generated answer on faithfulness (is every claim grounded in the retrieved context?) and answer relevance (does the answer address the question?). Requires a gold set and a running API.
+
+```bash
+# from project root
+PYTHONPATH=backend backend/.venv/bin/python backend/tests/retriever-evaluation/answer_quality.py \
+  --qa backend/tests/retriever-evaluation/gold_set.json \
+  --mode hybrid \
+  --out backend/tests/retriever-evaluation/aq_results.json
+# use --mode all to evaluate all three search modes
+```
+
+Results on a 10-question gold set from indexed ML/AI papers (`meta-llama/Llama-3.2-1B-Instruct`, top-k=5):
+
+| Mode | Faithfulness | Answer Relevance | Scored | Skipped |
+|---|---|---|---|---|
+| hybrid | 0.56 | 0.48 | 7/10 | 3 |
+
+- **Faithfulness 0.56** — the 1B Llama model frequently hallucinated claims not present in the retrieved context.
+- **Answer Relevance 0.48** — answers were often technically grounded but did not directly address the question.
+- **3 skipped** — retrieval returned no chunks for those questions (retrieval failure, not generation failure).
+
+These scores establish the baseline before planned improvements (re-ranking, better chunking, stronger LLM).
 
 ## Project structure
 
@@ -175,8 +198,10 @@ backend/
     retriever-evaluation/
       generate_gold_set.py  Sample chunks → Claude → QA pairs (appends to gold_set.json)
       evaluate.py           Benchmark Precision/Recall/F1 across hybrid/semantic/keyword modes
+      answer_quality.py     Claude-as-judge answer quality eval — faithfulness + answer relevance
       gold_set.json         Accumulated gold QA pairs (generated, gitignored)
-      results.json          Latest evaluation results (generated, gitignored)
+      results.json          Latest retrieval evaluation results (generated, gitignored)
+      aq_results.json       Latest answer quality results (generated, gitignored)
 
 frontend/src/
   App.js                 two-column layout — sidebar + chat panel
