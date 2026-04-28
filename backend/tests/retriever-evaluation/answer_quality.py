@@ -29,7 +29,7 @@ from dotenv import load_dotenv
 
 load_dotenv(Path(__file__).parents[3] / ".env")
 
-from src.config import settings
+from src.config import settings  # noqa: E402
 
 logging.basicConfig(level=logging.WARNING, format="%(levelname)s: %(message)s")
 

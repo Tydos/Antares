@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { chat, getHistory, listDocuments } from '../api/api';
-import DevPanel from './DevPanel';
+import { chat, listDocuments } from '../api/api';
 
 const MODES = [
   { value: 'hybrid',   label: 'Hybrid',   title: 'Vector + keyword, fused with RRF' },
@@ -22,8 +21,7 @@ const ArrowIcon = () => (
   </svg>
 );
 
-export default function ChatSection() {
-  const [messages, setMessages]             = useState([]);
+export default function ChatSection({ messages, setMessages }) {
   const [input, setInput]                   = useState('');
   const [searchMode, setSearchMode]         = useState('hybrid');
   const [loading, setLoading]               = useState(false);
@@ -34,9 +32,6 @@ export default function ChatSection() {
   useEffect(() => {
     listDocuments()
       .then((docs) => setBlobByFilename(Object.fromEntries(docs.map((d) => [d.filename, d.blob_url || '']))))
-      .catch(() => {});
-    getHistory()
-      .then((msgs) => setMessages(msgs))
       .catch(() => {});
   }, []);
 
@@ -72,84 +67,80 @@ export default function ChatSection() {
   const hrefFor = (c) => { const url = blobByFilename[c.filename]; return url ? `${url}#page=${c.page}` : null; };
 
   return (
-    <div className="chat-with-dev">
-      <div className="chat-container">
-        <div ref={threadRef} className="chat-thread" aria-live="polite" aria-label="Conversation">
-          {messages.length === 0 && !loading && (
-            <div className="chat-empty">
-              <p>Upload a document, then ask anything about it.</p>
-            </div>
-          )}
-
-          {messages.map((msg, i) => (
-            <div key={i} className={`msg msg-${msg.role}`}>
-              <div className="msg-bubble">{msg.content}</div>
-              {msg.role === 'assistant' && msg.chunks?.length > 0 && (
-                <div className="msg-sources" aria-label="Sources">
-                  {msg.chunks.map((c, j) => {
-                    const href = hrefFor(c);
-                    const label = `${c.filename} p.${c.page}`;
-                    return href ? (
-                      <a key={j} className="source-chip" href={href} target="_blank" rel="noopener noreferrer">
-                        {label}<ArrowIcon />
-                      </a>
-                    ) : (
-                      <span key={j} className="source-chip">{label}</span>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
-          ))}
-
-          {loading && (
-            <div className="msg msg-assistant" aria-label="Assistant is responding">
-              <div className="msg-bubble typing-indicator"><span /><span /><span /></div>
-            </div>
-          )}
-        </div>
-
-        {error && <p className="chat-error" role="alert">{error}</p>}
-
-        <div className="chat-input-bar">
-          <div className="mode-toggle" role="group" aria-label="Search mode">
-            {MODES.map((m) => (
-              <button
-                key={m.value}
-                type="button"
-                title={m.title}
-                className={searchMode === m.value ? 'active' : ''}
-                onClick={() => setSearchMode(m.value)}
-                aria-pressed={searchMode === m.value}
-              >
-                {m.label}
-              </button>
-            ))}
+    <div className="chat-container">
+      <div ref={threadRef} className="chat-thread" aria-live="polite" aria-label="Conversation">
+        {messages.length === 0 && !loading && (
+          <div className="chat-empty">
+            <p>Upload a document, then ask anything about it.</p>
           </div>
-          <form className="chat-input-row" onSubmit={handleSend}>
-            <input
-              className="chat-input"
-              type="text"
-              placeholder="Ask about your documents…"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={handleKeyDown}
-              aria-label="Message"
-            />
-            <button
-              className="send-btn"
-              type="submit"
-              disabled={!input.trim() || loading}
-              aria-label="Send message"
-            >
-              <SendIcon />
-            </button>
-          </form>
-          <p className="chat-disclaimer">AI-generated content may be inaccurate.</p>
-        </div>
+        )}
+
+        {messages.map((msg, i) => (
+          <div key={i} className={`msg msg-${msg.role}`}>
+            <div className="msg-bubble">{msg.content}</div>
+            {msg.role === 'assistant' && msg.chunks?.length > 0 && (
+              <div className="msg-sources" aria-label="Sources">
+                {msg.chunks.map((c, j) => {
+                  const href = hrefFor(c);
+                  const label = `${c.filename} p.${c.page}`;
+                  return href ? (
+                    <a key={j} className="source-chip" href={href} target="_blank" rel="noopener noreferrer">
+                      {label}<ArrowIcon />
+                    </a>
+                  ) : (
+                    <span key={j} className="source-chip">{label}</span>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        ))}
+
+        {loading && (
+          <div className="msg msg-assistant" aria-label="Assistant is responding">
+            <div className="msg-bubble typing-indicator"><span /><span /><span /></div>
+          </div>
+        )}
       </div>
 
-      <DevPanel messages={messages} />
+      {error && <p className="chat-error" role="alert">{error}</p>}
+
+      <div className="chat-input-bar">
+        <div className="mode-toggle" role="group" aria-label="Search mode">
+          {MODES.map((m) => (
+            <button
+              key={m.value}
+              type="button"
+              title={m.title}
+              className={searchMode === m.value ? 'active' : ''}
+              onClick={() => setSearchMode(m.value)}
+              aria-pressed={searchMode === m.value}
+            >
+              {m.label}
+            </button>
+          ))}
+        </div>
+        <form className="chat-input-row" onSubmit={handleSend}>
+          <input
+            className="chat-input"
+            type="text"
+            placeholder="Ask about your documents…"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={handleKeyDown}
+            aria-label="Message"
+          />
+          <button
+            className="send-btn"
+            type="submit"
+            disabled={!input.trim() || loading}
+            aria-label="Send message"
+          >
+            <SendIcon />
+          </button>
+        </form>
+        <p className="chat-disclaimer">AI-generated content may be inaccurate.</p>
+      </div>
     </div>
   );
 }

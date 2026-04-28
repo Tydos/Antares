@@ -1,6 +1,12 @@
-# Not ChatGPT
+# Antares
 
 Upload PDFs and ask questions with persistent chat memory. The app extracts, chunks, and embeds your documents — then uses hybrid search (semantic + keyword, fused with Reciprocal Rank Fusion) and an LLM to answer questions with inline citations. Conversation history is stored in PostgreSQL and restored on page load.
+
+Visit here -> https://rag-pdf-fawn.vercel.app/
+
+![chat page](docs/chatpage.png)
+
+![eval page](docs/evalpage.png)
 
 ## How it works
 

@@ -1,6 +1,8 @@
+import json
 import logging
 import sys
 from contextlib import asynccontextmanager
+from pathlib import Path
 from typing import Any
 
 from fastapi import APIRouter, BackgroundTasks, Depends, FastAPI, Request
@@ -35,7 +37,7 @@ async def lifespan(app: FastAPI):
     yield
 
 
-app = FastAPI(title="RAG PDF API", lifespan=lifespan)
+app = FastAPI(title="Antares API", lifespan=lifespan)
 router = APIRouter()
 
 
@@ -61,7 +63,7 @@ def get_pipeline(request: Request) -> IngestionService:
 
 @router.get("/")
 def root():
-    return {"message": "RAG PDF API. Visit /docs for the interactive API explorer."}
+    return {"message": "Antares API. Visit /docs for the interactive API explorer."}
 
 
 @router.get("/health")
@@ -212,6 +214,46 @@ def chat(
         "chunks": chunks,
         "latency": latency,
     }
+
+
+@router.get("/eval/summary")
+def eval_summary():
+    eval_dir = Path(__file__).resolve().parent.parent / "tests" / "retriever-evaluation"
+
+    retrieval = None
+    ret_path = eval_dir / "results.json"
+    if ret_path.exists():
+        with open(ret_path) as f:
+            raw = json.load(f)
+        retrieval = {}
+        for mode, data in raw.items():
+            retrieval[mode] = {
+                "precision": data.get("precision"),
+                "recall": data.get("recall"),
+                "f1": data.get("f1"),
+                "n": len(data.get("per_question", [])),
+            }
+
+    answer_quality = None
+    aq_path = eval_dir / "aq_results.json"
+    if aq_path.exists():
+        with open(aq_path) as f:
+            raw = json.load(f)
+        answer_quality = {}
+        for mode, questions in raw.items():
+            faith_scores = [q["faithfulness_score"] for q in questions if q.get("faithfulness_score") is not None]
+            rel_scores   = [q["relevance_score"]    for q in questions if q.get("relevance_score")    is not None]
+            n = len(faith_scores)
+            avg_faith = sum(faith_scores) / n if n else None
+            avg_rel   = sum(rel_scores) / len(rel_scores) if rel_scores else None
+            answer_quality[mode] = {
+                "avg_faithfulness":  round(avg_faith, 4)       if avg_faith is not None else None,
+                "avg_relevance":     round(avg_rel,   4)       if avg_rel   is not None else None,
+                "hallucination_rate": round(1 - avg_faith, 4) if avg_faith is not None else None,
+                "n": n,
+            }
+
+    return {"retrieval": retrieval, "answer_quality": answer_quality}
 
 
 @router.delete("/files/{filename}")

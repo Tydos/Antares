@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "generatedAt": "2026-04-27T00:00:00Z",
-  "title": "Design System: Not ChatGPT",
+  "title": "Design System: Antares",
   "extensions": {
     "colorMeta": {
       "iris":        { "role": "primary",  "displayName": "Iris",         "canonical": "#7c3aed", "tonalRamp": ["#2d0a8c","#3d1299","#4e1ea6","#5f2bb3","#6f38c0","#7c3aed","#9b6af0","#b89cf4","#d4c4f8","#ede9fe"] },

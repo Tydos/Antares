@@ -62,3 +62,5 @@ export const chat = (question, { topK = 5, filenames, searchMode = 'hybrid' } = 
     search_mode: searchMode,
     ...(filenames && filenames.length ? { filenames } : {}),
   });
+
+export const getEvalSummary = () => request(`${API}/eval/summary`);

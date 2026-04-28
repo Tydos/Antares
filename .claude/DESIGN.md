@@ -1,5 +1,5 @@
 ---
-name: Not ChatGPT
+name: Antares
 description: A RAG PDF chatbot that shows its work — hybrid search, persistent history, and live telemetry in a clean, minimal workspace.
 colors:
   iris: "#7c3aed"
@@ -110,7 +110,7 @@ components:
     padding: "4px 12px"
 ---
 
-# Design System: Not ChatGPT
+# Design System: Antares
 
 ## 1. Overview
 

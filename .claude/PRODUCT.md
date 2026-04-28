@@ -14,7 +14,7 @@ A RAG (Retrieval Augmented Generation) PDF chatbot that demonstrates full-stack 
 
 ## Brand Personality
 
-Confident, minimal, purposeful. The name ("Not ChatGPT") is a dry joke; the execution is serious. No decorative chrome, no performed sophistication. The UI does exactly what it says and looks good doing it.
+Confident, minimal, purposeful. The execution is serious. No decorative chrome, no performed sophistication. The UI does exactly what it says and looks good doing it.
 
 ## Anti-references
 
