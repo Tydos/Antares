@@ -6,8 +6,12 @@
 
 4. Chat persistence was added using a new messages table for the LLM to have persistent context (last 6 messages).
 
-5. Split up requirements into prod/dev requirements for a cleaner codebase. pyproject.toml was reuqired for configuring test paths and build setups on vercel.
+5. Split up requirements into prod/dev requirements for a cleaner codebase. pyproject.toml was required for configuring test paths and build setups on vercel.
 
 6. Added LLM assisted gold-generation set for evaluating the RAG system. I chose haiku over Llama for better gold generation. RAGAS addition would be the next steps
 
 7. PDF parser class was updated to only upload clean text chunks to DB for improving RAG system. Tiktoken offers better performance for splitting tokens 
+
+8. Added LLM as a judge logic for evaluating whether am i getting the right answers, and checked metrics such as answer faithfulness
+
+9. Used Claude Impeccable skills to polish exisiting UI into more accessible and clean UI/UX. Added a evaluation page to reduce the clutter and made upload section drag-and-drop

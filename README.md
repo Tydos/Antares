@@ -8,7 +8,20 @@ Visit here -> https://rag-pdf-fawn.vercel.app/
 
 ![eval page](docs/evalpage.png)
 
-## How it works
+The app has two views, toggled from the navbar:
+- **Chat** — sidebar with drag-and-drop upload + document list, persistent chat panel
+- **Evaluation** — session stats, retrieval accuracy table, and answer quality metrics
+
+## Core Features
+
+- PDF upload via browser → Vercel Blob (signed token, direct upload)
+- Document ingestion pipeline: extract text (pypdf) → chunk (800 chars, 100 overlap) → embed (HuggingFace, 384-dim) → store in PostgreSQL (pgvector + tsvector)
+- Hybrid search: semantic (cosine similarity) + keyword (full-text search), fused via Reciprocal Rank Fusion (RRF)
+- LLM answer generation with inline citations
+- Persistent chat history stored in PostgreSQL, restored on page load
+- Evaluation dashboard — live session stats, retrieval accuracy, and answer quality metrics
+
+## Architecture Overview
 
 **Upload flow**
 1. Browser requests a signed upload token from `/request_upload_token` (HMAC-SHA256, 1-hour TTL)
@@ -28,7 +41,7 @@ Visit here -> https://rag-pdf-fawn.vercel.app/
 - **semantic**: pgvector cosine search only
 - **keyword**: full-text search only, OR-joined `to_tsquery`
 
-## Stack
+## Tech Stack
 
 | Layer | Technology |
 |---|---|
@@ -41,16 +54,7 @@ Visit here -> https://rag-pdf-fawn.vercel.app/
 | Storage | Vercel Blob |
 | Infra | Docker Compose (local), Vercel (prod) |
 
-## Quick start
-
-```bash
-cp .env.example .env        # fill in the variables (see below)
-docker compose up --build   # FastAPI on :8000, React on :3000
-```
-
-Swagger UI: http://localhost:8000/docs
-
-## Environment variables
+## Environment Variables
 
 | Variable | Required | Default | Description |
 |---|---|---|---|
@@ -59,10 +63,11 @@ Swagger UI: http://localhost:8000/docs
 | `HF_TOKEN` | No | — | HuggingFace API key (embeddings + LLM) |
 | `HF_EMBED_MODEL` | No | `sentence-transformers/all-MiniLM-L6-v2` | Embedding model |
 | `HF_LLM_MODEL` | No | `meta-llama/Llama-3.2-1B-Instruct` | LLM for answer generation |
+| `CLAUDE_TOKEN` | No | — | Anthropic API key — required for gold set generation and answer quality evaluation |
 
 Without `HF_TOKEN`, embedding and answer generation will fail. Without `BLOB_READ_WRITE_TOKEN`, uploads will fail. The app still starts and serves `/health`.
 
-## API
+## API Summary
 
 | Method | Path | Description |
 |---|---|---|
@@ -74,28 +79,19 @@ Without `HF_TOKEN`, embedding and answer generation will fail. Without `BLOB_REA
 | POST | `/chat` | Persistent chat — search + LLM with conversation history |
 | GET | `/history` | Return full conversation history |
 | POST | `/query` | Stateless search + LLM (no history saved, kept for compatibility) |
-
-### Chat request/response
-
-```json
-// POST /chat
-{
-  "question": "What is the refund policy?",
-  "top_k": 5,
-  "search_mode": "hybrid"
-}
-
-// Response
-{
-  "answer": "Refunds are issued within 30 days [policy.pdf p.4].",
-  "chunks": [{ "filename": "policy.pdf", "page": 4, "score": 0.0161, "content": "..." }],
-  "latency": { "embed": 45, "search": 12, "llm": 234, "total": 291 }
-}
-```
+| GET | `/eval/summary` | Serve pre-computed retrieval + answer quality results for the Eval Dashboard |
 
 `top_k` is clamped to [1, 20]. `filenames` is optional; omit to search across all documents.
 
-## Document statuses
+## Database Schema
+
+![alt text](docs/image.png)
+
+Three tables share a single PostgreSQL database:
+
+- **`uploads`** — one row per PDF. Tracks `filename` (PK), `blob_url`, `uploaded_at`, `status` (`pending` → `indexed` / `skipped` / `failed`), and `page_count`.
+- **`chunks`** — one row per text chunk. Foreign-keyed to `uploads(filename)` with `ON DELETE CASCADE`, so deleting a document removes all its chunks automatically. Stores `content`, a 384-dim `embedding` (pgvector), and a generated `content_tsv` tsvector column for full-text search. Indexed with IVFFlat (cosine) for semantic search and GIN for keyword search.
+- **`messages`** — one row per chat turn. Stores `role` (`user` / `assistant`), `content`, and `chunks` (JSONB snapshot of the retrieved chunks for that turn).
 
 | Status | Meaning |
 |---|---|
@@ -104,18 +100,9 @@ Without `HF_TOKEN`, embedding and answer generation will fail. Without `BLOB_REA
 | `skipped` | PDF contained no extractable text (scanned/image-only) |
 | `failed` | Indexing error (check logs) |
 
-## Tests
+## Evaluation Summary
 
-```bash
-docker compose exec fastapi python -m pytest tests/test_api.py tests/test_database.py -v
-```
-
-- **`test_api.py`** (15 tests) — FastAPI TestClient with mocked dependencies; no live services needed. Covers health, documents, history, `/query`, `/chat`, error paths.
-- **`test_database.py`** (10 tests) — Integration tests against a live database. Covers messages CRUD, upload CRUD, status updates, and error cases.
-
-### Baseline Evaluation
-
-Two scripts live in `backend/tests/retriever-evaluation/`:
+Three scripts live in `backend/tests/retriever-evaluation/`:
 
 **1. Generate a gold set** — samples random chunks from the indexed PDFs and uses Claude to write a factual QA pair per chunk. Appends to the output file on repeated runs.
 
@@ -168,62 +155,6 @@ Results on a 10-question gold set from indexed ML/AI papers (`meta-llama/Llama-3
 
 These scores establish the baseline before planned improvements (re-ranking, better chunking, stronger LLM).
 
-## Project structure
-
-```
-backend/
-  src/
-    main.py              routes, lifespan startup, dependency injection
-    config.py            pydantic settings (auto-sets route prefix on Vercel)
-    schemas.py           Pydantic request/response models
-    interfaces.py        Protocol definitions — Database, Embedder, Extractor, Generator
-
-    ingestion/
-      service.py         IngestionService — download → parse → embed → store
-      pdf_parser.py      pypdf extraction, 800-char chunks / 100-char overlap
-      upload_token.py    HMAC-SHA256 client token minting (1-hour TTL)
-
-    inference/
-      embedding.py       HuggingFace embedding service (384-dim, batched)
-      generator.py       HuggingFace LLM — history-aware answer generation
-
-    storage/
-      database.py        PostgreSQL connection and schema setup
-      chunks.py          Chunk storage — pgvector + tsvector indexing and search
-      uploads.py         Upload record CRUD
-      messages.py        Conversation history CRUD
-
-    utils/
-      latency.py         LatencyTracker helper
-
-  tests/
-    test_api.py          API tests (mocked)
-    test_database.py     DB integration tests
-    test_end_to_end.py   End-to-end tests
-
-    retriever-evaluation/
-      generate_gold_set.py  Sample chunks → Claude → QA pairs (appends to gold_set.json)
-      evaluate.py           Benchmark Precision/Recall/F1 across hybrid/semantic/keyword modes
-      answer_quality.py     Claude-as-judge answer quality eval — faithfulness + answer relevance
-      gold_set.json         Accumulated gold QA pairs (generated, gitignored)
-      results.json          Latest retrieval evaluation results (generated, gitignored)
-      aq_results.json       Latest answer quality results (generated, gitignored)
-
-frontend/src/
-  App.js                 two-column layout — sidebar + chat panel
-  api/api.js             HTTP client for all backend routes
-  components/
-    UploadSection.js     "+ Upload Document" button, progress bar
-    DocumentsSection.js  knowledge base file list with hover-delete
-    ChatSection.js       persistent chat thread, search mode toggle, send button
-    DevPanel.js          always-on right panel — session stats, latency bars, chunk inspector
-```
-
-## Deployment (Vercel)
-
-`vercel.json` routes the frontend to `/` and the API to `/_/backend/*` using vercel.json
-
-
 ## Limitations
 
 - No OCR support — scanned or image-only PDFs are marked `skipped`
@@ -231,8 +162,4 @@ frontend/src/
 - Maximum 100 MB per PDF
 - Chunking is character-based; very short pages may produce fewer or no chunks
 - LLM context is capped at the last 6 conversation turns to stay within token limits
-- Ingestion pipeline is still not asnyc
-
-## DB Schema
-
-![alt text](docs/image.png)
+- Ingestion pipeline is still not async
