@@ -9,25 +9,25 @@ const MODES = [
 ];
 
 const SendIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
     <line x1="22" y1="2" x2="11" y2="13"/>
     <polygon points="22 2 15 22 11 13 2 9 22 2"/>
   </svg>
 );
 
 const ArrowIcon = () => (
-  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
     <line x1="7" y1="17" x2="17" y2="7"/>
     <polyline points="7 7 17 7 17 17"/>
   </svg>
 );
 
 export default function ChatSection() {
-  const [messages, setMessages]       = useState([]);
-  const [input, setInput]             = useState('');
-  const [searchMode, setSearchMode]   = useState('hybrid');
-  const [loading, setLoading]         = useState(false);
-  const [error, setError]             = useState(null);
+  const [messages, setMessages]             = useState([]);
+  const [input, setInput]                   = useState('');
+  const [searchMode, setSearchMode]         = useState('hybrid');
+  const [loading, setLoading]               = useState(false);
+  const [error, setError]                   = useState(null);
   const [blobByFilename, setBlobByFilename] = useState({});
   const threadRef = useRef(null);
 
@@ -57,7 +57,8 @@ export default function ChatSection() {
       const assistantMsg = { role: 'assistant', content: res.answer ?? '', chunks: res.chunks ?? [], latency: res.latency };
       setMessages((prev) => [...prev, assistantMsg]);
     } catch (err) {
-      setError(String(err));
+      const msg = String(err).replace(/^Error:\s*/, '');
+      setError(msg);
       setMessages((prev) => prev.slice(0, -1));
     } finally {
       setLoading(false);
@@ -68,31 +69,28 @@ export default function ChatSection() {
     if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); }
   }
 
-const hrefFor = (c) => { const url = blobByFilename[c.filename]; return url ? `${url}#page=${c.page}` : null; };
+  const hrefFor = (c) => { const url = blobByFilename[c.filename]; return url ? `${url}#page=${c.page}` : null; };
 
   return (
     <div className="chat-with-dev">
       <div className="chat-container">
-          <div ref={threadRef} className="chat-thread">
+        <div ref={threadRef} className="chat-thread" aria-live="polite" aria-label="Conversation">
           {messages.length === 0 && !loading && (
             <div className="chat-empty">
-              <p>Ask a question about your documents to get started.</p>
+              <p>Upload a document, then ask anything about it.</p>
             </div>
           )}
 
           {messages.map((msg, i) => (
-            <div
-              key={i}
-              className={`msg msg-${msg.role}`}
-            >
+            <div key={i} className={`msg msg-${msg.role}`}>
               <div className="msg-bubble">{msg.content}</div>
               {msg.role === 'assistant' && msg.chunks?.length > 0 && (
-                <div className="msg-sources">
+                <div className="msg-sources" aria-label="Sources">
                   {msg.chunks.map((c, j) => {
                     const href = hrefFor(c);
                     const label = `${c.filename} p.${c.page}`;
                     return href ? (
-                      <a key={j} className="source-chip" href={href} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
+                      <a key={j} className="source-chip" href={href} target="_blank" rel="noopener noreferrer">
                         {label}<ArrowIcon />
                       </a>
                     ) : (
@@ -105,20 +103,25 @@ const hrefFor = (c) => { const url = blobByFilename[c.filename]; return url ? `$
           ))}
 
           {loading && (
-            <div className="msg msg-assistant">
+            <div className="msg msg-assistant" aria-label="Assistant is responding">
               <div className="msg-bubble typing-indicator"><span /><span /><span /></div>
             </div>
           )}
         </div>
 
-        {error && <p className="chat-error">{error}</p>}
+        {error && <p className="chat-error" role="alert">{error}</p>}
 
         <div className="chat-input-bar">
           <div className="mode-toggle" role="group" aria-label="Search mode">
             {MODES.map((m) => (
-              <button key={m.value} type="button" title={m.title}
+              <button
+                key={m.value}
+                type="button"
+                title={m.title}
                 className={searchMode === m.value ? 'active' : ''}
-                onClick={() => setSearchMode(m.value)}>
+                onClick={() => setSearchMode(m.value)}
+                aria-pressed={searchMode === m.value}
+              >
                 {m.label}
               </button>
             ))}
@@ -127,16 +130,22 @@ const hrefFor = (c) => { const url = blobByFilename[c.filename]; return url ? `$
             <input
               className="chat-input"
               type="text"
-              placeholder="Message your workspace…"
+              placeholder="Ask about your documents…"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
+              aria-label="Message"
             />
-            <button className="send-btn" type="submit" disabled={!input.trim() || loading}>
+            <button
+              className="send-btn"
+              type="submit"
+              disabled={!input.trim() || loading}
+              aria-label="Send message"
+            >
               <SendIcon />
             </button>
           </form>
-          <p className="chat-disclaimer">AI generated content may be inaccurate.</p>
+          <p className="chat-disclaimer">AI-generated content may be inaccurate.</p>
         </div>
       </div>
 
