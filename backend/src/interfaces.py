@@ -32,8 +32,7 @@ class EmbedderProtocol(Protocol):
 
 
 class GeneratorProtocol(Protocol):
-    def generate_answer(self, question: str, chunks: list[dict]) -> str: ...
-    def generate_answer_with_history(self, question: str, chunks: list[dict], history: list[dict]) -> str: ...
+    def generate(self, question: str, chunks: list[dict], history: list[dict]) -> str: ...
 
 
 class ExtractorProtocol(Protocol):

@@ -7,3 +7,4 @@ psycopg-pool
 httpx
 huggingface_hub
 tiktoken
+anthropic

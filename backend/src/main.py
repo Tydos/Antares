@@ -11,7 +11,7 @@ from fastapi.responses import JSONResponse
 from src.config import settings
 from src.interfaces import DatabaseProtocol, EmbedderProtocol, GeneratorProtocol
 from src.schemas import ChatRequest, QueryRequest, UploadCompleteRequest
-from src.inference.generator import HuggingFaceGenerator
+from src.inference.generator import create_rag_generator
 from src.inference.embedding import HuggingFaceEmbeddingService
 from src.storage.database import DBManager
 from src.ingestion.service import IngestionService
@@ -31,7 +31,7 @@ logging.basicConfig(
 async def lifespan(app: FastAPI):
     app.state.db = DBManager.create()
     app.state.embedder = HuggingFaceEmbeddingService()
-    app.state.generator = HuggingFaceGenerator()
+    app.state.generator = create_rag_generator()
     app.state.extractor = PDFParser()
     app.state.pipeline = IngestionService(app.state.db, app.state.embedder, app.state.extractor)
     yield
@@ -139,7 +139,7 @@ def query(
     answer: str | None = None
     try:
         with tracker.measure("llm"):
-            answer = generator.generate_answer(question, chunks)
+            answer = generator.generate(question, chunks, [])
     except Exception:
         logging.exception("Answer generation failed; returning raw chunks")
 
@@ -196,7 +196,7 @@ def chat(
     answer: str | None = None
     try:
         with tracker.measure("llm"):
-            answer = generator.generate_answer_with_history(question, chunks, history)
+            answer = generator.generate(question, chunks, history)
     except Exception:
         logging.exception("Answer generation failed; returning raw chunks")
 

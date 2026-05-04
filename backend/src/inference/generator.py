@@ -1,64 +1,73 @@
 import logging
-from huggingface_hub import InferenceClient
+
 from src.config import settings
+from src.inference.adapters import ClaudeAdapter, HuggingFaceAdapter, LLMAdapter
 
 _NO_CONTEXT_ANSWER = "I couldn't find anything relevant in the indexed documents."
 
-class HuggingFaceGenerator:
-    def __init__(self) -> None:
-        self._client = InferenceClient(api_key=settings.hf_token)
 
-    def _format_chunks_as_context(self, chunks: list[dict]) -> str:
+class PromptBuilder:
+    SYSTEM_PROMPT = (
+        "You are a retrieval-augmented assistant answering questions about the user's PDFs. "
+        "Answer strictly from the provided context. If the answer is not in the context, "
+        "say you don't know. Cite sources inline as [filename p.N] where N is the page number. "
+        "Keep answers concise and faithful to the source material."
+    )
+
+    @staticmethod
+    def format_chunks(chunks: list[dict]) -> str:
         blocks: list[str] = []
-        for i, chunk in enumerate(chunks, start=1):
-            page = chunk.get("page") or "?"
-            header = f"[{i}] [{chunk.get('filename', 'unknown')} p.{page}]"
-            blocks.append(f"{header}\n{chunk.get('content', '').strip()}")
+        for i, c in enumerate(chunks, 1):
+            page = c.get("page", "?")
+            blocks.append(f"[{i}] [{c.get('filename', 'unknown')} p.{page}]\n{c.get('content', '').strip()}")
         return "\n\n".join(blocks)
 
-    def generate_answer_with_history(self, question: str, chunks: list[dict], history: list[dict]) -> str:
+    @classmethod
+    def build_messages(cls, question: str, chunks: list[dict], history: list[dict]) -> list[dict]:
+        context = cls.format_chunks(chunks)
+        return [
+            {"role": "system", "content": cls.SYSTEM_PROMPT},
+            *[{"role": m["role"], "content": m["content"]} for m in history[-6:]],
+            {"role": "user", "content": f"Context:\n{context}\n\nQuestion: {question}"},
+        ]
+
+
+class LLMResponseGenerator:
+    def __init__(self, llm: LLMAdapter, max_tokens: int, temperature: float) -> None:
+        self._llm = llm
+        self._max_tokens = max_tokens
+        self._temperature = temperature
+
+    def generate(self, question: str, chunks: list[dict], history: list[dict]) -> str:
         if not chunks:
             return _NO_CONTEXT_ANSWER
 
-        context = self._format_chunks_as_context(chunks)
-        prior_turns = [{"role": m["role"], "content": m["content"]} for m in history[-6:]]
-        messages = [
-            {
-                "role": "system",
-                "content": (
-                    "You are a retrieval-augmented assistant answering questions about the user's PDFs. "
-                    "Answer strictly from the provided context. If the answer is not in the context, "
-                    "say you don't know. Cite sources inline as [filename p.N] where N is the page number. "
-                    "Keep answers concise and faithful to the source material."
-                ),
-            },
-            *prior_turns,
-            {
-                "role": "user",
-                "content": (
-                    f"Context:\n{context}\n\n"
-                    f"Question: {question}\n\n"
-                    "Answer using only the context above. Cite sources as [filename p.N]."
-                ),
-            },
-        ]
+        messages = PromptBuilder.build_messages(question, chunks, history)
 
         try:
-            completion = self._client.chat.completions.create(
-                model=settings.hf_llm_model,
+            text = self._llm.generate(
                 messages=messages,
-                max_tokens=settings.hf_llm_max_tokens,
-                temperature=settings.hf_llm_temperature,
+                max_tokens=self._max_tokens,
+                temperature=self._temperature,
             )
         except Exception:
-            logging.exception("HuggingFace LLM inference failed")
+            logging.exception("LLM inference failed")
             return _NO_CONTEXT_ANSWER
 
-        text = completion.choices[0].message.content.strip()
         if not text:
-            logging.warning("HuggingFace LLM returned an empty response")
+            logging.warning("LLM returned an empty response")
             return _NO_CONTEXT_ANSWER
         return text
 
-    def generate_answer(self, question: str, chunks: list[dict]) -> str:
-        return self.generate_answer_with_history(question, chunks, [])
+
+def create_rag_generator() -> LLMResponseGenerator:
+    if settings.claude_token:
+        llm = ClaudeAdapter(model=settings.claude_model, token=settings.claude_token)
+        max_tokens = settings.claude_max_tokens
+        logging.info("Using Claude adapter (model: %s)", settings.claude_model)
+    else:
+        llm = HuggingFaceAdapter(model=settings.hf_llm_model, token=settings.hf_token)
+        max_tokens = settings.hf_llm_max_tokens
+        logging.info("Using HuggingFace adapter (model: %s)", settings.hf_llm_model)
+
+    return LLMResponseGenerator(llm=llm, max_tokens=max_tokens, temperature=settings.llm_temperature)
