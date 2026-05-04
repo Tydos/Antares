@@ -11,8 +11,22 @@ dependencies = [
     "psycopg-pool",
     "httpx",
     "huggingface_hub",
+    "tiktoken",
+    "anthropic",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-asyncio",
+    "ruff",
+    "python-dotenv",
+    "tqdm",
 ]
 
 [tool.pytest.ini_options]
 pythonpath = ["."]
 asyncio_mode = "strict"
+
+[tool.ruff]
+line-length = 100

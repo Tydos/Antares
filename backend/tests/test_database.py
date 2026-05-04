@@ -23,10 +23,10 @@ def db():
 # ── Messages ────────────────────────────────────────────────────────────────
 
 def test_add_and_get_messages(db):
-    before = len(db.get_messages())
+    before = len(db.get_messages(limit=10000))
     db.add_message("user", "hello test")
     db.add_message("assistant", "hi there", chunks=[{"filename": "a.pdf", "page": 1}])
-    messages = db.get_messages()
+    messages = db.get_messages(limit=10000)
     assert len(messages) == before + 2
     last_two = messages[-2:]
     assert last_two[0]["role"] == "user"
@@ -51,9 +51,9 @@ def test_messages_ordered_asc(db):
 
 
 def test_add_message_no_chunks(db):
-    before = len(db.get_messages())
+    before = len(db.get_messages(limit=10000))
     db.add_message("user", "no chunks here")
-    messages = db.get_messages()
+    messages = db.get_messages(limit=10000)
     assert len(messages) == before + 1
     last = messages[-1]
     assert last["chunks"] == [] or last["chunks"] is None or last["chunks"] == {}

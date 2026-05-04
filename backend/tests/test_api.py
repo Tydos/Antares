@@ -41,8 +41,7 @@ def mock_embedder():
 @pytest.fixture
 def mock_generator():
     gen = MagicMock()
-    gen.generate_answer.return_value = "The answer is 42."
-    gen.generate_answer_with_history.return_value = "The answer is 42."
+    gen.generate.return_value = "The answer is 42."
     return gen
 
 
@@ -117,7 +116,7 @@ def test_query_success(client, mock_db, mock_embedder, mock_generator):
     assert "latency" in body
     mock_embedder.embed.assert_called_once()
     mock_db.search_chunks.assert_called_once()
-    mock_generator.generate_answer.assert_called_once()
+    mock_generator.generate.assert_called_once()
 
 
 def test_query_empty_question(client):
@@ -146,7 +145,7 @@ def test_chat_success(client, mock_db, mock_embedder, mock_generator):
     assert body["answer"] == "The answer is 42."
     assert len(body["chunks"]) == 1
     assert "latency" in body
-    mock_generator.generate_answer_with_history.assert_called_once()
+    mock_generator.generate.assert_called_once()
 
 
 def test_chat_saves_messages(client, mock_db):
@@ -172,7 +171,7 @@ def test_chat_uses_history(client, mock_db, mock_generator):
         {"role": "user", "content": "prior question", "chunks": [], "created_at": "2026-01-01T00:00:00"},
     ]
     client.post("/chat", json={"question": "follow-up"})
-    call_args = mock_generator.generate_answer_with_history.call_args
+    call_args = mock_generator.generate.call_args
     history = call_args.args[2] if len(call_args.args) > 2 else call_args.kwargs.get("history", [])
     assert len(history) == 1
     assert history[0]["role"] == "user"
