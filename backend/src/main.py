@@ -10,13 +10,14 @@ from fastapi.exceptions import HTTPException
 from fastapi.responses import JSONResponse
 from src.config import settings
 from src.interfaces import DatabaseProtocol, EmbedderProtocol, GeneratorProtocol
-from src.schemas import ChatRequest, QueryRequest, UploadCompleteRequest
+from src.schemas import ChatRequest, IngestPackageRequest, QueryRequest, UploadCompleteRequest
 from src.inference.generator import create_rag_generator
 from src.inference.embedding import HuggingFaceEmbeddingService
 from src.storage.database import DBManager
 from src.ingestion.service import IngestionService
 from src.ingestion.pdf_parser import PDFParser
 from src.ingestion.upload_token import BlobTokenError, create_client_upload_token
+from src.advisories.ingestion import AdvisoryIngestionService
 from src.utils.latency import LatencyTracker
 
 logging.basicConfig(
@@ -34,6 +35,7 @@ async def lifespan(app: FastAPI):
     app.state.generator = create_rag_generator()
     app.state.extractor = PDFParser()
     app.state.pipeline = IngestionService(app.state.db, app.state.embedder, app.state.extractor)
+    app.state.advisory_pipeline = AdvisoryIngestionService(app.state.db, app.state.embedder)
     yield
 
 
@@ -57,6 +59,10 @@ def get_generator(request: Request) -> GeneratorProtocol:
 
 def get_pipeline(request: Request) -> IngestionService:
     return request.app.state.pipeline
+
+
+def get_advisory_pipeline(request: Request) -> AdvisoryIngestionService:
+    return request.app.state.advisory_pipeline
 
 
 # --- Routes ---
@@ -134,6 +140,7 @@ def query(
             k=top_k,
             filenames=req.filenames or None,
             search_mode=req.search_mode,
+            source_type=req.source_type,
         )
 
     answer: str | None = None
@@ -254,6 +261,35 @@ def eval_summary():
             }
 
     return {"retrieval": retrieval, "answer_quality": answer_quality}
+
+
+@router.post("/ingest/package")
+async def ingest_package(
+    req: IngestPackageRequest,
+    background_tasks: BackgroundTasks,
+    advisory_pipeline: AdvisoryIngestionService = Depends(get_advisory_pipeline),
+):
+    """Trigger background ingestion of security advisories for a package from OSV.dev."""
+    background_tasks.add_task(advisory_pipeline.ingest_package, req.name, req.ecosystem)
+    return {"status": "ingestion started", "package": req.name, "ecosystem": req.ecosystem}
+
+
+@router.get("/packages")
+def list_packages(db: DBManager = Depends(get_db)):
+    """List all packages with indexed security advisories."""
+    return {"packages": db.list_advisory_packages()}
+
+
+@router.delete("/packages/{name}")
+def delete_package(name: str, ecosystem: str = "PyPI", db: DBManager = Depends(get_db)):
+    """Remove all advisory chunks for a package."""
+    from src.advisories.ingestion import advisory_filename
+    filename = advisory_filename(name, ecosystem)
+    try:
+        db.remove_upload(filename)
+    except FileNotFoundError:
+        raise HTTPException(status_code=404, detail=f"Package '{name}' not found")
+    return {"deleted": name, "ecosystem": ecosystem}
 
 
 @router.delete("/files/{filename}")

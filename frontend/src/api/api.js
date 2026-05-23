@@ -64,3 +64,24 @@ export const chat = (question, { topK = 5, filenames, searchMode = 'hybrid' } = 
   });
 
 export const getEvalSummary = () => request(`${API}/eval/summary`);
+
+// --- advisory / cybersec ---
+
+export const ingestPackage = (name, ecosystem) =>
+  postJSON(`${API}/ingest/package`, { name, ecosystem });
+
+export const listPackages = () =>
+  request(`${API}/packages`).then((d) => d.packages);
+
+export const deletePackage = (name, ecosystem = 'PyPI') =>
+  request(`${API}/packages/${encodeURIComponent(name)}?ecosystem=${encodeURIComponent(ecosystem)}`, {
+    method: 'DELETE',
+  });
+
+export const queryAdvisories = (question, { topK = 5, searchMode = 'hybrid' } = {}) =>
+  postJSON(`${API}/query`, {
+    question,
+    top_k: topK,
+    search_mode: searchMode,
+    source_type: 'advisory',
+  });
