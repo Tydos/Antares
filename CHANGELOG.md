@@ -2,6 +2,22 @@
 
 All notable changes made in agent sessions are recorded here. Newest entries first.
 
+## 2026-09-25
+
+### Removed
+
+- `docker-compose.yml` — dropped local `postgres`, `minio`, and `minio-init` services and their volumes. Local and containerized runs now expect `DATABASE_URL` and `S3_*` from Supabase (or any compatible Postgres/S3 backend) via `.env`; no in-repo Docker images for database or object storage.
+
+### Changed
+
+- `.env.example` — replaced MinIO/localhost Postgres defaults with Supabase-oriented placeholders while keeping the same variable names (`DATABASE_URL`, `S3_ENDPOINT`, `S3_PUBLIC_URL`, `S3_ACCESS_KEY`, `S3_SECRET_KEY`, `S3_BUCKET`, `S3_REGION`).
+- `README.md` — setup docs now describe Supabase-backed dev; optional `docker compose up` runs only the app image. Application storage and DB code unchanged (`src/ingestion/storage.py`, `src/storage/database.py` still read the same settings).
+
+### Known limitations
+
+- GitHub Actions still uses a ephemeral `pgvector` service for DB integration tests (not bundled in `docker-compose.yml`). CI does not require Supabase secrets for those tests.
+- Supabase bucket must exist and be configured for public read if you rely on `S3_PUBLIC_URL` URLs returned after upload.
+
 ## 2026-08-25
 
 ### Fixed

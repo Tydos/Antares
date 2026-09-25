@@ -23,7 +23,7 @@ Use the **Chat** view for interactive queries with citations. Use the **Evaluati
 | Reranker   | HuggingFace — `cross-encoder/ms-marco-MiniLM-L-6-v2` |
 | LLM        | HuggingFace Llama 3.2 1B or Claude                   |
 | Judge      | HuggingFace — `meta-llama/Llama-3.3-70B-Instruct`    |
-| Storage    | S3-compatible (MinIO locally, Supabase Storage in prod) |
+| Storage    | S3-compatible (Supabase Storage)                      |
 
 
 
@@ -47,14 +47,18 @@ Chunk-size and embedding-model sweeps require re-ingestion: update `PDF_CHUNK_SI
 
 
 
-### Local dev (Postgres in Docker)
+### Local dev (Supabase)
 
 ```bash
-docker compose up postgres -d
 uv sync
-cp .env.example .env   # DATABASE_URL already points at localhost Postgres
-# add HF_TOKEN and storage keys for uploads + inference
+cp .env.example .env   # set DATABASE_URL and S3_* from your Supabase project
 uv run uvicorn src.main:app --reload
+```
+
+Optional: run the app in Docker (still uses `.env` for Supabase credentials):
+
+```bash
+docker compose up --build
 ```
 
 Open **[http://localhost:8000](http://localhost:8000)** for chat, **[http://localhost:8000/eval](http://localhost:8000/eval)** for the evaluation dashboard.
@@ -116,13 +120,13 @@ python tests/retriever-evaluation/answer_quality.py --qa tests/retriever-evaluat
 Key environment variables (see `.env.example`):
 
 ```
-DATABASE_URL=postgresql://...
-S3_ENDPOINT=http://localhost:9000
-S3_PUBLIC_URL=http://localhost:9000
+DATABASE_URL=postgresql://...    # Supabase pooler or direct connection
+S3_ENDPOINT=https://...          # Supabase Storage S3 endpoint
+S3_PUBLIC_URL=https://...        # Supabase public object URL base
 S3_ACCESS_KEY=...
 S3_SECRET_KEY=...
 S3_BUCKET=files
-S3_REGION=local                  # use your Supabase project region in prod
+S3_REGION=...                    # Supabase project region
 HF_TOKEN=hf_...
 CLAUDE_TOKEN=sk-ant-...          # optional, used for gold-set generation and chat LLM
 RERANK_ENABLED=true              # default on
