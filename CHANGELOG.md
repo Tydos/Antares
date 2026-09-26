@@ -2,6 +2,21 @@
 
 All notable changes made in agent sessions are recorded here. Newest entries first.
 
+## 2026-09-26
+
+### Changed
+
+- `Dockerfile` — stopped installing from removed `requirements.txt`; now installs prod deps with `uv sync --frozen --no-dev --no-install-project` from `pyproject.toml` + `uv.lock` (same toolchain as local `uv sync` in README). Keeps `python:3.10-slim`, copies pinned `uv` `0.12.19` from the official image, puts `.venv/bin` on `PATH`, and only copies `src/` + `static/` into the image (no full-repo `COPY . .`). Healthcheck and `uvicorn src.main:app` entrypoint unchanged.
+
+### Added
+
+- `.dockerignore` — excludes git/IDE/venv/test/docs/env secrets and markdown so image builds stay small and do not bake in `.env` or local `venv/`.
+
+### Known limitations
+
+- Image still needs a populated `.env` (via `docker compose` `env_file`) for Supabase `DATABASE_URL` / `S3_*` / `HF_TOKEN`; no DB or object storage in the compose file.
+- CI (`.github/workflows/test.yaml`) still references `requirements-dev.txt` and was not updated in this change.
+
 ## 2026-09-25
 
 ### Removed
